@@ -5,19 +5,23 @@
     app.config(['$stateProvider', '$httpProvider', '$locationProvider', '$urlRouterProvider', function config ($stateProvider, $httpProvider, $locationProvider, $urlRouterProvider){
         $httpProvider.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
         $locationProvider.html5Mode(true);
-        $urlRouterProvider.otherwise('/vf/');
+        $urlRouterProvider.otherwise('/');
         $stateProvider.state('home',{
             url: '/',
-            templateUrl: 'home.html'
+            templateUrl: '/views/home.html'
         });
         $stateProvider.state('posts',{
             url: '/posts',
-            templateUrl: 'posts.html',
+            templateUrl: '/views/posts.html'
+        });
+        $stateProvider.state('posts.list',{
+            url: '/',
+            templateUrl: '/views/posts/list.html',
             controller: 'PostsCtrl'
         });
         $stateProvider.state('posts.post',{
             url: '/:slug',
-            templateUrl: 'posts/post.html',
+            templateUrl: '/views/posts/post.html',
             controller: 'PostsPostCtrl'
         });
     }]);
@@ -58,8 +62,6 @@
             getBySlug: getBySlug
         };
     }]);
-    app.controller('HomeCtrl', function(){
-    });
     app.controller('PostsCtrl', ['Posts', '$scope', function(Posts, $scope){
         Posts.getAll().then(function(posts){
             $scope.posts = posts;
@@ -67,7 +69,6 @@
     }]);
     app.controller('PostsPostCtrl', ['Posts', '$stateParams', '$scope', function(Posts, $stateParams, $scope){
         Posts.getBySlug($stateParams.slug).then(function(post){
-            console.log(post);
             $scope.post = post;
         });
     }]);

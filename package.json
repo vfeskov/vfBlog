@@ -1,0 +1,23 @@
+{
+  "name": "vf",
+  "version": "0.0.0",
+  "description": "",
+  "main": "server.js",
+  "dependencies": {
+    "express.io": "~1.1.13",
+    "path": "~0.4.9"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/vfeskov/ng-personal-site.git"
+  },
+  "author": "Vladimir Feskov <v@vladimirfeskov.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/vfeskov/ng-personal-site/issues"
+  }
+}

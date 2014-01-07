@@ -1,0 +1,6 @@
+<p class="text-center" ng-if="!post"><img src="img/loading.gif" alt="loading"/></p>
+<div ng-if="post">
+    <h1>{{post.title}}</h1>
+    <p><em>{{post.time}}</em></p>
+    <div ng-bind-html="post.content"></div>
+</div>

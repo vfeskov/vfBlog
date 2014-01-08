@@ -12,12 +12,13 @@
         });
         $stateProvider.state('posts',{
             url: '/posts',
-            templateUrl: '/views/posts.html'
+            templateUrl: '/views/posts.html',
+            controller: 'PostsCtrl'
         });
         $stateProvider.state('posts.list',{
             url: '/',
             templateUrl: '/views/posts/list.html',
-            controller: 'PostsCtrl'
+            controller: 'PostsListCtrl'
         });
         $stateProvider.state('posts.post',{
             url: '/:slug',
@@ -62,7 +63,10 @@
             getBySlug: getBySlug
         };
     }]);
-    app.controller('PostsCtrl', ['Posts', '$scope', function(Posts, $scope){
+    app.controller('PostsCtrl', ['$state', function($state){
+        $state.go('posts.list');
+    }]);
+    app.controller('PostsListCtrl', ['Posts', '$scope', function(Posts, $scope){
         Posts.getAll().then(function(posts){
             $scope.posts = posts;
         });

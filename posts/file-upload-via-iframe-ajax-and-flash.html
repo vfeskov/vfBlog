@@ -1,0 +1,481 @@
+<p>There are numerous great tools for asynchronous file upload, one of them is <a href="http://blueimp.github.com/jQuery-File-Upload/" target="_blank">jQuery File Upload</a>. It has a lot of options and can be used in almost any scenario, however, in most cases you won't be using all the features and sometimes it's easier to make a specific implementation corresponding to your exact requirements. The tool also does not provide a progress bar for IE9 and earlier. </p> 
+<p>In this post I'm going to compile some information regarding file upload that might come in handy when implementing some specific scenarios, such as:</p>
+<ol>
+<li>Uploading asynchronously without a progress bar <a href="#iframe">#iframe</a></li>
+<li>With progress bar on all browsers except IE9 and earlier <a href="#ajax">#ajax</a></li>
+<li>With progress bar on all browsers with Flash installed <a href="#flash">#flash</a></li>
+</ol>
+<p>Ideal solution for the first scenario is to use IFRAME.</p>
+<h2 id="iframe">IFRAME</h2>
+<p>This method is supported by all major browsers including IE 7, and, with a little magic, can provide all necessary features but the real-time progress updates (so no progress bar). Basically, a hidden &lt;iframe&gt; should be added to the body of the html document and the form's target attribute should be set to the iframe's name attribute. Let's get down to it.
+</p>
+<p><strong>index.html</strong></p>
+<pre><code class="xml">&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+    &lt;head&gt;
+        &lt;title&gt;IFRAME file upload example&lt;/title&gt;
+        &lt;link rel="stylesheet" type="text/css" href="styles.css"&gt;
+        &lt;script type="text/javascript" src="http://code.jquery.com/jquery-1.9.1.min.js"&gt;&lt;/script&gt;
+        &lt;script type="text/javascript" src="iframeUpload.js"&gt;&lt;/script&gt;
+        &lt;script type="text/javascript"&gt;
+            jQuery(function(){
+                iframeUpload.init();
+            });
+        &lt;/script&gt;
+    &lt;/head&gt;
+    &lt;body&gt;
+        &lt;div class="page"&gt;
+            &lt;h1&gt;Sample form&lt;/h1&gt;
+            &lt;div id="response" style="display:none;"&gt;&lt;/div&gt;
+            &lt;form action="upload.php" method="post" enctype="multipart/form-data"&gt;
+                &lt;div&gt;
+                    &lt;input type="file" name="testfile" /&gt;&lt;br /&gt;
+                    &lt;input type="submit" /&gt;
+                &lt;/div&gt;
+            &lt;/form&gt;
+        &lt;/div&gt;
+    &lt;/body&gt;
+&lt;/html&gt;</code></pre>
+
+<p><strong>iframeUpload.js</strong></p>
+<pre><code class="javascript">iframeUpload = function(){};
+iframeUpload.init = function() {
+    jQuery('body').append('&lt;iframe name="uploadiframe" onload="iframeUpload.complete();"&gt;&lt;/iframe&gt;');
+    jQuery('form').prop('target','uploadiframe');
+    jQuery('form').on('submit',iframeUpload.started);
+}
+iframeUpload.started = function() {
+    jQuery('#response').removeClass().addClass('loading').html('Loading, please wait.').show();
+    jQuery('form').hide();
+}
+iframeUpload.complete = function(){
+    jQuery('form').show();
+    var response = jQuery("iframe").contents().text();
+    if(response){
+        response = jQuery.parseJSON(response);
+        jQuery('#response').removeClass()
+            .addClass((response.status == 1) ? 'success' : 'error')
+            .html(response.message);
+    }
+}
+</code></pre>
+<p><strong>upload.php</strong></p>
+<pre><code class="php">&lt;?php
+$response = array(
+	'status'=&gt;0,
+	'message'=&gt;''
+);
+if(isset($_FILES['testfile']) && @$_FILES["testfile"]["error"] == 0)
+{
+	$response['status'] = 1;
+	$response['message'] = 'Success!';
+}
+elseif(@$_FILES["testfile"]["error"])
+{
+    $response['message'] = 'Error code: '.$_FILES["testfile"]["error"].'.';
+}
+elseif ($_SERVER['REQUEST_METHOD'] == 'POST' && empty($_POST) && $_SERVER['CONTENT_LENGTH'] &gt; 0)
+{
+    $response['message'] = sprintf('The server was unable to handle that much POST data (%s bytes) due to its current configuration', $_SERVER['CONTENT_LENGTH']).'.';
+}
+else
+{
+    $response['message'] = 'Unknown error.';
+}
+echo json_encode($response);</code></pre>
+
+<p><strong>styles.css</strong></p>
+<pre><code class="css">.page {
+    width:960px;
+    margin:0 auto;
+}
+#response { padding: 10px; }
+.success { background:#CCFFCC; }
+.error { background: #FF6666; }
+.loading { background: #FFFFCC; }
+iframe {
+    width:0px;
+    height:0px;
+    border:none;
+    position:absolute;
+    left:-9999px;
+}</code></pre>
+
+<p>When document is loaded, an iframe is added to the body of the document</p>
+
+<pre><code class="javascript">jQuery('body').append('&lt;iframe name="uploadiframe" onload="iframeUpload.complete();"&gt;&lt;/iframe&gt;');</code></pre>
+
+<p>When the response from the server is received, iframeUpload.complete function will be called. After adding the iframe, the form's target is set to the iframe's name - uploadiframe</p>
+
+<pre><code class="javascript">jQuery('form').prop('target','uploadiframe');</code></pre>
+
+<p>Finally, the onsubmit handler is set to  iframeUpload.started.
+Now, when the submit button is clicked,  iframeUpload.started will be called notifying that the upload has started. In this example we hide the form and show loading message:</p>
+
+<pre><code class="javascript">iframeUpload.started = function() {
+    jQuery('#response').removeClass().addClass('loading').html('Loading, please wait.').show();
+    jQuery('form').hide();
+}</code></pre>
+
+<p>When the server responds with JSON, we decode it and update the message container accordingly</p>
+
+<pre><code class="javascript">iframeUpload.complete = function(){
+    jQuery('form').show();
+    var response = jQuery("iframe").contents().text();
+    if(response){
+        response = jQuery.parseJSON(response);
+        jQuery('#response').removeClass()
+            .addClass((response.status == 1) ? 'success' : 'error')
+            .html(response.message);
+    }
+}</code></pre>
+
+<p><img src="http://i.imgur.com/rz3Mfko.png" alt="" title="Hosted by imgur.com" /></p>
+
+<p>That's it.
+The next scenario is to upload asynchronously and show progress bar in all browsers but IE9 and earlier.</p>
+
+<h2 id="ajax">AJAX (XMLHttpRequest and File API)</h2>
+
+<p>This method allows showing real-time progress of file upload but doesn't work in IE9 and earlier. The idea is to make an AJAX request with body containing a file, File API is required for this. The code is as follows:</p>
+
+<p><strong>index.html</strong></p>
+<pre><code class="xml">&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+&lt;head&gt;
+    &lt;title&gt;AJAX file upload example&lt;/title&gt;
+    &lt;link rel="stylesheet" type="text/css" href="styles.css"&gt;
+    &lt;script type="text/javascript" src="http://code.jquery.com/jquery-1.9.1.min.js"&gt;&lt;/script&gt;
+    &lt;script type="text/javascript" src="iframeUpload.js"&gt;&lt;/script&gt;
+    &lt;script type="text/javascript" src="xmlhttprequestUpload.js"&gt;&lt;/script&gt;
+    &lt;script type="text/javascript"&gt;
+        jQuery(function(){
+            xmlhttprequestUpload.init();
+        });
+    &lt;/script&gt;
+&lt;/head&gt;
+&lt;body&gt;
+&lt;div class="page"&gt;
+    &lt;h1&gt;Sample form&lt;/h1&gt;
+    &lt;div id="response" style="display:none;"&gt;&lt;/div&gt;
+    &lt;form action="upload.php" method="post" enctype="multipart/form-data"&gt;
+        &lt;div&gt;
+            &lt;input type="file" name="testfile" /&gt;&lt;br /&gt;
+            &lt;input type="submit" /&gt;
+        &lt;/div&gt;
+    &lt;/form&gt;
+&lt;/div&gt;
+&lt;/body&gt;
+&lt;/html&gt;</code></pre>
+
+<p><strong>xmlhttprequestUpload.js</strong></p>
+<pre><code class="javascript">xmlhttprequestUpload = function(){};
+xmlhttprequestUpload.init = function() {
+    jQuery('form').on('submit',xmlhttprequestUpload.started);
+}
+xmlhttprequestUpload.started = function(e) {
+    jQuery('#response').removeClass().addClass('loading').html('&lt;div class="progress-bar"&gt;&amp;nbsp;&lt;/div&gt;');
+    jQuery('#response').show();
+
+    var xhr = new XMLHttpRequest();
+    if ( xhr.upload ) {
+        xhr.upload.onprogress = xmlhttprequestUpload.progress;
+    }
+    xhr.onreadystatechange = function(e) {
+        if ( 4 == this.readyState ) {
+            xmlhttprequestUpload.complete.call(this);
+        }
+    };
+
+    var input = jQuery('input[name=testfile]');
+    var file = input[0].files[0];
+    var url = input.closest('form').prop('action');
+    xhr.open('POST', url);
+
+    var formData = new FormData();
+    formData.append("testfile", file);
+
+    xhr.send(formData);
+    e.preventDefault();
+}
+xmlhttprequestUpload.progress = function(e){
+    var done = e.position || e.loaded;
+    var total = e.totalSize || e.total;
+    jQuery('.progress-bar').css('width',(Math.floor(done/total*1000)/10) + '%');
+}
+xmlhttprequestUpload.complete = function(){
+    jQuery('form').show();
+    var response = this.responseText;
+    if(response){
+        response = jQuery.parseJSON(response);
+        jQuery('#response').removeClass()
+            .addClass((response.status == 1) ? 'success' : 'error')
+            .html(response.message);
+    }
+}</code></pre>
+
+<p><strong>styles.css</strong></p>
+<pre><code class="css">.page {
+    width:960px;
+    margin:0 auto;
+}
+#response { padding: 10px; }
+.success { background:#CCFFCC; }
+.error { background: #FF6666; }
+.loading { background: #FFFFCC; }
+iframe {
+    width:0px;
+    height:0px;
+    border:none;
+    position:absolute;
+    left:-9999px;
+}
+
+.progress-bar {display:none;}
+.loading .progress-bar {
+    display:block;
+    background: green;
+    width:0px;
+}
+</code></pre>
+<p><strong>upload.php</strong></p>
+<pre><code class="php">&lt;?php
+header('Content-type: application/json');
+$response = array(
+	'status'=&gt;0,
+	'message'=&gt;''
+);
+if(isset($_FILES['testfile']) && @$_FILES["testfile"]["error"] == 0)
+{
+	$response['status'] = 1;
+	$response['message'] = 'Success!';
+}
+elseif(@$_FILES["testfile"]["error"])
+{
+    $response['message'] = 'Error code: '.$_FILES["testfile"]["error"].'.';
+}
+elseif ($_SERVER['REQUEST_METHOD'] == 'POST' && empty($_POST) && $_SERVER['CONTENT_LENGTH'] &gt; 0)
+{
+    $response['message'] = sprintf('The server was unable to handle that much POST data (%s bytes) due to its current configuration', $_SERVER['CONTENT_LENGTH']).'.';
+}
+else
+{
+    $response['message'] = 'Unknown error.';
+}
+echo json_encode($response);</code></pre>
+
+<p>When form is submitted, an XMLHttpRequest object is created and its event handlers are set to our methods that draw the progress bar and print out the response.</p>
+
+<pre><code class="javascript">var xhr = new XMLHttpRequest();
+    if ( xhr.upload ) {
+        xhr.upload.onprogress = xmlhttprequestUpload.progress;
+    }
+    xhr.onreadystatechange = function(e) {
+        if ( 4 == this.readyState ) {
+            xmlhttprequestUpload.complete.call(this);
+        }
+    };
+</code></pre>
+<p>Then we get the link, the file, specify the type of request and url via open() method of XMLHttpRequest object, create FormData object and append the file to it using .append() method, and send the FormData via send() method of XMLHttpRequest object.</p>
+
+<pre><code class="javascript">var input = jQuery('input[name=testfile]');
+    var file = input[0].files[0];
+    var url = input.closest('form').prop('action');
+    xhr.open('POST', url);
+
+    var formData = new FormData();
+    formData.append("testfile", file);
+
+    xhr.send(formData);</code></pre>
+
+<p>Now there's a green bar that widens according to the file upload progress.</p>
+<p><img src="http://i.imgur.com/aRcaStW.png" alt="" title="Hosted by imgur.com" /></p>
+<p>Finally,  the third scenario, in which we are required to implement a progress bar in IE9 too.</p>
+
+<h2 id="flash">Flash</h2>
+
+<p>IE9 and earlier do not support File API so it's impossible to work with a selected file using the browser only. This is why there has to be a third-party plugin implemented, such as Flash, in order to monitor upload progress. A good tool for that is <a href="https://code.google.com/p/swfupload/" target="_blank">SWFUpload</a>. We need to download it from <a href="https://code.google.com/p/swfupload/downloads/detail?name=SWFUpload%20v2.2.0.1%20Core.zip&can=2&q=" target="_blank">here</a>  and unpack in the same folder where all our files are.
+The code:</p>
+
+<p><strong>index.html</strong></p>
+<pre><code class="xml">&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+&lt;head&gt;
+    &lt;title&gt;Flash file upload example&lt;/title&gt;
+    &lt;link rel="stylesheet" type="text/css" href="styles.css"&gt;
+    &lt;script type="text/javascript" src="http://code.jquery.com/jquery-1.9.1.min.js"&gt;&lt;/script&gt;
+    &lt;script type="text/javascript" src="swfupload/swfupload.js"&gt;&lt;/script&gt;
+    &lt;script type="text/javascript" src="flashUpload.js"&gt;&lt;/script&gt;
+    &lt;script type="text/javascript"&gt;
+        jQuery(function(){
+            flashUpload.init();
+        });
+    &lt;/script&gt;
+&lt;/head&gt;
+&lt;body&gt;
+&lt;div class="page"&gt;
+    &lt;h1&gt;Sample form&lt;/h1&gt;
+    &lt;div id="response" style="display:none;"&gt;&lt;/div&gt;
+    &lt;form action="upload.php" method="post" enctype="multipart/form-data"&gt;
+        &lt;div&gt;
+            &lt;input type="file" name="testfile" id="testfile"/&gt;&lt;br /&gt;
+            &lt;input type="submit" /&gt;
+        &lt;/div&gt;
+    &lt;/form&gt;
+&lt;/div&gt;
+&lt;/body&gt;
+&lt;/html&gt;</code></pre>
+
+<p><strong>flashUpload.js</strong></p>
+<pre><code class="javascript">flashUpload = function(){};
+flashUpload.init = function() {
+    jQuery('form').on('submit',flashUpload.started);
+    var input = jQuery('input[name=testfile]');
+    var url = input.closest('form').prop('action');
+    input.before('&lt;input type="text" name="testfile_text" value="" style="margin:0;" /&gt;');
+    swfUpload = new SWFUpload({
+        upload_url : url,
+        flash_url : "swfupload/flash/swfupload.swf",
+        file_post_name: "testfile",
+        post_params: {
+            upload: 1
+        },
+        file_size_limit : "100MB",
+        button_placeholder_id: "testfile",
+        file_types : "*.*",
+        button_width: 155,
+        button_height:22,
+        button_window_mode : SWFUpload.WINDOW_MODE.TRANSPARENT,
+        button_action : SWFUpload.BUTTON_ACTION.SELECT_FILE,
+        button_cursor : SWFUpload.CURSOR.HAND,
+        button_image_url : 'http://i.imgur.com/lIWWJyD.png',
+        button_disabled : false,
+        file_upload_limit : 0,
+        file_queue_limit : 1,
+        file_dialog_start_handler: function(){
+            jQuery('#response').hide();
+            jQuery('input[name=testfile_text]').val('');
+            this.cancelUpload();
+        },
+        file_queued_handler : function(file){
+            jQuery('input[name=testfile_text]').val(file.name);
+        },
+        file_queue_error_handler : flashUpload.error,
+        upload_progress_handler : flashUpload.progress,
+        upload_success_handler : flashUpload.complete,
+        upload_error_handler : flashUpload.error
+    });
+    jQuery('.swfupload').css('display','block').css('float','left');
+}
+flashUpload.started = function(e) {
+    jQuery('#response').removeClass().addClass('loading').html('&lt;div class="progress-bar"&gt;&amp;nbsp;&lt;/div&gt;').show();
+
+    swfUpload.startUpload();
+
+    e.preventDefault();
+}
+flashUpload.progress = function(file, bytesLoaded, bytesTotal){
+    jQuery('.progress-bar').css('width',(Math.floor(bytesLoaded/bytesTotal*1000)/10) + '%');
+}
+flashUpload.complete = function(){
+    jQuery('form').show();
+    jQuery('#response').removeClass()
+        .addClass('success')
+        .html('Success!').show();
+}
+flashUpload.error = function(file, errorCode, message){
+    if (errorCode === SWFUpload.UPLOAD_ERROR.FILE_CANCELLED) {
+        return;
+    }
+
+    jQuery('form').show();
+    jQuery('#response').removeClass().addClass('error').show();
+    jQuery('input[name=testfile_text]').val('');
+
+    // Handle this error separately because we don't want to create a FileProgress element for it.
+    switch (errorCode) {
+        case SWFUpload.QUEUE_ERROR.QUEUE_LIMIT_EXCEEDED:
+            jQuery('#response').html("You have attempted to queue too many files.\n" + (message === 0 ? "You have reached the upload limit." : "You may select " + (message &gt; 1 ? "up to " + message + " files." : "one file.")));
+            return;
+        case SWFUpload.QUEUE_ERROR.FILE_EXCEEDS_SIZE_LIMIT:
+            jQuery('#response').html("The file you selected is too big.");
+            return;
+        case SWFUpload.QUEUE_ERROR.ZERO_BYTE_FILE:
+            jQuery('#response').html("The file you selected is empty.  Please select another file.");
+            return;
+        case SWFUpload.QUEUE_ERROR.INVALID_FILETYPE:
+            jQuery('#response').html("The file you choose is not an allowed file type.");
+            return;
+        case SWFUpload.UPLOAD_ERROR.MISSING_UPLOAD_URL:
+            jQuery('#response').html("There was a configuration error. You will not be able to upload a file at this time.");
+            return;
+        case SWFUpload.UPLOAD_ERROR.UPLOAD_LIMIT_EXCEEDED:
+            jQuery('#response').html("You may only upload 1 file.");
+            return;
+        case SWFUpload.UPLOAD_ERROR.FILE_CANCELLED:
+        case SWFUpload.UPLOAD_ERROR.UPLOAD_STOPPED:
+            break;
+        default:
+            jQuery('#response').html("An error occurred in the upload. Try again later.");
+            return;
+    }
+
+}</code></pre>
+
+<p><strong>styles.css</strong></p>
+<pre><code class="css">.page {
+    width:960px;
+    margin:0 auto;
+}
+#response { padding: 10px; }
+.success { background:#CCFFCC; }
+.error { background: #FF6666; }
+.loading { background: #FFFFCC; }
+iframe {
+    width:0px;
+    height:0px;
+    border:none;
+    position:absolute;
+    left:-9999px;
+}
+
+.progress-bar {display:none;}
+.loading .progress-bar {
+    display:block;
+    background: green;
+    width:0px;
+}</code></pre>
+
+<p><strong>upload.php</strong></p>
+<pre><code class="php">&lt;?php
+header('Content-type: application/json');
+$response = array(
+	'status'=&gt;0,
+	'message'=&gt;''
+);
+if(isset($_FILES['testfile']) && @$_FILES["testfile"]["error"] == 0)
+{
+	$response['status'] = 1;
+	$response['message'] = 'Success!';
+}
+elseif(@$_FILES["testfile"]["error"])
+{
+    $response['message'] = 'Error code: '.$_FILES["testfile"]["error"].'.';
+}
+elseif ($_SERVER['REQUEST_METHOD'] == 'POST' && empty($_POST) && $_SERVER['CONTENT_LENGTH'] &gt; 0)
+{
+    $response['message'] = sprintf('The server was unable to handle that much POST data (%s bytes) due to its current configuration', $_SERVER['CONTENT_LENGTH']).'.';
+}
+else
+{
+    $response['message'] = 'Unknown error.';
+}
+echo json_encode($response);</code></pre>
+
+<p>This tool allows selecting and uploading multiple files, in our example the selection limit (or queue limit) is set to 1. The tool replaces a certain html element, the id of which matches one specified in the  button_placeholder_id setting, with a flash object. When it's clicked, a file selection dialog appears and  file_dialog_start_handler is called. After a dialog is closed, the file_dialog_complete_handler is called. If a file passes size and type check, file_queued_handler is called, otherwise file_queue_error_handler is called. When the form is submitted, the startUpload() method of the created swfupload object is used to start upload and corresponding handlers (upload_progress_handler, upload_success_handler, upload_error_handler) are called to print out progress and response from the server.</p>
+
+<p>More info about SWFUpload features can be found in <a href="http://demo.swfupload.org/Documentation/" target="_blank">the documentation</a>.</p>
+
+<p><img src="http://i.imgur.com/ZGAZVQ5.png" alt="" title="Hosted by imgur.com" /></p>
+
+<p>In conclusion, it is very convenient to use a plugin but it's also good to know how the plugin works. There is a chance that a plugin does not support all the described options and in such a case the provided information might come in handy.</p>

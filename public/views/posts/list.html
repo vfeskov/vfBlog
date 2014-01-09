@@ -1,7 +1,0 @@
-<h1>My posts</h1>
-<p class="text-center" ng-if="!posts"><img src="/img/loading.gif" alt="loading"/></p>
-<ul class="list-unstyled" ng-if="posts">
-    <li ng-repeat="post in posts">
-        <h3><a ui-sref="posts.post({slug:post.slug})">{{post.title}}</a></h3>
-    </li>
-</ul>

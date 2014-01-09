@@ -3,5 +3,10 @@ var express = require('express.io'),
 
 app.use(express.static(__dirname + '/public'));
 
+app.get('[^\.]+$', function(req, res){
+    var newUri = '/#' + req.url;
+    res.redirect(newUri);
+});
+
 app.listen(process.env.PORT || 3000);
 console.log('started');

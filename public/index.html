@@ -1,44 +1,75 @@
 <!doctype html>
-<html lang="en" ng-app="vf.blog">
+<html lang="en" ng-app="vf.ng-personal-site">
 <head>
     <meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    <title>Vladimir Feskov</title>
     <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.3/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="http://yandex.st/highlightjs/7.3/styles/idea.min.css"/>
     <link rel="stylesheet" href="css/style.css"/>
+    <title ng-bind="title">Vladimir Feskov</title>
+    <meta name="fragment" content="!" />
+    <meta name="description" content="{{description}}" />
+    <meta name="author" content="Vladimir Feskov">
 </head>
 <body>
-<div class="container">
-    <header>
-        <nav class="navbar navbar-default" role="navigation">
+
+<header>
+    <nav class="navbar navbar-default" role="navigation">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#main-nav-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+        </div>
+        <div class="collapse navbar-collapse" id="main-nav-collapse">
             <ul class="nav navbar-nav">
                 <li ng-class="{ active: $state.includes('home') }"><a ui-sref="home">Home</a></li>
                 <li ng-class="{ active: $state.includes('posts') }"><a ui-sref="posts">Posts</a></li>
+                <li ng-class="{ active: $state.includes('about') }"><a ui-sref="about">About</a></li>
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">Contact <b class="caret"></b></a>
+                    <ul class="dropdown-menu">
+                        <li><a target="_blank" href="http://www.linkedin.com/in/vladimirfeskov">LinkedIn</a></li>
+                        <li><a href="skype:vfeskov1">Skype</a></li>
+                        <li><a href="mailto:v@%76%6C%61%64imirfesk%6Fv.c%6Fm">E-mail</a></li>
+                    </ul>
+                </li>
             </ul>
-        </nav>
-    </header>
+        </div>
+    </nav>
+</header>
 
+<div class="container">
     <div ui-view>
-        <p class="text-center"><img src="/img/loading.gif" alt="loading"/></p>
-    </div>
 
-    <footer>
-        <p>
-            Powered by <a target="_blank" href="http://angularjs.org/" rel="external">AngularJS</a> &amp; <a target="_blank" href="http://twitter.github.com/bootstrap/">Twitter Bootstrap</a> <br/>
-            &copy; 2014 Vladimir Feskov
-        </p>
-    </footer>
+    </div>
 </div>
+
+<footer>
+    <nav class="navbar navbar-default">
+        <div class="navbar-collapse">
+            <p class="navbar-text">
+                &copy; 2014 Vladimir Feskov
+            </p>
+        </div>
+    </nav>
+</footer>
 
 <script src="http://code.jquery.com/jquery-2.0.3.min.js"></script>
 <script src="//netdna.bootstrapcdn.com/bootstrap/3.0.3/js/bootstrap.min.js"></script>
+<script src="http://yandex.st/highlightjs/7.3/highlight.min.js"></script>
 <script src="vendor/angular/angular.js"></script>
 <script src="vendor/angular-animate/angular-animate.min.js"></script>
 <script src="vendor/angular-bootstrap/ui-bootstrap-tpls.min.js"></script>
 <script src="vendor/angular-bootstrap/ui-bootstrap.min.js"></script>
+<script src="vendor/angular-disqus/angular-disqus.min.js"></script>
+<script src="vendor/angular-google-analytics/dist/angular-google-analytics.min.js"></script>
 <script src="vendor/angular-route/angular-route.min.js"></script>
 <script src="vendor/angular-sanitize/angular-sanitize.min.js"></script>
 <script src="vendor/angular-ui-router/release/angular-ui-router.min.js"></script>
-<script src="js/app.js"></script>
+
+<script src="app.js"></script>
 </body>
 </html>

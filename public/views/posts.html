@@ -1,3 +1,10 @@
-<div ui-view>
-
+<div ng-show="$state.is('posts')">
+    <h1>My posts</h1>
+    <ul class="list-unstyled" ng-if="posts">
+        <li ng-repeat="post in posts">
+            <h3><a ui-sref="posts.post({slug:post.slug})">{{post.title}}</a> <small>{{post.time}}</small></h3>
+        </li>
+    </ul>
+</div>
+<div ui-view ng-hide="$state.is('posts')">
 </div>

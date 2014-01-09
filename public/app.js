@@ -1,14 +1,42 @@
 (function(angular, hljs){
     'use strict';
     var app;
-    app = angular.module('vf.ng-personal-site', ['ngAnimate', 'ui.router', 'ui.bootstrap', 'ngRoute', 'ngSanitize', 'ngDisqus']);
+
+    angular.module('vfGoogleAnalytics', []).
+        factory('GA', ['$window', '$rootScope', '$timeout', function($window, $rootScope, $timeout){
+            return function(accountId){
+                $window._gaq = $window._gaq || [];
+                $window._gaq.push(['_setAccount', accountId]);
+                $rootScope.$on('$stateChangeSuccess', function(){
+                    $timeout(function(){
+                        $window._gaq.push('_trackPageview');
+                    });
+                });
+            }
+        }]);
+
+    angular.module('vfSEO', []).
+        factory('SEO', ['$timeout', '$rootScope', function($timeout, $rootScope){
+            return {
+                readyForCapture: function(isReady){
+                    $timeout(function(){
+                        if(isReady) {
+                            $rootScope.status = 'ready';
+                        } else {
+                            $rootScope.status = 'loading';
+                        }
+                    });
+                }
+            };
+        }]);
+
+    app = angular.module('vfPersonalSite', ['ngAnimate', 'ui.router', 'ui.bootstrap', 'ngRoute', 'ngSanitize', 'ngDisqus', 'vfGoogleAnalytics', 'vfSEO']);
     app.config(['$disqusProvider', '$stateProvider', '$httpProvider', '$locationProvider', '$urlRouterProvider', function config ($disqusProvider, $stateProvider, $httpProvider, $locationProvider, $urlRouterProvider){
         $httpProvider.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
         $locationProvider.html5Mode(true);
         $urlRouterProvider.otherwise('/');
         $stateProvider.state('home',{
             url: '/',
-            templateUrl: '/views/home.html',
             controller: 'HomeCtrl'
         });
         $stateProvider.state('posts',{
@@ -28,23 +56,15 @@
         });
         $disqusProvider.setShortname('vladimirfeskov');
     }]);
-    app.run(function run($rootScope, $state, $location) {
+    app.run(['$rootScope', '$state', 'GA', 'SEO', function run($rootScope, $state, GA, SEO) {
         $rootScope.$state = $state;
         $rootScope.title = 'Vladimir Feskov';
         $rootScope.description = 'Personal site';
-        $rootScope.$on('$stateChangeSuccess', function(){
-           console.log($location.path());
-        });
-        var _gaq = _gaq || [];
-        _gaq.push(['_setAccount', 'UA-39039659-1']);
-        _gaq.push(['_trackPageview']);
-
-        (function() {
-            var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
-            ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
-            var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
-        })();
-    });
+        GA('UA-39039659-1');
+        $rootScope.$on('$stateChangeStart', function(){
+            SEO.readyForCapture(false);
+        })
+    }]);
     app.factory('Posts', ['$http', '$q', function($http, $q){
         function getAll (){
             return $http.get('/json/posts.json').then(function(data){
@@ -93,33 +113,38 @@
             }
         };
     }]);
-    app.controller('HomeCtrl', ['Meta', function(Meta){
+    app.controller('HomeCtrl', ['Meta', 'SEO', function(Meta, SEO){
         Meta.description('Personal site of a guy from Ukraine who happens to work as web developer.');
         Meta.title('Vladimir Feskov');
+        SEO.readyForCapture(true);
     }]);
-    app.controller('PostsCtrl', ['Posts', 'Meta', '$scope', function(Posts, Meta, $scope){
+    app.controller('PostsCtrl', ['Posts', 'Meta', '$scope', 'SEO', function(Posts, Meta, $scope, SEO){
         $scope.$on('$stateChangeSuccess', function(event, toState){
             if(toState.name === 'posts'){
                 Meta.title('Posts - Vladimir Feskov');
                 Meta.description('Posts about web development.');
+                SEO.readyForCapture(true);
             }
         });
         Posts.getAll().then(function(posts){
             $scope.posts = posts;
+            SEO.readyForCapture(true);
         });
     }]);
-    app.controller('PostsPostCtrl', ['Posts', 'Meta', '$stateParams', '$scope', function(Posts, Meta, $stateParams, $scope){
+    app.controller('PostsPostCtrl', ['Posts', 'Meta', '$stateParams', '$scope', 'SEO', function(Posts, Meta, $stateParams, $scope, SEO){
         Meta.title('Posts - Vladimir Feskov');
         Meta.description('Posts about web development.');
         Posts.getBySlug($stateParams.slug).then(function(post){
             $scope.post = post;
             Meta.title(post.title + ' - Posts - Vladimir Feskov');
             Meta.description(post.description);
+            SEO.readyForCapture(true);
         });
     }]);
-    app.controller('AboutCtrl', ['Meta', function(Meta){
+    app.controller('AboutCtrl', ['Meta', 'SEO', function(Meta, SEO){
         Meta.title('About - Vladimir Feskov');
         Meta.description('Some info about myself and my work.');
+        SEO.readyForCapture(true);
     }]);
     app.directive('postContent', [function(){
         return {

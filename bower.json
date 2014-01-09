@@ -1,5 +1,5 @@
 {
-  "name": "vf.ng-personal-site",
+  "name": "vfPersonalSite",
   "version": "0.1.0",
   "authors": [
     "Vladimir Feskov <v@vladimirfeskov.com>"
@@ -18,7 +18,6 @@
   "dependencies": {
     "angular-animate": "~1.2.7",
     "angular-disqus": "~1.1.0",
-    "angular-google-analytics": "~0.0.1",
     "angular-sanitize": "~1.2.7",
     "angular-route": "~1.2.7",
     "angular-bootstrap": "~0.9.0",

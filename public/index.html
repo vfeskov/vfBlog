@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en" ng-app="vf.ng-personal-site">
+<html lang="en" ng-app="vfPersonalSite">
 <head>
     <meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
@@ -11,7 +11,7 @@
     <meta name="description" content="{{description}}" />
     <meta name="author" content="Vladimir Feskov">
 </head>
-<body>
+<body data-status="{{status}}">
 
 <header>
     <nav class="navbar navbar-default" role="navigation">
@@ -42,6 +42,14 @@
 </header>
 
 <div class="container">
+    <div ng-show="$state.is('home')" class="fader">
+        <h1>Hi there!</h1>
+        <p>I'm a web developer from Ukraine and this site is dedicated to my work.</p>
+        <p>
+            <a class="twitter-timeline" href="https://twitter.com/VFeskov" data-widget-id="335406498576470016">Tweets by @VFeskov</a>
+            <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+"://platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>
+        </p>
+    </div>
     <div ui-view>
 
     </div>
@@ -57,6 +65,7 @@
     </nav>
 </footer>
 
+<script src="http://www.google-analytics.com/ga.js"></script>
 <script src="http://code.jquery.com/jquery-2.0.3.min.js"></script>
 <script src="//netdna.bootstrapcdn.com/bootstrap/3.0.3/js/bootstrap.min.js"></script>
 <script src="http://yandex.st/highlightjs/7.3/highlight.min.js"></script>
@@ -65,7 +74,6 @@
 <script src="vendor/angular-bootstrap/ui-bootstrap-tpls.min.js"></script>
 <script src="vendor/angular-bootstrap/ui-bootstrap.min.js"></script>
 <script src="vendor/angular-disqus/angular-disqus.min.js"></script>
-<script src="vendor/angular-google-analytics/dist/angular-google-analytics.min.js"></script>
 <script src="vendor/angular-route/angular-route.min.js"></script>
 <script src="vendor/angular-sanitize/angular-sanitize.min.js"></script>
 <script src="vendor/angular-ui-router/release/angular-ui-router.min.js"></script>

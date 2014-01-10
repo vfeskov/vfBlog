@@ -9,7 +9,7 @@
                 $window._gaq.push(['_setAccount', accountId]);
                 $rootScope.$on('$stateChangeSuccess', function(){
                     $timeout(function(){
-                        $window._gaq.push('_trackPageview');
+                        $window._gaq.push(['_trackPageview']);
                     });
                 });
             }

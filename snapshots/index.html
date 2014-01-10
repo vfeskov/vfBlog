@@ -40,11 +40,15 @@
 </header>
 
 <div class="container">
-    <div ng-show="$state.is('home')" class="fader">
-        <h1>Hi there!</h1>
-        <p>I'm a web developer from Ukraine and this site is dedicated to my work.</p>
+    <div ng-show="$state.is('home')" class="">
+        <!-- if left in dom, text messes up google search results -->
+        <!-- ngIf: $state.is('home') --><div ng-if="$state.is('home')" class="ng-scope">
+            <h1>Hi there!</h1>
+            <p>I'm a web developer from Ukraine and this site is dedicated to my work.</p>
+        </div><!-- end ngIf: $state.is('home') -->
+        <!-- need to leave twitter feed in dom, or it will break after few state changes -->
         <p>
-            <iframe id="twitter-widget-0" scrolling="no" frameborder="0" allowtransparency="true" class="twitter-timeline twitter-timeline-rendered" style="width: 1px; height: 0px; border-top-style: none; border-right-style: none; border-bottom-style: none; border-left-style: none; border-width: initial; border-color: initial; position: absolute; visibility: hidden; "></iframe><a class="twitter-timeline" href="https://twitter.com/VFeskov" data-widget-id="335406498576470016" data-twttr-rendered="true">Tweets by @VFeskov</a>
+            <iframe id="twitter-widget-0" scrolling="no" frameborder="0" allowtransparency="true" class="twitter-timeline twitter-timeline-rendered" style="width: 1px; height: 0px; border-top-style: none; border-right-style: none; border-bottom-style: none; border-left-style: none; border-width: initial; border-color: initial; position: absolute; visibility: hidden; " title="Twitter Timeline"></iframe><a class="twitter-timeline" href="https://twitter.com/VFeskov" data-widget-id="335406498576470016" data-twttr-rendered="true">Tweets by @VFeskov</a>
             <script id="twitter-wjs" src="http://platform.twitter.com/widgets.js"></script><script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+"://platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>
         </p>
     </div>
@@ -77,4 +81,4 @@
 <script src="/app.js"></script>
 
 
-<iframe id="rufous-sandbox" scrolling="no" frameborder="0" allowtransparency="true" style="display: none; "></iframe><script src="https://cdn.syndication.twimg.com/widgets/timelines/335406498576470016?domain=localhost%3A3654&amp;lang=en&amp;t=1543689&amp;callback=twttr.tfw.callbacks.tl_335406498576470016_1&amp;suppress_response_codes=true" async=""></script></body></html>
+<iframe id="rufous-sandbox" scrolling="no" frameborder="0" allowtransparency="true" style="display: none; "></iframe></body></html>

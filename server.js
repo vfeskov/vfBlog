@@ -11,7 +11,6 @@ app.use('/', function(req, res){
         } else {
             file += '.html';
         }
-        console.log(file);
         res.set('Content-Type', 'text/html').sendfile(__dirname + '/snapshots' + file);
         return;
     } else {

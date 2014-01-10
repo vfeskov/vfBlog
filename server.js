@@ -2,21 +2,25 @@ var express = require('express.io'),
     app = express();
 
 
-app.use(express.static(__dirname + '/public'));
-
-app.get('/snapshots[^\.]*$', function(req, res){
-    var file = req.url.replace(/\?.*$/,'');
-    if(file === '/snapshots/'){
-        file += 'index.html'
+app.use('/', function(req, res){
+    var file
+    if(/_escaped_fragment_=/.test(req.url)){
+        file = req.url.replace(/\?.*$/,'');
+        if(file === '/'){
+            file += 'index.html';
+        } else {
+            file += '.html';
+        }
+        console.log(file);
+        res.set('Content-Type', 'text/html').sendfile(__dirname + '/snapshots' + file);
+        return;
     } else {
-        file += '.html';
+        express.static(__dirname + '/public').apply(this, arguments);
     }
-    res.set('Content-Type', 'text/html').sendfile(__dirname + file);
 });
 
-app.get('[^\.]+$', function(req, res){
-    var newUri = '/#' + req.url;
-    res.redirect(newUri);
+app.get('/[^\.]+$', function(req, res){
+    res.set('Content-Type', 'text/html').sendfile(__dirname + '/public/index.html');
 });
 
 app.listen(process.env.PORT || 3654);

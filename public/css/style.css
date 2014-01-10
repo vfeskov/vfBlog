@@ -7,3 +7,6 @@ iframe{
 pre {
     background: #fff;
 }
+.navbar .navbar-brand{
+    font-size:16px;
+}

@@ -1,7 +1,18 @@
 var express = require('express.io'),
     app = express();
 
+
 app.use(express.static(__dirname + '/public'));
+
+app.get('/snapshots[^\.]*$', function(req, res){
+    var file = req.url;
+    if(file === '/snapshots/'){
+        file += 'index.html'
+    } else {
+        file += '.html';
+    }
+    res.set('Content-Type', 'text/html').sendfile(__dirname + file);
+});
 
 app.get('[^\.]+$', function(req, res){
     var newUri = '/#' + req.url;

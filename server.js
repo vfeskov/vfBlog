@@ -5,7 +5,7 @@ var express = require('express.io'),
 app.use(express.static(__dirname + '/public'));
 
 app.get('/snapshots[^\.]*$', function(req, res){
-    var file = req.url;
+    var file = req.url.replace(/\?.*$/,'');
     if(file === '/snapshots/'){
         file += 'index.html'
     } else {

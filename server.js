@@ -8,5 +8,5 @@ app.get('[^\.]+$', function(req, res){
     res.redirect(newUri);
 });
 
-app.listen(process.env.PORT || 3000);
+app.listen(process.env.PORT || 3654);
 console.log('started');

@@ -20,20 +20,23 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
+            <a class="navbar-brand" ui-sref="home" href="/">Memorable Title</a>
         </div>
         <div class="collapse navbar-collapse" id="main-nav-collapse">
             <ul class="nav navbar-nav">
-                <li ng-class="{ active: $state.includes('home') }"><a ui-sref="home" href="/">Home</a></li>
+                <li ng-class="{ active: $state.is('home') }">
+                    <a ui-sref="home" href="/">Home</a>
+                </li>
                 <li ng-class="{ active: $state.includes('posts') }"><a ui-sref="posts" href="/posts">Posts</a></li>
-                <li ng-class="{ active: $state.includes('about') }" class="active"><a ui-sref="about" href="/about">About</a></li>
+                <li ng-class="{ active: $state.is('about') }" class="active"><a ui-sref="about" href="/about">About me</a></li>
                 <li class="dropdown">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown">Contact <b class="caret"></b></a>
                     <ul class="dropdown-menu">
-                        <li><a target="_blank" href="http://www.linkedin.com/in/vladimirfeskov">LinkedIn</a></li>
                         <li><a href="skype:vfeskov1">Skype</a></li>
-                        <li><a href="mailto:v@%76%6C%61%64imirfesk%6Fv.c%6Fm">E-mail</a></li>
+                        <li><a href="mailto:v@%76%6C%61%64imirfesk%6Fv.c%6Fm">Send e-mail</a></li>
                     </ul>
                 </li>
+                <li><a target="_blank" href="http://www.linkedin.com/in/vladimirfeskov">LinkedIn&nbsp;&nbsp;<small class="glyphicon glyphicon-new-window"></small></a></li>
             </ul>
         </div>
     </nav>
@@ -65,8 +68,11 @@
     <nav class="navbar navbar-default">
         <div class="navbar-collapse">
             <p class="navbar-text">
-                © 2014 Vladimir Feskov
+                <span class="glyphicon random-glyphicon glyphicon-shopping-cart" ng-click="randomize()" style="color: rgb(0, 221, 221); "></span>
             </p>
+            <ul class="nav navbar-nav navbar-right">
+                <li><a href="https://github.com/vfeskov/vf-personal-site" target="_blank">View source on GitHub&nbsp;&nbsp;<small class="glyphicon glyphicon-new-window"></small></a></li>
+            </ul>
         </div>
     </nav>
 </footer>

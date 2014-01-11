@@ -48,7 +48,7 @@
         <!-- ngIf: $state.is('home') -->
         <!-- need to leave twitter feed in dom, or it will break after few state changes -->
         <p>
-            <iframe id="twitter-widget-0" scrolling="no" frameborder="0" allowtransparency="true" class="twitter-timeline twitter-timeline-rendered" style="border-top-style: none; border-right-style: none; border-bottom-style: none; border-left-style: none; border-width: initial; border-color: initial; max-width: 100%; min-width: 180px; " title="Twitter Timeline" width="520" height="400"></iframe>
+            <iframe id="twitter-widget-0" scrolling="no" frameborder="0" allowtransparency="true" class="twitter-timeline twitter-timeline-rendered" style="width: 1px; height: 0px; border-top-style: none; border-right-style: none; border-bottom-style: none; border-left-style: none; border-width: initial; border-color: initial; position: absolute; visibility: hidden; " title="Twitter Timeline"></iframe><a class="twitter-timeline" href="https://twitter.com/VFeskov" data-widget-id="335406498576470016" data-twttr-rendered="true">Tweets by @VFeskov</a>
             <script id="twitter-wjs" src="http://platform.twitter.com/widgets.js"></script><script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+"://platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>
         </p>
     </div>
@@ -552,7 +552,7 @@ header(<span class="string">'Content-type: application/json'</span>);
     <nav class="navbar navbar-default">
         <div class="navbar-collapse">
             <p class="navbar-text">
-                <span class="glyphicon random-glyphicon glyphicon-eye-open" ng-click="randomize()" style="color: rgb(221, 119, 238); "></span>
+                <span class="glyphicon random-glyphicon glyphicon-heart" ng-click="randomize()" style="color: rgb(255, 17, 119); "></span>
             </p>
             <ul class="nav navbar-nav navbar-right">
                 <li><a href="https://github.com/vfeskov/vf-personal-site" target="_blank">View source on GitHub&nbsp;&nbsp;<small class="glyphicon glyphicon-new-window"></small></a></li>

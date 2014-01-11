@@ -6,7 +6,11 @@
   "dependencies": {
     "express.io": "~1.1.13"
   },
-  "devDependencies": {},
+  "devDependencies": {
+    "async": "~0.2.9",
+    "lodash": "latest",
+    "grunt": "~0.4.1"
+  },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },

@@ -16,11 +16,11 @@
   },
   "repository": {
     "type": "git",
-    "url": "git://github.com/vfeskov/ng-personal-site.git"
+    "url": "git://github.com/vfeskov/vf-personal-site.git"
   },
   "author": "Vladimir Feskov <v@vladimirfeskov.com>",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/vfeskov/ng-personal-site/issues"
+    "url": "https://github.com/vfeskov/vf-personal-site/issues"
   }
 }

@@ -145,23 +145,6 @@
             };
         }])
 
-        .directive('postContent', ['$compile', function($compile){
-            return {
-                restrict: 'A',
-                replace: true,
-                template: '<div ng-bind-html="content"></div>',
-                scope: {
-                    'content': '=postContent'
-                },
-                link: function(scope, element){
-                    scope.$watch('content', function(){ //apply code highlighting directive
-                        var el = $compile(element.html())(scope);
-                        element.html(el);
-                    });
-                }
-            }
-        }])
-
         .directive('autoPositionFooter',['$window', '$timeout', function($window, $timeout){
             return {
                 restrict: 'A',

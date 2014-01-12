@@ -18,7 +18,6 @@
   "dependencies": {
     "angular-animate": "~1.2.7",
     "angular-disqus": "~1.1.0",
-    "angular-sanitize": "~1.2.7",
     "angular-route": "~1.2.7",
     "angular-bootstrap": "~0.9.0",
     "angular-ui-router": "~0.2.7",

@@ -160,6 +160,9 @@
                         }
                     }
                     angular.element($window).resize(positionFooter);
+                    scope.$on('$includeContentLoaded', function(){
+                        $timeout(positionFooter);
+                    });
                     scope.$on('$viewContentLoaded', function(){
                         $timeout(positionFooter);
                     });

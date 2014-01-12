@@ -1,6 +1,8 @@
-<div ng-if="post">
-    <h1>{{post.title}}</h1>
-    <p><em>{{post.time}}</em></p>
-    <post-content content="post.content"></post-content>
-    <div disqus="post"></div>
-</div>
+<ol class="breadcrumb">
+    <li><a href="/">Home</a></li>
+    <li><a href="/posts">Posts</a></li>
+</ol>
+<h1>{{post.title}}</h1>
+<p><em>{{post.time}}</em></p>
+<div post-content="post.content"></div>
+<div disqus="post"></div>

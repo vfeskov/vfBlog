@@ -9,7 +9,7 @@
     <meta name="description" content="Some info about myself and my work.">
     <meta name="author" content="Vladimir Feskov">
 </head>
-<body data-status="ready" style="" data-twttr-rendered="true">
+<body data-status="ready" auto-position-footer="" style="" class="static-footer">
 
 <header>
     <nav class="navbar navbar-default" role="navigation">
@@ -20,17 +20,17 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand" ui-sref="home" href="/">Memorable Title</a>
+            <a class="navbar-brand" ui-sref="home">Memorable Title</a>
         </div>
         <div class="collapse navbar-collapse" id="main-nav-collapse">
             <ul class="nav navbar-nav">
-                <li ng-class="{ active: $state.is('home') }">
-                    <a ui-sref="home" href="/">Home</a>
+                <li ng-class="{ active: path.is('/') }">
+                    <a href="/">Home</a>
                 </li>
-                <li ng-class="{ active: $state.includes('posts') }"><a ui-sref="posts" href="/posts">Posts</a></li>
-                <li ng-class="{ active: $state.is('about') }" class="active"><a ui-sref="about" href="/about">About me</a></li>
+                <li ng-class="{ active: path.includes('/posts') }"><a href="/posts">Posts</a></li>
+                <li ng-class="{ active: path.is('/about') }" class="active"><a href="/about">About me</a></li>
                 <li class="dropdown">
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">Contact <b class="caret"></b></a>
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">Contact</a>
                     <ul class="dropdown-menu">
                         <li><a href="skype:vfeskov1">Skype</a></li>
                         <li><a href="mailto:v@%76%6C%61%64imirfesk%6Fv.c%6Fm">Send e-mail</a></li>
@@ -41,18 +41,9 @@
         </div>
     </nav>
 </header>
-
-<div class="container">
-    <div ng-show="$state.is('home')" class="ng-hide">
-        <!-- if left in dom, text messes up google search results -->
-        <!-- ngIf: $state.is('home') -->
-        <!-- need to leave twitter feed in dom, or it will break after few state changes -->
-        <p>
-            <iframe id="twitter-widget-0" scrolling="no" frameborder="0" allowtransparency="true" class="twitter-timeline twitter-timeline-rendered" style="width: 1px; height: 0px; border-top-style: none; border-right-style: none; border-bottom-style: none; border-left-style: none; border-width: initial; border-color: initial; position: absolute; visibility: hidden; " title="Twitter Timeline"></iframe><a class="twitter-timeline" href="https://twitter.com/VFeskov" data-widget-id="335406498576470016" data-twttr-rendered="true">Tweets by @VFeskov</a>
-            <script id="twitter-wjs" src="http://platform.twitter.com/widgets.js"></script><script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+"://platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>
-        </p>
-    </div>
-    <div ui-view=""><h1 class="ng-scope">About me</h1>
+<section id="main">
+    <div class="container">
+        <!-- ngView:  --><div ng-view="" class="sliding ng-scope ng-animate ng-enter ng-enter-active" style=""><h1 class="ng-scope">About me</h1>
 
 <p class="ng-scope">I've been developing programs since school and I've always enjoyed it.</p>
 <p class="ng-scope">First there were Visual Basic and Delphi. After the high school graduation I started a project on Java with plans to sell it, but it was too complicated for someone without any knowledge of good architecture, so I never finished it.</p>
@@ -62,13 +53,14 @@
 <p class="ng-scope">Finally, I got my third job where my backend skills weren't in demand, so I had to switch to frontend completely, and it changed my life.</p>
 <p class="ng-scope">I am hooked on JavaScript. Ever since I took a peek at the mechanics of JS I've found all the class-based languages not flexible enough and with too much special syntax. Among all frameworks of JS I find Angular to be the best and the most awesome.</p>
 <p class="ng-scope">My current project is a dream, I develop flexible AngularJS modules for future use and it feels like I actually leave some legacy behind and my work matters. I also have to keep up with latest features of AngularJS and JavaScript, which are very interesting, I feel kinda like pioneer even.</p></div>
-</div>
+    </div>
+</section>
 
 <footer>
     <nav class="navbar navbar-default">
         <div class="navbar-collapse">
             <p class="navbar-text">
-                <span class="glyphicon random-glyphicon glyphicon-headphones" ng-click="randomize()" style="color: rgb(136, 17, 102); "></span>
+                <span class="glyphicon random-glyphicon glyphicon-font" ng-click="randomize()" style="color: rgb(238, 51, 221); "></span>
             </p>
             <ul class="nav navbar-nav navbar-right">
                 <li><a href="https://github.com/vfeskov/vf-personal-site" target="_blank">View source on GitHub&nbsp;&nbsp;<small class="glyphicon glyphicon-new-window"></small></a></li>
@@ -77,12 +69,12 @@
     </nav>
 </footer>
 
-<script src="http://www.google-analytics.com/ga.js"></script>
-<script src="http://code.jquery.com/jquery-2.0.3.min.js"></script>
+<script type="text/javascript" async="" id="google-analytics-script" src="http://www.google-analytics.com/ga.js"></script><script src="http://code.jquery.com/jquery-2.0.3.min.js"></script>
 <script src="//netdna.bootstrapcdn.com/bootstrap/3.0.3/js/bootstrap.min.js"></script>
 <script src="http://yandex.st/highlightjs/7.3/highlight.min.js"></script>
 <script src="/vendor/angular/angular.js"></script>
 <script src="/vendor/angular-animate/angular-animate.min.js"></script>
+<script src="/vendor/angular-route/angular-route.min.js"></script>
 <script src="/vendor/angular-bootstrap/ui-bootstrap-tpls.min.js"></script>
 <script src="/vendor/angular-bootstrap/ui-bootstrap.min.js"></script>
 <script src="/vendor/angular-disqus/angular-disqus.min.js"></script>
@@ -90,7 +82,14 @@
 <script src="/vendor/angular-sanitize/angular-sanitize.min.js"></script>
 <script src="/vendor/angular-ui-router/release/angular-ui-router.min.js"></script>
 
+<script src="/vf/google-analytics.js"></script>
+<script src="/vf/seo.js"></script>
+<script src="/vf/twitter.js"></script>
+<script src="/vf/silly.js"></script>
+<script src="/vf/code-highlighting.js"></script>
+
 <script src="/app.js"></script>
 
 
-<iframe id="rufous-sandbox" scrolling="no" frameborder="0" allowtransparency="true" style="display: none; "></iframe></body></html>
+
+</body></html>

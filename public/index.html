@@ -1,17 +1,17 @@
 <!doctype html>
 <html lang="en" ng-app="vfPersonalSite">
 <head>
-    <meta charset="utf-8"/>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.3/css/bootstrap.min.css"/>
-    <link rel="stylesheet" href="http://yandex.st/highlightjs/7.3/styles/idea.min.css"/>
-    <link rel="stylesheet" href="/css/style.css"/>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.3/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="http://yandex.st/highlightjs/7.3/styles/idea.min.css" />
+    <link rel="stylesheet" href="/css/style.css" />
     <title ng-bind="title">Vladimir Feskov</title>
     <meta name="fragment" content="!" />
     <meta name="description" content="{{description}}" />
-    <meta name="author" content="Vladimir Feskov">
+    <meta name="author" content="Vladimir Feskov" />
 </head>
-<body data-status="{{status}}">
+<body data-status="{{status}}" auto-position-footer>
 
 <header>
     <nav class="navbar navbar-default" role="navigation">
@@ -26,16 +26,16 @@
         </div>
         <div class="collapse navbar-collapse" id="main-nav-collapse">
             <ul class="nav navbar-nav">
-                <li ng-class="{ active: $state.is('home') }">
-                    <a ui-sref="home">Home</a>
+                <li ng-class="{ active: path.is('/') }">
+                    <a href="/">Home</a>
                 </li>
-                <li ng-class="{ active: $state.includes('posts') }"><a ui-sref="posts">Posts</a></li>
-                <li ng-class="{ active: $state.is('about') }"><a ui-sref="about">About me</a></li>
+                <li ng-class="{ active: path.includes('/posts') }"><a href="/posts">Posts</a></li>
+                <li ng-class="{ active: path.is('/about') }"><a href="/about">About me</a></li>
                 <li class="dropdown">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown">Contact</a>
                     <ul class="dropdown-menu">
                         <li><a href="skype:vfeskov1">Skype</a></li>
-                        <li><a href="mailto:v@%76%6C%61%64imirfesk%6Fv.c%6Fm">Send e-mail</small></a></li>
+                        <li><a href="mailto:v@%76%6C%61%64imirfesk%6Fv.c%6Fm">Send e-mail</a></li>
                     </ul>
                 </li>
                 <li><a target="_blank" href="http://www.linkedin.com/in/vladimirfeskov">LinkedIn&nbsp;&nbsp;<small class="glyphicon glyphicon-new-window"></small></a></li>
@@ -43,24 +43,13 @@
         </div>
     </nav>
 </header>
+<section id="main">
+    <div class="container">
+        <div ng-view class="sliding">
 
-<div class="container">
-    <div ng-show="$state.is('home')">
-        <!-- if left in dom, text messes up google search results -->
-        <div ng-if="$state.is('home')">
-            <h1>Hi there!</h1>
-            <p>I'm a web developer from Ukraine and this site is dedicated to my work.</p>
         </div>
-        <!-- need to leave twitter feed in dom, or it will break after few state changes -->
-        <p>
-            <a class="twitter-timeline" href="https://twitter.com/VFeskov" data-widget-id="335406498576470016">Tweets by @VFeskov</a>
-            <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+"://platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>
-        </p>
     </div>
-    <div ui-view>
-
-    </div>
-</div>
+</section>
 
 <footer>
     <nav class="navbar navbar-default">
@@ -75,12 +64,12 @@
     </nav>
 </footer>
 
-<script src="http://www.google-analytics.com/ga.js"></script>
 <script src="http://code.jquery.com/jquery-2.0.3.min.js"></script>
 <script src="//netdna.bootstrapcdn.com/bootstrap/3.0.3/js/bootstrap.min.js"></script>
 <script src="http://yandex.st/highlightjs/7.3/highlight.min.js"></script>
 <script src="/vendor/angular/angular.js"></script>
 <script src="/vendor/angular-animate/angular-animate.min.js"></script>
+<script src="/vendor/angular-route/angular-route.min.js"></script>
 <script src="/vendor/angular-bootstrap/ui-bootstrap-tpls.min.js"></script>
 <script src="/vendor/angular-bootstrap/ui-bootstrap.min.js"></script>
 <script src="/vendor/angular-disqus/angular-disqus.min.js"></script>
@@ -88,6 +77,13 @@
 <script src="/vendor/angular-sanitize/angular-sanitize.min.js"></script>
 <script src="/vendor/angular-ui-router/release/angular-ui-router.min.js"></script>
 
+<script src="/vf/google-analytics.js"></script>
+<script src="/vf/seo.js"></script>
+<script src="/vf/twitter.js"></script>
+<script src="/vf/silly.js"></script>
+<script src="/vf/code-highlighting.js"></script>
+
 <script src="/app.js"></script>
+
 </body>
 </html>

@@ -27,3 +27,60 @@ pre {
     cursor: pointer;
     font-size:1.2em;
 }
+
+.sliding.ng-enter{
+    -webkit-transition: 0.25s linear all;
+    -moz-transition: 0.25s linear all;
+    -o-transition: 0.25s linear all;
+    transition: 0.25s linear all;
+    position: relative;
+}
+.sliding.ng-leave{
+    -webkit-transition: 0.25s linear all;
+    -moz-transition: 0.25s linear all;
+    -o-transition: 0.25s linear all;
+    transition: 0.25s linear all;
+    position: absolute;
+    left:0;
+    right:0;
+    padding:0 15px;
+}
+.sliding.ng-enter{
+    opacity: 0;
+}
+.sliding.ng-enter.ng-enter-active {
+    opacity: 1;
+}
+.sliding.ng-leave{
+    opacity: 1;
+}
+.sliding.ng-leave.ng-leave-active {
+    opacity: 0;
+}
+.container {
+    position:relative;
+}
+#main {
+    padding-bottom:53px;
+}
+footer{
+    position:fixed;
+    bottom:0;
+    left:0;
+    right:0;
+}
+.static-footer #main {
+    padding-bottom:0;
+}
+.static-footer footer{
+    position:static;
+    bottom:auto;
+    left:auto;
+    right:auto;
+}
+.breadcrumb {
+    margin-top:20px;
+}
+.twitter-wrapper {
+    min-height: 405px;
+}

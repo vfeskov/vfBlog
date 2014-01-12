@@ -4,7 +4,7 @@ var async = require('async'),
 module.exports = function (grunt) {
     'use strict';
 
-    grunt.registerTask('update', 'update code, install any new dependencies, generate snapshots for search crawlers', function () {
+    grunt.registerTask('snapshots', 'generate snapshots for search crawlers', function () {
         var exec = require('child_process').exec,
             callback = this.async(),
             phantomJSParams = [
@@ -27,14 +27,9 @@ module.exports = function (grunt) {
             ],
             snapshotCommands = _.map(phantomJSParams, function(params){
                 return 'phantomjs ./.phantomjs-runner.js ' + params.url + ' > ' + params.saveTo;
-            }),
-            commands = [
-                'git pull',
-                'npm install',
-                'bower install'
-            ].concat(snapshotCommands);
+            });
 
-        async.mapSeries(commands, function (command, next) {
+        async.mapSeries(snapshotCommands, function (command, next) {
             grunt.log.writeln(command);
             exec(command, next);
         }, function (err, results) {

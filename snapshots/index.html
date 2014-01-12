@@ -9,7 +9,7 @@
     <meta name="description" content="Personal site of a guy from Ukraine who happens to work as web developer.">
     <meta name="author" content="Vladimir Feskov">
 </head>
-<body data-status="ready" style="" data-twttr-rendered="true">
+<body data-status="ready" auto-position-footer="" style="" class="static-footer" data-twttr-rendered="true">
 
 <header>
     <nav class="navbar navbar-default" role="navigation">
@@ -20,17 +20,17 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand" ui-sref="home" href="/">Memorable Title</a>
+            <a class="navbar-brand" ui-sref="home">Memorable Title</a>
         </div>
         <div class="collapse navbar-collapse" id="main-nav-collapse">
             <ul class="nav navbar-nav">
-                <li ng-class="{ active: $state.is('home') }" class="active">
-                    <a ui-sref="home" href="/">Home</a>
+                <li ng-class="{ active: path.is('/') }" class="active">
+                    <a href="/">Home</a>
                 </li>
-                <li ng-class="{ active: $state.includes('posts') }"><a ui-sref="posts" href="/posts">Posts</a></li>
-                <li ng-class="{ active: $state.is('about') }"><a ui-sref="about" href="/about">About me</a></li>
+                <li ng-class="{ active: path.includes('/posts') }"><a href="/posts">Posts</a></li>
+                <li ng-class="{ active: path.is('/about') }"><a href="/about">About me</a></li>
                 <li class="dropdown">
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">Contact <b class="caret"></b></a>
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">Contact</a>
                     <ul class="dropdown-menu">
                         <li><a href="skype:vfeskov1">Skype</a></li>
                         <li><a href="mailto:v@%76%6C%61%64imirfesk%6Fv.c%6Fm">Send e-mail</a></li>
@@ -41,28 +41,21 @@
         </div>
     </nav>
 </header>
-
-<div class="container">
-    <div ng-show="$state.is('home')" class="">
-        <!-- if left in dom, text messes up google search results -->
-        <!-- ngIf: $state.is('home') --><div ng-if="$state.is('home')" class="ng-scope">
-            <h1>Hi there!</h1>
-            <p>I'm a web developer from Ukraine and this site is dedicated to my work.</p>
-        </div><!-- end ngIf: $state.is('home') -->
-        <!-- need to leave twitter feed in dom, or it will break after few state changes -->
-        <p>
-            <iframe id="twitter-widget-0" scrolling="no" frameborder="0" allowtransparency="true" class="twitter-timeline twitter-timeline-rendered" style="width: 1px; height: 0px; border-top-style: none; border-right-style: none; border-bottom-style: none; border-left-style: none; border-width: initial; border-color: initial; position: absolute; visibility: hidden; "></iframe><a class="twitter-timeline" href="https://twitter.com/VFeskov" data-widget-id="335406498576470016" data-twttr-rendered="true">Tweets by @VFeskov</a>
-            <script id="twitter-wjs" src="http://platform.twitter.com/widgets.js"></script><script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+"://platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>
-        </p>
+<section id="main">
+    <div class="container">
+        <!-- ngView:  --><div ng-view="" class="sliding ng-scope" style=""><h1 class="ng-scope">Hi there!</h1>
+<p class="ng-scope">I'm a web developer from Ukraine and this site is dedicated to my work.</p>
+<p class="twitter-wrapper ng-scope">
+    <iframe id="twitter-widget-0" scrolling="no" frameborder="0" allowtransparency="true" class="twitter-timeline twitter-timeline-rendered" style="width: 1px; height: 0px; border-top-style: none; border-right-style: none; border-bottom-style: none; border-left-style: none; border-width: initial; border-color: initial; position: absolute; visibility: hidden; "></iframe><a class="twitter-timeline" href="https://twitter.com/VFeskov" data-widget-id="335406498576470016" data-twttr-rendered="true">Tweets by @VFeskov</a>
+</p></div>
     </div>
-    <div ui-view=""></div>
-</div>
+</section>
 
 <footer>
     <nav class="navbar navbar-default">
         <div class="navbar-collapse">
             <p class="navbar-text">
-                <span class="glyphicon random-glyphicon glyphicon-gift" ng-click="randomize()" style="color: rgb(187, 119, 85); "></span>
+                <span class="glyphicon random-glyphicon glyphicon-facetime-video" ng-click="randomize()" style="color: rgb(238, 221, 187); "></span>
             </p>
             <ul class="nav navbar-nav navbar-right">
                 <li><a href="https://github.com/vfeskov/vf-personal-site" target="_blank">View source on GitHub&nbsp;&nbsp;<small class="glyphicon glyphicon-new-window"></small></a></li>
@@ -71,12 +64,12 @@
     </nav>
 </footer>
 
-<script src="http://www.google-analytics.com/ga.js"></script>
-<script src="http://code.jquery.com/jquery-2.0.3.min.js"></script>
+<script id="twitter-wjs" src="https://platform.twitter.com/widgets.js"></script><script type="text/javascript" async="" id="google-analytics-script" src="http://www.google-analytics.com/ga.js"></script><script src="http://code.jquery.com/jquery-2.0.3.min.js"></script>
 <script src="//netdna.bootstrapcdn.com/bootstrap/3.0.3/js/bootstrap.min.js"></script>
 <script src="http://yandex.st/highlightjs/7.3/highlight.min.js"></script>
 <script src="/vendor/angular/angular.js"></script>
 <script src="/vendor/angular-animate/angular-animate.min.js"></script>
+<script src="/vendor/angular-route/angular-route.min.js"></script>
 <script src="/vendor/angular-bootstrap/ui-bootstrap-tpls.min.js"></script>
 <script src="/vendor/angular-bootstrap/ui-bootstrap.min.js"></script>
 <script src="/vendor/angular-disqus/angular-disqus.min.js"></script>
@@ -84,7 +77,14 @@
 <script src="/vendor/angular-sanitize/angular-sanitize.min.js"></script>
 <script src="/vendor/angular-ui-router/release/angular-ui-router.min.js"></script>
 
+<script src="/vf/google-analytics.js"></script>
+<script src="/vf/seo.js"></script>
+<script src="/vf/twitter.js"></script>
+<script src="/vf/silly.js"></script>
+<script src="/vf/code-highlighting.js"></script>
+
 <script src="/app.js"></script>
 
 
-<iframe id="rufous-sandbox" scrolling="no" frameborder="0" allowtransparency="true" style="display: none; "></iframe><script src="https://cdn.syndication.twimg.com/widgets/timelines/335406498576470016?domain=localhost%3A3654&amp;lang=en&amp;t=1543791&amp;callback=twttr.tfw.callbacks.tl_335406498576470016_1&amp;suppress_response_codes=true" async=""></script></body></html>
+
+<iframe id="rufous-sandbox" scrolling="no" frameborder="0" allowtransparency="true" style="display: none; "></iframe><script src="https://cdn.syndication.twimg.com/widgets/timelines/335406498576470016?domain=localhost%3A3654&amp;lang=en&amp;t=1543934&amp;callback=twttr.tfw.callbacks.tl_335406498576470016_1&amp;suppress_response_codes=true" async=""></script></body></html>

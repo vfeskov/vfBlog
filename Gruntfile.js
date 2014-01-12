@@ -24,6 +24,11 @@ module.exports = function (grunt) {
                     url: 'http://localhost:3654/posts/file-upload-via-iframe-ajax-and-flash',
                     saveTo: './snapshots/posts/file-upload-via-iframe-ajax-and-flash.html'
                 }
+                ,
+                {
+                    url: 'http://localhost:3654/posts/angularjs-html5-mode-setup-use-and-seo',
+                    saveTo: './snapshots/posts/angularjs-html5-mode-setup-use-and-seo.html'
+                }
             ],
             snapshotCommands = _.map(phantomJSParams, function(params){
                 return 'phantomjs ./.phantomjs-runner.js ' + params.url + ' > ' + params.saveTo;

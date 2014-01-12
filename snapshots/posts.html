@@ -9,7 +9,7 @@
     <meta name="description" content="Posts about web development.">
     <meta name="author" content="Vladimir Feskov">
 </head>
-<body data-status="ready" auto-position-footer="" style="">
+<body data-status="ready" auto-position-footer="" style="" class="static-footer">
 
 <header>
     <nav class="navbar navbar-default" role="navigation">
@@ -20,7 +20,7 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand" ui-sref="home">Memorable Title</a>
+            <a class="navbar-brand" href="/">Memorable Title</a>
         </div>
         <div class="collapse navbar-collapse" id="main-nav-collapse">
             <ul class="nav navbar-nav">
@@ -46,7 +46,9 @@
         <!-- ngView:  --><div ng-view="" class="sliding ng-scope ng-animate ng-enter ng-enter-active" style=""><h1 class="ng-scope">My posts</h1>
 <!-- ngIf: posts --><ul class="list-unstyled ng-scope" ng-if="posts">
     <!-- ngRepeat: post in posts --><li ng-repeat="post in posts" class="ng-scope">
-        <h3><a href="/posts/file-upload-via-iframe-ajax-and-flash" class="ng-binding">File upload via IFRAME, AJAX and Flash</a> <small class="ng-binding">22.03.2013 23:04:17 EET</small></h3>
+        <h3><a href="/posts/angularjs-html5-mode-setup-use-and-seo" class="ng-binding">AngularJS HTML5 mode: setup, use and SEO</a> <small class="ng-binding">12.01.2014 22:46 EET</small></h3>
+    </li><!-- end ngRepeat: post in posts --><li ng-repeat="post in posts" class="ng-scope">
+        <h3><a href="/posts/file-upload-via-iframe-ajax-and-flash" class="ng-binding">File upload via IFRAME, AJAX and Flash</a> <small class="ng-binding">22.03.2013 23:04 EET</small></h3>
     </li><!-- end ngRepeat: post in posts -->
 </ul><!-- end ngIf: posts --></div>
     </div>
@@ -56,11 +58,14 @@
     <nav class="navbar navbar-default">
         <div class="navbar-collapse">
             <p class="navbar-text">
-                <span class="glyphicon random-glyphicon glyphicon-gift" ng-click="randomize()" style="color: rgb(238, 17, 221); "></span>
+                <span class="glyphicon random-glyphicon glyphicon-globe" ng-click="randomize()" style="color: rgb(34, 68, 51); "></span>
             </p>
             <ul class="nav navbar-nav navbar-right">
                 <li><a href="https://github.com/vfeskov/vf-personal-site" target="_blank">View source on GitHub&nbsp;&nbsp;<small class="glyphicon glyphicon-new-window"></small></a></li>
             </ul>
+            <p class="navbar-text navbar-right">
+                <small>Created on <a class="navbar-link" target="_blank" href="http://angularjs.org">AngularJS</a>, <a class="navbar-link" target="_blank" href="http://getbootstrap.com">Twitter Bootstrap</a>, <a class="navbar-link" target="_blank" href="http://glyphicons.com/">Glyphicons</a>, <a class="navbar-link" target="_blank" href="http://nodejs.org/">NodeJS</a> &amp; <a class="navbar-link" target="_blank" href="http://expressjs.com/">Express</a>.</small>
+            </p>
         </div>
     </nav>
 </footer>
@@ -68,6 +73,8 @@
 <script type="text/javascript" async="" id="google-analytics-script" src="http://www.google-analytics.com/ga.js"></script><script src="http://code.jquery.com/jquery-2.0.3.min.js"></script>
 <script src="//netdna.bootstrapcdn.com/bootstrap/3.0.3/js/bootstrap.min.js"></script>
 <script src="http://yandex.st/highlightjs/7.3/highlight.min.js"></script>
+
+<!-- there will be grunt task for these -->
 <script src="/vendor/angular/angular.js"></script>
 <script src="/vendor/angular-animate/angular-animate.min.js"></script>
 <script src="/vendor/angular-route/angular-route.min.js"></script>

@@ -6,7 +6,7 @@
     <link rel="stylesheet" href="/css/style.css">
     <title ng-bind="title" class="ng-binding">File upload via IFRAME, AJAX and Flash - Posts - Vladimir Feskov</title>
     <meta name="fragment" content="!">
-    <meta name="description" content="A brief description of asynchronous file upload in JavaScript via IFRAME, AJAX and Flash with examples and compatibility info.">
+    <meta name="description" content="Description of asynchronous file upload in JavaScript via IFRAME, AJAX and Flash with examples and compatibility info.">
     <meta name="author" content="Vladimir Feskov">
 <script type="text/javascript" async="" src="//vladimirfeskov.disqus.com/embed.js"></script></head>
 <body data-status="ready" auto-position-footer="" style="" class="static-footer">
@@ -20,7 +20,7 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand" ui-sref="home">Memorable Title</a>
+            <a class="navbar-brand" href="/">Memorable Title</a>
         </div>
         <div class="collapse navbar-collapse" id="main-nav-collapse">
             <ul class="nav navbar-nav">
@@ -48,20 +48,20 @@
     <li><a href="/posts">Posts</a></li>
 </ol>
 <h1 class="ng-scope ng-binding">File upload via IFRAME, AJAX and Flash</h1>
-<p class="ng-scope"><em class="ng-binding">22.03.2013 23:04:17 EET</em></p>
-<div ng-bind-html="content" post-content="post.content" class="ng-scope ng-isolate-scope ng-binding"><p class="ng-scope">There are numerous great tools for asynchronous file upload, one of them is <a href="http://blueimp.github.com/jQuery-File-Upload/" target="_blank">jQuery File Upload</a>. It has a lot of options and can be used in almost any scenario, however, in most cases you won't be using all the features and sometimes it's easier to make a specific implementation corresponding to your exact requirements. The tool also does not provide a progress bar for IE9 and earlier. </p>
-                        <p class="ng-scope">In this post I'm going to compile some information regarding file upload that might come in handy when implementing some specific scenarios, such as:</p>
-                        <ol class="ng-scope">
-                        <li>Uploading asynchronously without a progress bar <a href="#iframe">#iframe</a></li>
-                        <li>With progress bar on all browsers except IE9 and earlier <a href="#ajax">#ajax</a></li>
-                        <li>With progress bar on all browsers with Flash installed <a href="#flash">#flash</a></li>
-                        </ol>
-                        <p class="ng-scope">Ideal solution for the first scenario is to use IFRAME.</p>
-                        <h2 id="iframe" class="ng-scope">IFRAME</h2>
-                        <p class="ng-scope">This method is supported by all major browsers including IE 7, and, with a little magic, can provide all necessary features but the real-time progress updates (so no progress bar). Basically, a hidden &lt;iframe&gt; should be added to the body of the html document and the form's target attribute should be set to the iframe's name attribute. Let's get down to it.
-                        </p>
-                        <p class="ng-scope"><strong>index.html</strong></p>
-                        <pre class="ng-scope"><code class="xml"><span class="doctype">&lt;!DOCTYPE html&gt;</span>
+<p class="ng-scope"><em class="ng-binding">22.03.2013 23:04 EET</em></p>
+<!-- ngInclude: undefined --><ng-include src="post.contentUrl" class="ng-scope"><p class="ng-scope">There are numerous great tools for asynchronous file upload, one of them is <a href="http://blueimp.github.com/jQuery-File-Upload/" target="_blank">jQuery File Upload</a>. It has a lot of options and can be used in almost any scenario, however, in most cases you won't be using all the features and sometimes it's easier to make a specific implementation corresponding to your exact requirements. The tool also does not provide a progress bar for IE9 and earlier. </p> 
+<p class="ng-scope">In this post I'm going to compile some information regarding file upload that might come in handy when implementing some specific scenarios, such as:</p>
+<ol class="ng-scope">
+<li>Uploading asynchronously without a progress bar <a href="#iframe">#iframe</a></li>
+<li>With progress bar on all browsers except IE9 and earlier <a href="#ajax">#ajax</a></li>
+<li>With progress bar on all browsers with Flash installed <a href="#flash">#flash</a></li>
+</ol>
+<p class="ng-scope">Ideal solution for the first scenario is to use IFRAME.</p>
+<h2 id="iframe" class="ng-scope">IFRAME</h2>
+<p class="ng-scope">This method is supported by all major browsers including IE 7, and, with a little magic, can provide all necessary features but the real-time progress updates (so no progress bar). Basically, a hidden &lt;iframe&gt; should be added to the body of the html document and the form's target attribute should be set to the iframe's name attribute. Let's get down to it.
+</p>
+<p class="ng-scope"><strong>index.html</strong></p>
+<pre class="ng-scope"><code class="xml"><span class="doctype">&lt;!DOCTYPE html&gt;</span>
 <span class="tag">&lt;<span class="title">html</span>&gt;</span>
     <span class="tag">&lt;<span class="title">head</span>&gt;</span>
         <span class="tag">&lt;<span class="title">title</span>&gt;</span>IFRAME file upload example<span class="tag">&lt;/<span class="title">title</span>&gt;</span>
@@ -88,8 +88,8 @@
     <span class="tag">&lt;/<span class="title">body</span>&gt;</span>
 <span class="tag">&lt;/<span class="title">html</span>&gt;</span></code></pre>
 
-                        <p class="ng-scope"><strong>iframeUpload.js</strong></p>
-                        <pre class="ng-scope"><code class="javascript">iframeUpload = <span class="keyword">function</span>(){};
+<p class="ng-scope"><strong>iframeUpload.js</strong></p>
+<pre class="ng-scope"><code class="javascript">iframeUpload = <span class="keyword">function</span>(){};
 iframeUpload.init = <span class="keyword">function</span>() {
     jQuery(<span class="string">'body'</span>).append(<span class="string">'&lt;iframe name="uploadiframe" onload="iframeUpload.complete();"&gt;&lt;/iframe&gt;'</span>);
     jQuery(<span class="string">'form'</span>).prop(<span class="string">'target'</span>,<span class="string">'uploadiframe'</span>);
@@ -110,8 +110,8 @@ iframeUpload.complete = <span class="keyword">function</span>(){
     }
 }
 </code></pre>
-                        <p class="ng-scope"><strong>upload.php</strong></p>
-                        <pre class="ng-scope"><code class="php"><span class="preprocessor">&lt;?php</span>
+<p class="ng-scope"><strong>upload.php</strong></p>
+<pre class="ng-scope"><code class="php"><span class="preprocessor">&lt;?php</span>
 <span class="variable">$response</span> = <span class="keyword">array</span>(
 	<span class="string">'status'</span>=&gt;<span class="number">0</span>,
 	<span class="string">'message'</span>=&gt;<span class="string">''</span>
@@ -135,8 +135,8 @@ iframeUpload.complete = <span class="keyword">function</span>(){
 }
 <span class="keyword">echo</span> json_encode(<span class="variable">$response</span>);</code></pre>
 
-                        <p class="ng-scope"><strong>styles.css</strong></p>
-                        <pre class="ng-scope"><code class="css"><span class="class">.page</span> <span class="rules">{
+<p class="ng-scope"><strong>styles.css</strong></p>
+<pre class="ng-scope"><code class="css"><span class="class">.page</span> <span class="rules">{
     <span class="rule"><span class="attribute">width</span>:<span class="value"><span class="number">960</span>px;</span></span>
     <span class="rule"><span class="attribute">margin</span>:<span class="value"><span class="number">0</span> auto;</span></span>
 <span class="rule">}</span></span>
@@ -152,25 +152,25 @@ iframeUpload.complete = <span class="keyword">function</span>(){
     <span class="rule"><span class="attribute">left</span>:<span class="value">-<span class="number">9999</span>px;</span></span>
 <span class="rule">}</span></span></code></pre>
 
-                        <p class="ng-scope">When document is loaded, an iframe is added to the body of the document</p>
+<p class="ng-scope">When document is loaded, an iframe is added to the body of the document</p>
 
-                        <pre class="ng-scope"><code class="javascript">jQuery(<span class="string">'body'</span>).append(<span class="string">'&lt;iframe name="uploadiframe" onload="iframeUpload.complete();"&gt;&lt;/iframe&gt;'</span>);</code></pre>
+<pre class="ng-scope"><code class="javascript">jQuery(<span class="string">'body'</span>).append(<span class="string">'&lt;iframe name="uploadiframe" onload="iframeUpload.complete();"&gt;&lt;/iframe&gt;'</span>);</code></pre>
 
-                        <p class="ng-scope">When the response from the server is received, iframeUpload.complete function will be called. After adding the iframe, the form's target is set to the iframe's name - uploadiframe</p>
+<p class="ng-scope">When the response from the server is received, iframeUpload.complete function will be called. After adding the iframe, the form's target is set to the iframe's name - uploadiframe</p>
 
-                        <pre class="ng-scope"><code class="javascript">jQuery(<span class="string">'form'</span>).prop(<span class="string">'target'</span>,<span class="string">'uploadiframe'</span>);</code></pre>
+<pre class="ng-scope"><code class="javascript">jQuery(<span class="string">'form'</span>).prop(<span class="string">'target'</span>,<span class="string">'uploadiframe'</span>);</code></pre>
 
-                        <p class="ng-scope">Finally, the onsubmit handler is set to  iframeUpload.started.
-                        Now, when the submit button is clicked,  iframeUpload.started will be called notifying that the upload has started. In this example we hide the form and show loading message:</p>
+<p class="ng-scope">Finally, the onsubmit handler is set to  iframeUpload.started.
+Now, when the submit button is clicked,  iframeUpload.started will be called notifying that the upload has started. In this example we hide the form and show loading message:</p>
 
-                        <pre class="ng-scope"><code class="javascript">iframeUpload.started = <span class="keyword">function</span>() {
+<pre class="ng-scope"><code class="javascript">iframeUpload.started = <span class="keyword">function</span>() {
     jQuery(<span class="string">'#response'</span>).removeClass().addClass(<span class="string">'loading'</span>).html(<span class="string">'Loading, please wait.'</span>).show();
     jQuery(<span class="string">'form'</span>).hide();
 }</code></pre>
 
-                        <p class="ng-scope">When the server responds with JSON, we decode it and update the message container accordingly</p>
+<p class="ng-scope">When the server responds with JSON, we decode it and update the message container accordingly</p>
 
-                        <pre class="ng-scope"><code class="javascript">iframeUpload.complete = <span class="keyword">function</span>(){
+<pre class="ng-scope"><code class="javascript">iframeUpload.complete = <span class="keyword">function</span>(){
     jQuery(<span class="string">'form'</span>).show();
     <span class="keyword">var</span> response = jQuery(<span class="string">"iframe"</span>).contents().text();
     <span class="keyword">if</span>(response){
@@ -181,17 +181,17 @@ iframeUpload.complete = <span class="keyword">function</span>(){
     }
 }</code></pre>
 
-                        <p class="ng-scope"><img src="http://i.imgur.com/rz3Mfko.png" alt="" title="Hosted by imgur.com"></p>
+<p class="ng-scope"><img src="http://i.imgur.com/rz3Mfko.png" alt="" title="Hosted by imgur.com"></p>
 
-                        <p class="ng-scope">That's it.
-                        The next scenario is to upload asynchronously and show progress bar in all browsers but IE9 and earlier.</p>
+<p class="ng-scope">That's it.
+The next scenario is to upload asynchronously and show progress bar in all browsers but IE9 and earlier.</p>
 
-                        <h2 id="ajax" class="ng-scope">AJAX (XMLHttpRequest and File API)</h2>
+<h2 id="ajax" class="ng-scope">AJAX (XMLHttpRequest and File API)</h2>
 
-                        <p class="ng-scope">This method allows showing real-time progress of file upload but doesn't work in IE9 and earlier. The idea is to make an AJAX request with body containing a file, File API is required for this. The code is as follows:</p>
+<p class="ng-scope">This method allows showing real-time progress of file upload but doesn't work in IE9 and earlier. The idea is to make an AJAX request with body containing a file, File API is required for this. The code is as follows:</p>
 
-                        <p class="ng-scope"><strong>index.html</strong></p>
-                        <pre class="ng-scope"><code class="xml"><span class="doctype">&lt;!DOCTYPE html&gt;</span>
+<p class="ng-scope"><strong>index.html</strong></p>
+<pre class="ng-scope"><code class="xml"><span class="doctype">&lt;!DOCTYPE html&gt;</span>
 <span class="tag">&lt;<span class="title">html</span>&gt;</span>
 <span class="tag">&lt;<span class="title">head</span>&gt;</span>
     <span class="tag">&lt;<span class="title">title</span>&gt;</span>AJAX file upload example<span class="tag">&lt;/<span class="title">title</span>&gt;</span>
@@ -219,8 +219,8 @@ iframeUpload.complete = <span class="keyword">function</span>(){
 <span class="tag">&lt;/<span class="title">body</span>&gt;</span>
 <span class="tag">&lt;/<span class="title">html</span>&gt;</span></code></pre>
 
-                        <p class="ng-scope"><strong>xmlhttprequestUpload.js</strong></p>
-                        <pre class="ng-scope"><code class="javascript">xmlhttprequestUpload = <span class="keyword">function</span>(){};
+<p class="ng-scope"><strong>xmlhttprequestUpload.js</strong></p>
+<pre class="ng-scope"><code class="javascript">xmlhttprequestUpload = <span class="keyword">function</span>(){};
 xmlhttprequestUpload.init = <span class="keyword">function</span>() {
     jQuery(<span class="string">'form'</span>).on(<span class="string">'submit'</span>,xmlhttprequestUpload.started);
 }
@@ -265,8 +265,8 @@ xmlhttprequestUpload.complete = <span class="keyword">function</span>(){
     }
 }</code></pre>
 
-                        <p class="ng-scope"><strong>styles.css</strong></p>
-                        <pre class="ng-scope"><code class="css"><span class="class">.page</span> <span class="rules">{
+<p class="ng-scope"><strong>styles.css</strong></p>
+<pre class="ng-scope"><code class="css"><span class="class">.page</span> <span class="rules">{
     <span class="rule"><span class="attribute">width</span>:<span class="value"><span class="number">960</span>px;</span></span>
     <span class="rule"><span class="attribute">margin</span>:<span class="value"><span class="number">0</span> auto;</span></span>
 <span class="rule">}</span></span>
@@ -289,8 +289,8 @@ xmlhttprequestUpload.complete = <span class="keyword">function</span>(){
     <span class="rule"><span class="attribute">width</span>:<span class="value"><span class="number">0</span>px;</span></span>
 <span class="rule">}</span></span>
 </code></pre>
-                        <p class="ng-scope"><strong>upload.php</strong></p>
-                        <pre class="ng-scope"><code class="php"><span class="preprocessor">&lt;?php</span>
+<p class="ng-scope"><strong>upload.php</strong></p>
+<pre class="ng-scope"><code class="php"><span class="preprocessor">&lt;?php</span>
 header(<span class="string">'Content-type: application/json'</span>);
 <span class="variable">$response</span> = <span class="keyword">array</span>(
 	<span class="string">'status'</span>=&gt;<span class="number">0</span>,
@@ -315,9 +315,9 @@ header(<span class="string">'Content-type: application/json'</span>);
 }
 <span class="keyword">echo</span> json_encode(<span class="variable">$response</span>);</code></pre>
 
-                        <p class="ng-scope">When form is submitted, an XMLHttpRequest object is created and its event handlers are set to our methods that draw the progress bar and print out the response.</p>
+<p class="ng-scope">When form is submitted, an XMLHttpRequest object is created and its event handlers are set to our methods that draw the progress bar and print out the response.</p>
 
-                        <pre class="ng-scope"><code class="javascript"><span class="keyword">var</span> xhr = <span class="keyword">new</span> XMLHttpRequest();
+<pre class="ng-scope"><code class="javascript"><span class="keyword">var</span> xhr = <span class="keyword">new</span> XMLHttpRequest();
     <span class="keyword">if</span> ( xhr.upload ) {
         xhr.upload.onprogress = xmlhttprequestUpload.progress;
     }
@@ -327,9 +327,9 @@ header(<span class="string">'Content-type: application/json'</span>);
         }
     };
 </code></pre>
-                        <p class="ng-scope">Then we get the link, the file, specify the type of request and url via open() method of XMLHttpRequest object, create FormData object and append the file to it using .append() method, and send the FormData via send() method of XMLHttpRequest object.</p>
+<p class="ng-scope">Then we get the link, the file, specify the type of request and url via open() method of XMLHttpRequest object, create FormData object and append the file to it using .append() method, and send the FormData via send() method of XMLHttpRequest object.</p>
 
-                        <pre class="ng-scope"><code class="javascript"><span class="keyword">var</span> input = jQuery(<span class="string">'input[name=testfile]'</span>);
+<pre class="ng-scope"><code class="javascript"><span class="keyword">var</span> input = jQuery(<span class="string">'input[name=testfile]'</span>);
     <span class="keyword">var</span> file = input[<span class="number">0</span>].files[<span class="number">0</span>];
     <span class="keyword">var</span> url = input.closest(<span class="string">'form'</span>).prop(<span class="string">'action'</span>);
     xhr.open(<span class="string">'POST'</span>, url);
@@ -339,17 +339,17 @@ header(<span class="string">'Content-type: application/json'</span>);
 
     xhr.send(formData);</code></pre>
 
-                        <p class="ng-scope">Now there's a green bar that widens according to the file upload progress.</p>
-                        <p class="ng-scope"><img src="http://i.imgur.com/aRcaStW.png" alt="" title="Hosted by imgur.com"></p>
-                        <p class="ng-scope">Finally,  the third scenario, in which we are required to implement a progress bar in IE9 too.</p>
+<p class="ng-scope">Now there's a green bar that widens according to the file upload progress.</p>
+<p class="ng-scope"><img src="http://i.imgur.com/aRcaStW.png" alt="" title="Hosted by imgur.com"></p>
+<p class="ng-scope">Finally,  the third scenario, in which we are required to implement a progress bar in IE9 too.</p>
 
-                        <h2 id="flash" class="ng-scope">Flash</h2>
+<h2 id="flash" class="ng-scope">Flash</h2>
 
-                        <p class="ng-scope">IE9 and earlier do not support File API so it's impossible to work with a selected file using the browser only. This is why there has to be a third-party plugin implemented, such as Flash, in order to monitor upload progress. A good tool for that is <a href="https://code.google.com/p/swfupload/" target="_blank">SWFUpload</a>. We need to download it from <a href="https://code.google.com/p/swfupload/downloads/detail?name=SWFUpload%20v2.2.0.1%20Core.zip&amp;can=2&amp;q=" target="_blank">here</a>  and unpack in the same folder where all our files are.
-                        The code:</p>
+<p class="ng-scope">IE9 and earlier do not support File API so it's impossible to work with a selected file using the browser only. This is why there has to be a third-party plugin implemented, such as Flash, in order to monitor upload progress. A good tool for that is <a href="https://code.google.com/p/swfupload/" target="_blank">SWFUpload</a>. We need to download it from <a href="https://code.google.com/p/swfupload/downloads/detail?name=SWFUpload%20v2.2.0.1%20Core.zip&amp;can=2&amp;q=" target="_blank">here</a>  and unpack in the same folder where all our files are.
+The code:</p>
 
-                        <p class="ng-scope"><strong>index.html</strong></p>
-                        <pre class="ng-scope"><code class="xml"><span class="doctype">&lt;!DOCTYPE html&gt;</span>
+<p class="ng-scope"><strong>index.html</strong></p>
+<pre class="ng-scope"><code class="xml"><span class="doctype">&lt;!DOCTYPE html&gt;</span>
 <span class="tag">&lt;<span class="title">html</span>&gt;</span>
 <span class="tag">&lt;<span class="title">head</span>&gt;</span>
     <span class="tag">&lt;<span class="title">title</span>&gt;</span>Flash file upload example<span class="tag">&lt;/<span class="title">title</span>&gt;</span>
@@ -377,8 +377,8 @@ header(<span class="string">'Content-type: application/json'</span>);
 <span class="tag">&lt;/<span class="title">body</span>&gt;</span>
 <span class="tag">&lt;/<span class="title">html</span>&gt;</span></code></pre>
 
-                        <p class="ng-scope"><strong>flashUpload.js</strong></p>
-                        <pre class="ng-scope"><code class="javascript">flashUpload = <span class="keyword">function</span>(){};
+<p class="ng-scope"><strong>flashUpload.js</strong></p>
+<pre class="ng-scope"><code class="javascript">flashUpload = <span class="keyword">function</span>(){};
 flashUpload.init = <span class="keyword">function</span>() {
     jQuery(<span class="string">'form'</span>).on(<span class="string">'submit'</span>,flashUpload.started);
     <span class="keyword">var</span> input = jQuery(<span class="string">'input[name=testfile]'</span>);
@@ -473,8 +473,8 @@ flashUpload.error = <span class="keyword">function</span>(file, errorCode, messa
 
 }</code></pre>
 
-                        <p class="ng-scope"><strong>styles.css</strong></p>
-                        <pre class="ng-scope"><code class="css"><span class="class">.page</span> <span class="rules">{
+<p class="ng-scope"><strong>styles.css</strong></p>
+<pre class="ng-scope"><code class="css"><span class="class">.page</span> <span class="rules">{
     <span class="rule"><span class="attribute">width</span>:<span class="value"><span class="number">960</span>px;</span></span>
     <span class="rule"><span class="attribute">margin</span>:<span class="value"><span class="number">0</span> auto;</span></span>
 <span class="rule">}</span></span>
@@ -497,8 +497,8 @@ flashUpload.error = <span class="keyword">function</span>(file, errorCode, messa
     <span class="rule"><span class="attribute">width</span>:<span class="value"><span class="number">0</span>px;</span></span>
 <span class="rule">}</span></span></code></pre>
 
-                        <p class="ng-scope"><strong>upload.php</strong></p>
-                        <pre class="ng-scope"><code class="php"><span class="preprocessor">&lt;?php</span>
+<p class="ng-scope"><strong>upload.php</strong></p>
+<pre class="ng-scope"><code class="php"><span class="preprocessor">&lt;?php</span>
 header(<span class="string">'Content-type: application/json'</span>);
 <span class="variable">$response</span> = <span class="keyword">array</span>(
 	<span class="string">'status'</span>=&gt;<span class="number">0</span>,
@@ -523,14 +523,14 @@ header(<span class="string">'Content-type: application/json'</span>);
 }
 <span class="keyword">echo</span> json_encode(<span class="variable">$response</span>);</code></pre>
 
-                        <p class="ng-scope">This tool allows selecting and uploading multiple files, in our example the selection limit (or queue limit) is set to 1. The tool replaces a certain html element, the id of which matches one specified in the  button_placeholder_id setting, with a flash object. When it's clicked, a file selection dialog appears and  file_dialog_start_handler is called. After a dialog is closed, the file_dialog_complete_handler is called. If a file passes size and type check, file_queued_handler is called, otherwise file_queue_error_handler is called. When the form is submitted, the startUpload() method of the created swfupload object is used to start upload and corresponding handlers (upload_progress_handler, upload_success_handler, upload_error_handler) are called to print out progress and response from the server.</p>
+<p class="ng-scope">This tool allows selecting and uploading multiple files, in our example the selection limit (or queue limit) is set to 1. The tool replaces a certain html element, the id of which matches one specified in the  button_placeholder_id setting, with a flash object. When it's clicked, a file selection dialog appears and  file_dialog_start_handler is called. After a dialog is closed, the file_dialog_complete_handler is called. If a file passes size and type check, file_queued_handler is called, otherwise file_queue_error_handler is called. When the form is submitted, the startUpload() method of the created swfupload object is used to start upload and corresponding handlers (upload_progress_handler, upload_success_handler, upload_error_handler) are called to print out progress and response from the server.</p>
 
-                        <p class="ng-scope">More info about SWFUpload features can be found in <a href="http://demo.swfupload.org/Documentation/" target="_blank">the documentation</a>.</p>
+<p class="ng-scope">More info about SWFUpload features can be found in <a href="http://demo.swfupload.org/Documentation/" target="_blank">the documentation</a>.</p>
 
-                        <p class="ng-scope"><img src="http://i.imgur.com/ZGAZVQ5.png" alt="" title="Hosted by imgur.com"></p>
+<p class="ng-scope"><img src="http://i.imgur.com/ZGAZVQ5.png" alt="" title="Hosted by imgur.com"></p>
 
-                        <p class="ng-scope">In conclusion, it is very convenient to use a plugin but it's also good to know how the plugin works. There is a chance that a plugin does not support all the described options and in such a case the provided information might come in handy.</p></div>
-<div id="disqus_thread" disqus="post" class="ng-scope ng-isolate-scope"><div dir="ltr" style="overflow-x: hidden; overflow-y: hidden; "><div style="width: 54px; height: 54px; margin-top: 0px; margin-right: auto; margin-bottom: 0px; margin-left: auto; overflow-x: hidden; overflow-y: hidden; background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAFMAAABmCAMAAACA210sAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAAAadEVYdFNvZnR3YXJlAFBhaW50Lk5FVCB2My41LjEwMPRyoQAAAlhQTFRFMzY63+TtMzY63+TtMzY63+TtMzY63+TtMzY63+TtMzY63+TtMzY63+TtMzY63+TtMzY63+TtMzY63+TtMzY63+TtMzY63+TtMzY63+TtMzY63+TtMzY63+TtMzY63+TtMzY63+TtMzY63+TtMzY63+TtMzY63+TtMzY63+TtMzY63+TtMzY63+TtMzY63+TtMzY63+TtMzY63+TtMzY63+TtMzY63+TtMzY63+TtMzY63+TtMzY63+TtMzY63+TtMzY63+TtMzY63+TtMzY63+TtMzY63+TtMzY63+TtMzY63+TtMzY63+TtMzY63+TtMzY63+TtMzY63+TtMzY63+TtMzY63+TtMzY63+TtMzY63+TtMzY63+TtMzY63+TtMzY63+TtMzY63+TtMzY63+TtMzY63+TtMzY63+TtMzY63+TtMzY63+TtMzY63+TtMzY63+TtMzY63+TtMzY63+TtMzY63+TtMzY63+TtMzY63+TtMzY63+TtMzY63+TtMzY63+TtMzY63+TtMzY63+TtMzY63+TtMzY63+TtMzY63+TtMzY63+TtMzY63+TtMzY63+TtMzY63+TtMzY63+TtMzY63+TtMzY63+TtMzY63+TtMzY63+TtMzY63+TtMzY63+TtMzY63+TtMzY63+TtMzY63+TtMzY63+TtMzY63+TtMzY63+TtMzY63+TtMzY63+TtMzY63+TtMzY63+TtMzY63+TtMzY63+TtMzY63+TtMzY63+TtMzY63+TtMzY63+TtMzY63+TtMzY63+TtMzY63+TtWDj2BwAAAMh0Uk5TAAABAQICAwMEBAUFBgYHBwgICQkKCgsLDAwNDQ4ODw8QEBEREhITExQUFRUWFhcXGBgZGRoaGxscHB0dHh4fHyAgISEjIyQkJSUmJigoKSkqKisrLCwtLS4uLy8wMDExMjIzMzQ0NTU2Njc3ODg5OTo6Ozs8PD09Pj4/P0BAQUFCQkNDRERFRUZGR0dISElJS0tMTE1NTk5PT1BQUVFSUlNTVFRVVVZWV1dYWFlZWlpbW1xcXV1eXl9fYGBhYWJiY2NkZGVlZmaMInkiAAAFVklEQVRo3u2Yf0hbVxTHP/flmYYQxFoXghMJzkpXQmszCd0ma7eKKyKuSOlKGaV0RaRzsIHIGDK2MqSsXVvKcKWIG6V0ItI5Z1tXZBsiIkWciC0iYsMIIbisC1mWhpDG/RFjfpvr4O2vnH+Se+/J575z3z3n5n4F2Uy12aotpUY1HFp1OecXo+S00vo6q9kYXF2ZnfLG+0QWYH2jw5jcEZi6P50dW33qoBL//sl4TqbpyPHSzB97bo2GMjr1bcfUjcbcWXIwlZb24uxBenvH0sM+b0s0om2PAJPBC+hS3KxfvrUtx8IZD+z9LZDcUfL1zqTWj98DtLVP/JP2nIc74+vonplfWQ2EDcZya22deb3T1zOZtOq9saf0jMy6vSarywdU3tAvdIRTmGdOxz5Dd8cWkqeyNzXG1i16ZWijs+MEQPjaUCTh+EU9DFxNZna2AhAZvPUkPXDLqebY++3rj7/xfhXwfTyX5LX/EhA9tZxYz/bjACx0/vQ0YzEDk9O27QD2vx/Gej6oBiKdcylub24DsWN8g9ncAcDAp39mfUV/jJp3Aux//Big9CMF+Go8xcfveR14/k6cuatHB0Qvf5MrZ55NiH0Ajl/8wKEDgOezNOeVV8tAca8z9Zd3AFy4nTsLmRX7AP2Ld9bgxAvA4Ey6S9HLwNP11HrHCnBjmM2sbwTA1gJUAWQgmQKwxpiWkwAz19ncriwBtJugDMCZ4eAOAeYY84QeCPZE8zBDn0eA4qOgAvgzPQKASQEobQbo85DPlgcBjhkIA2SpNSVAQAFoMADeYfLbzSBQ8hpPACwZw2YV8CoATQCDIQmmbwTgMCsA9oxhO4BTASw1QGQMGRsBqDPNADSr6aPNADNKnD7rlWI6lwG1bioCVDSlDb5iB6ITClAL8AA5mwbY9eTXjaRPWs1ugEmvEt/AjySZjwCs9EcAQ3tK8bpUAkT7UYBKgGVJphOgAucAwI2kgfq+KoChJVRQTYA/IMl0AZTB9Vob9+cBSn1RxeJorAVg6RqoYIwngJRFQgYwQqSr19ILUH6LkCl+Iru6QglmEGkosdT0nXWsApzVo4+PLXZ5Y6NBWAdLmbrOxXcfoO6NxHk81BsmiVksjTSkRKV0bBAnvl3amDXiLwZTsV+OWQmQyA/9UF2V2Rj0OmcnvMmROPcAVXNbYLoS5W90NMNFAX4HsEnGvjt7NU5nLgA4JJn78yedEj9XasukkDXVQGQ2L9O9DKhNUswmgJlAXiZjAEdUCWRJC8Bd8jP9AOGIBPOkAfBNSjBbAW7LrOZRgIFQfubuXUBI4uwwdKuAL9/sCnAE4GeJPIrV9WuB/MziBgCJk7i9BWB+VKLKHDYAiwuo5RUW9/QmyJMAgXNRCWYrgP5qhVmBQHeus87Y1QhAjztvPDocbwNsLzcJQN+oPsy6p2wXXgLg4j0kmO9Zk9ui9tBfzrV0r/L3P9wOwPXvJHacKLudkT/O4fHkW4Jib2pYv3dclPlPhTh9Jl6nPW7vQcP698W5RddqMGQyVpbb7fHqEjg3KVUTxLA56Ha7XB63OwKV3ZuU0QfnPXLlUOxxpcTZ0laS4755dVz2yMq4Fxtbj2WppO6bd8P8Zyao9Q0OU8q9Z3p8Koq8CZF1h9lqaixlRn0w5HWtLCytsSVTc8y0rahIpxNFz3S6Ip1Y26J2ITTQLoQG2oXQQLsQGmgXQgPtQmigXQgNtAuhgXYhNNAuhAbahShoFwXtoqBdFLSLgnZR0C4K2kVBuyhoFwXtIofOIDTQLoQG2sVzGmgX72qgXfyggXaxVwPtQmigXYj/S7tQU7WLrQCBfwFnft8xK3413wAAAABJRU5ErkJggg==); background-repeat: no-repeat no-repeat; "><style type="text/css">.disqus-loader{animation:disqus-embed-spinner .7s infinite linear;-webkit-animation:disqus-embed-spinner .7s infinite linear}@keyframes disqus-embed-spinner{0%{transform:rotate(0deg)}100%{transform:rotate(360deg)}}@-webkit-keyframes disqus-embed-spinner{0%{-webkit-transform:rotate(0deg)}100%{-webkit-transform:rotate(360deg)}}</style><div style="width: 29px; height: 29px; margin-top: 11px; margin-right: 14px; margin-bottom: 11px; margin-left: 14px; background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAFMAAABmCAMAAACA210sAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAAAadEVYdFNvZnR3YXJlAFBhaW50Lk5FVCB2My41LjEwMPRyoQAAAlhQTFRFMzY63+TtMzY63+TtMzY63+TtMzY63+TtMzY63+TtMzY63+TtMzY63+TtMzY63+TtMzY63+TtMzY63+TtMzY63+TtMzY63+TtMzY63+TtMzY63+TtMzY63+TtMzY63+TtMzY63+TtMzY63+TtMzY63+TtMzY63+TtMzY63+TtMzY63+TtMzY63+TtMzY63+TtMzY63+TtMzY63+TtMzY63+TtMzY63+TtMzY63+TtMzY63+TtMzY63+TtMzY63+TtMzY63+TtMzY63+TtMzY63+TtMzY63+TtMzY63+TtMzY63+TtMzY63+TtMzY63+TtMzY63+TtMzY63+TtMzY63+TtMzY63+TtMzY63+TtMzY63+TtMzY63+TtMzY63+TtMzY63+TtMzY63+TtMzY63+TtMzY63+TtMzY63+TtMzY63+TtMzY63+TtMzY63+TtMzY63+TtMzY63+TtMzY63+TtMzY63+TtMzY63+TtMzY63+TtMzY63+TtMzY63+TtMzY63+TtMzY63+TtMzY63+TtMzY63+TtMzY63+TtMzY63+TtMzY63+TtMzY63+TtMzY63+TtMzY63+TtMzY63+TtMzY63+TtMzY63+TtMzY63+TtMzY63+TtMzY63+TtMzY63+TtMzY63+TtMzY63+TtMzY63+TtMzY63+TtMzY63+TtMzY63+TtMzY63+TtMzY63+TtMzY63+TtMzY63+TtMzY63+TtMzY63+TtMzY63+TtMzY63+TtMzY63+TtMzY63+TtMzY63+TtMzY63+TtMzY63+TtWDj2BwAAAMh0Uk5TAAABAQICAwMEBAUFBgYHBwgICQkKCgsLDAwNDQ4ODw8QEBEREhITExQUFRUWFhcXGBgZGRoaGxscHB0dHh4fHyAgISEjIyQkJSUmJigoKSkqKisrLCwtLS4uLy8wMDExMjIzMzQ0NTU2Njc3ODg5OTo6Ozs8PD09Pj4/P0BAQUFCQkNDRERFRUZGR0dISElJS0tMTE1NTk5PT1BQUVFSUlNTVFRVVVZWV1dYWFlZWlpbW1xcXV1eXl9fYGBhYWJiY2NkZGVlZmaMInkiAAAFVklEQVRo3u2Yf0hbVxTHP/flmYYQxFoXghMJzkpXQmszCd0ma7eKKyKuSOlKGaV0RaRzsIHIGDK2MqSsXVvKcKWIG6V0ItI5Z1tXZBsiIkWciC0iYsMIIbisC1mWhpDG/RFjfpvr4O2vnH+Se+/J575z3z3n5n4F2Uy12aotpUY1HFp1OecXo+S00vo6q9kYXF2ZnfLG+0QWYH2jw5jcEZi6P50dW33qoBL//sl4TqbpyPHSzB97bo2GMjr1bcfUjcbcWXIwlZb24uxBenvH0sM+b0s0om2PAJPBC+hS3KxfvrUtx8IZD+z9LZDcUfL1zqTWj98DtLVP/JP2nIc74+vonplfWQ2EDcZya22deb3T1zOZtOq9saf0jMy6vSarywdU3tAvdIRTmGdOxz5Dd8cWkqeyNzXG1i16ZWijs+MEQPjaUCTh+EU9DFxNZna2AhAZvPUkPXDLqebY++3rj7/xfhXwfTyX5LX/EhA9tZxYz/bjACx0/vQ0YzEDk9O27QD2vx/Gej6oBiKdcylub24DsWN8g9ncAcDAp39mfUV/jJp3Aux//Big9CMF+Go8xcfveR14/k6cuatHB0Qvf5MrZ55NiH0Ajl/8wKEDgOezNOeVV8tAca8z9Zd3AFy4nTsLmRX7AP2Ld9bgxAvA4Ey6S9HLwNP11HrHCnBjmM2sbwTA1gJUAWQgmQKwxpiWkwAz19ncriwBtJugDMCZ4eAOAeYY84QeCPZE8zBDn0eA4qOgAvgzPQKASQEobQbo85DPlgcBjhkIA2SpNSVAQAFoMADeYfLbzSBQ8hpPACwZw2YV8CoATQCDIQmmbwTgMCsA9oxhO4BTASw1QGQMGRsBqDPNADSr6aPNADNKnD7rlWI6lwG1bioCVDSlDb5iB6ITClAL8AA5mwbY9eTXjaRPWs1ugEmvEt/AjySZjwCs9EcAQ3tK8bpUAkT7UYBKgGVJphOgAucAwI2kgfq+KoChJVRQTYA/IMl0AZTB9Vob9+cBSn1RxeJorAVg6RqoYIwngJRFQgYwQqSr19ILUH6LkCl+Iru6QglmEGkosdT0nXWsApzVo4+PLXZ5Y6NBWAdLmbrOxXcfoO6NxHk81BsmiVksjTSkRKV0bBAnvl3amDXiLwZTsV+OWQmQyA/9UF2V2Rj0OmcnvMmROPcAVXNbYLoS5W90NMNFAX4HsEnGvjt7NU5nLgA4JJn78yedEj9XasukkDXVQGQ2L9O9DKhNUswmgJlAXiZjAEdUCWRJC8Bd8jP9AOGIBPOkAfBNSjBbAW7LrOZRgIFQfubuXUBI4uwwdKuAL9/sCnAE4GeJPIrV9WuB/MziBgCJk7i9BWB+VKLKHDYAiwuo5RUW9/QmyJMAgXNRCWYrgP5qhVmBQHeus87Y1QhAjztvPDocbwNsLzcJQN+oPsy6p2wXXgLg4j0kmO9Zk9ui9tBfzrV0r/L3P9wOwPXvJHacKLudkT/O4fHkW4Jib2pYv3dclPlPhTh9Jl6nPW7vQcP698W5RddqMGQyVpbb7fHqEjg3KVUTxLA56Ha7XB63OwKV3ZuU0QfnPXLlUOxxpcTZ0laS4755dVz2yMq4Fxtbj2WppO6bd8P8Zyao9Q0OU8q9Z3p8Koq8CZF1h9lqaixlRn0w5HWtLCytsSVTc8y0rahIpxNFz3S6Ip1Y26J2ITTQLoQG2oXQQLsQGmgXQgPtQmigXQgNtAuhgXYhNNAuhAbahShoFwXtoqBdFLSLgnZR0C4K2kVBuyhoFwXtIofOIDTQLoQG2sVzGmgX72qgXfyggXaxVwPtQmigXYj/S7tQU7WLrQCBfwFnft8xK3413wAAAABJRU5ErkJggg==); background-position: -54px 0px; background-repeat: no-repeat no-repeat; " class="disqus-loader"></div></div></div><iframe id="dsq-2" data-disqus-uid="2" allowtransparency="true" frameborder="0" role="complementary" style="width: 100% !important; border-top-style: none !important; border-right-style: none !important; border-bottom-style: none !important; border-left-style: none !important; border-width: initial !important; border-color: initial !important; overflow-x: hidden !important; overflow-y: hidden !important; height: 0px !important; " width="100%" src="http://disqus.com/embed/comments/?disqus_version=0e0da0ec&amp;base=default&amp;f=vladimirfeskov&amp;t_i=%5Bobject%20Object%5D&amp;t_u=http%3A%2F%2Flocalhost%3A3654%2Fposts%2Ffile-upload-via-iframe-ajax-and-flash&amp;t_d=File%20upload%20via%20IFRAME%2C%20AJAX%20and%20Flash%20-%20Posts%20-%20Vladimir%20Feskov&amp;t_t=File%20upload%20via%20IFRAME%2C%20AJAX%20and%20Flash%20-%20Posts%20-%20Vladimir%20Feskov&amp;s_o=default#2"></iframe></div></div>
+<p class="ng-scope">In conclusion, it is very convenient to use a plugin but it's also good to know how the plugin works. There is a chance that a plugin does not support all the described options and in such a case the provided information might come in handy.</p></ng-include>
+<div id="disqus_thread" disqus="post.id" class="ng-scope ng-isolate-scope"><div dir="ltr" style="overflow-x: hidden; overflow-y: hidden; "><div style="width: 54px; height: 54px; margin-top: 0px; margin-right: auto; margin-bottom: 0px; margin-left: auto; overflow-x: hidden; overflow-y: hidden; background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAFMAAABmCAMAAACA210sAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAAAadEVYdFNvZnR3YXJlAFBhaW50Lk5FVCB2My41LjEwMPRyoQAAAlhQTFRFMzY63+TtMzY63+TtMzY63+TtMzY63+TtMzY63+TtMzY63+TtMzY63+TtMzY63+TtMzY63+TtMzY63+TtMzY63+TtMzY63+TtMzY63+TtMzY63+TtMzY63+TtMzY63+TtMzY63+TtMzY63+TtMzY63+TtMzY63+TtMzY63+TtMzY63+TtMzY63+TtMzY63+TtMzY63+TtMzY63+TtMzY63+TtMzY63+TtMzY63+TtMzY63+TtMzY63+TtMzY63+TtMzY63+TtMzY63+TtMzY63+TtMzY63+TtMzY63+TtMzY63+TtMzY63+TtMzY63+TtMzY63+TtMzY63+TtMzY63+TtMzY63+TtMzY63+TtMzY63+TtMzY63+TtMzY63+TtMzY63+TtMzY63+TtMzY63+TtMzY63+TtMzY63+TtMzY63+TtMzY63+TtMzY63+TtMzY63+TtMzY63+TtMzY63+TtMzY63+TtMzY63+TtMzY63+TtMzY63+TtMzY63+TtMzY63+TtMzY63+TtMzY63+TtMzY63+TtMzY63+TtMzY63+TtMzY63+TtMzY63+TtMzY63+TtMzY63+TtMzY63+TtMzY63+TtMzY63+TtMzY63+TtMzY63+TtMzY63+TtMzY63+TtMzY63+TtMzY63+TtMzY63+TtMzY63+TtMzY63+TtMzY63+TtMzY63+TtMzY63+TtMzY63+TtMzY63+TtMzY63+TtMzY63+TtMzY63+TtMzY63+TtMzY63+TtMzY63+TtMzY63+TtMzY63+TtMzY63+TtWDj2BwAAAMh0Uk5TAAABAQICAwMEBAUFBgYHBwgICQkKCgsLDAwNDQ4ODw8QEBEREhITExQUFRUWFhcXGBgZGRoaGxscHB0dHh4fHyAgISEjIyQkJSUmJigoKSkqKisrLCwtLS4uLy8wMDExMjIzMzQ0NTU2Njc3ODg5OTo6Ozs8PD09Pj4/P0BAQUFCQkNDRERFRUZGR0dISElJS0tMTE1NTk5PT1BQUVFSUlNTVFRVVVZWV1dYWFlZWlpbW1xcXV1eXl9fYGBhYWJiY2NkZGVlZmaMInkiAAAFVklEQVRo3u2Yf0hbVxTHP/flmYYQxFoXghMJzkpXQmszCd0ma7eKKyKuSOlKGaV0RaRzsIHIGDK2MqSsXVvKcKWIG6V0ItI5Z1tXZBsiIkWciC0iYsMIIbisC1mWhpDG/RFjfpvr4O2vnH+Se+/J575z3z3n5n4F2Uy12aotpUY1HFp1OecXo+S00vo6q9kYXF2ZnfLG+0QWYH2jw5jcEZi6P50dW33qoBL//sl4TqbpyPHSzB97bo2GMjr1bcfUjcbcWXIwlZb24uxBenvH0sM+b0s0om2PAJPBC+hS3KxfvrUtx8IZD+z9LZDcUfL1zqTWj98DtLVP/JP2nIc74+vonplfWQ2EDcZya22deb3T1zOZtOq9saf0jMy6vSarywdU3tAvdIRTmGdOxz5Dd8cWkqeyNzXG1i16ZWijs+MEQPjaUCTh+EU9DFxNZna2AhAZvPUkPXDLqebY++3rj7/xfhXwfTyX5LX/EhA9tZxYz/bjACx0/vQ0YzEDk9O27QD2vx/Gej6oBiKdcylub24DsWN8g9ncAcDAp39mfUV/jJp3Aux//Big9CMF+Go8xcfveR14/k6cuatHB0Qvf5MrZ55NiH0Ajl/8wKEDgOezNOeVV8tAca8z9Zd3AFy4nTsLmRX7AP2Ld9bgxAvA4Ey6S9HLwNP11HrHCnBjmM2sbwTA1gJUAWQgmQKwxpiWkwAz19ncriwBtJugDMCZ4eAOAeYY84QeCPZE8zBDn0eA4qOgAvgzPQKASQEobQbo85DPlgcBjhkIA2SpNSVAQAFoMADeYfLbzSBQ8hpPACwZw2YV8CoATQCDIQmmbwTgMCsA9oxhO4BTASw1QGQMGRsBqDPNADSr6aPNADNKnD7rlWI6lwG1bioCVDSlDb5iB6ITClAL8AA5mwbY9eTXjaRPWs1ugEmvEt/AjySZjwCs9EcAQ3tK8bpUAkT7UYBKgGVJphOgAucAwI2kgfq+KoChJVRQTYA/IMl0AZTB9Vob9+cBSn1RxeJorAVg6RqoYIwngJRFQgYwQqSr19ILUH6LkCl+Iru6QglmEGkosdT0nXWsApzVo4+PLXZ5Y6NBWAdLmbrOxXcfoO6NxHk81BsmiVksjTSkRKV0bBAnvl3amDXiLwZTsV+OWQmQyA/9UF2V2Rj0OmcnvMmROPcAVXNbYLoS5W90NMNFAX4HsEnGvjt7NU5nLgA4JJn78yedEj9XasukkDXVQGQ2L9O9DKhNUswmgJlAXiZjAEdUCWRJC8Bd8jP9AOGIBPOkAfBNSjBbAW7LrOZRgIFQfubuXUBI4uwwdKuAL9/sCnAE4GeJPIrV9WuB/MziBgCJk7i9BWB+VKLKHDYAiwuo5RUW9/QmyJMAgXNRCWYrgP5qhVmBQHeus87Y1QhAjztvPDocbwNsLzcJQN+oPsy6p2wXXgLg4j0kmO9Zk9ui9tBfzrV0r/L3P9wOwPXvJHacKLudkT/O4fHkW4Jib2pYv3dclPlPhTh9Jl6nPW7vQcP698W5RddqMGQyVpbb7fHqEjg3KVUTxLA56Ha7XB63OwKV3ZuU0QfnPXLlUOxxpcTZ0laS4755dVz2yMq4Fxtbj2WppO6bd8P8Zyao9Q0OU8q9Z3p8Koq8CZF1h9lqaixlRn0w5HWtLCytsSVTc8y0rahIpxNFz3S6Ip1Y26J2ITTQLoQG2oXQQLsQGmgXQgPtQmigXQgNtAuhgXYhNNAuhAbahShoFwXtoqBdFLSLgnZR0C4K2kVBuyhoFwXtIofOIDTQLoQG2sVzGmgX72qgXfyggXaxVwPtQmigXYj/S7tQU7WLrQCBfwFnft8xK3413wAAAABJRU5ErkJggg==); background-repeat: no-repeat no-repeat; "><style type="text/css">.disqus-loader{animation:disqus-embed-spinner .7s infinite linear;-webkit-animation:disqus-embed-spinner .7s infinite linear}@keyframes disqus-embed-spinner{0%{transform:rotate(0deg)}100%{transform:rotate(360deg)}}@-webkit-keyframes disqus-embed-spinner{0%{-webkit-transform:rotate(0deg)}100%{-webkit-transform:rotate(360deg)}}</style><div style="width: 29px; height: 29px; margin-top: 11px; margin-right: 14px; margin-bottom: 11px; margin-left: 14px; background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAFMAAABmCAMAAACA210sAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAAAadEVYdFNvZnR3YXJlAFBhaW50Lk5FVCB2My41LjEwMPRyoQAAAlhQTFRFMzY63+TtMzY63+TtMzY63+TtMzY63+TtMzY63+TtMzY63+TtMzY63+TtMzY63+TtMzY63+TtMzY63+TtMzY63+TtMzY63+TtMzY63+TtMzY63+TtMzY63+TtMzY63+TtMzY63+TtMzY63+TtMzY63+TtMzY63+TtMzY63+TtMzY63+TtMzY63+TtMzY63+TtMzY63+TtMzY63+TtMzY63+TtMzY63+TtMzY63+TtMzY63+TtMzY63+TtMzY63+TtMzY63+TtMzY63+TtMzY63+TtMzY63+TtMzY63+TtMzY63+TtMzY63+TtMzY63+TtMzY63+TtMzY63+TtMzY63+TtMzY63+TtMzY63+TtMzY63+TtMzY63+TtMzY63+TtMzY63+TtMzY63+TtMzY63+TtMzY63+TtMzY63+TtMzY63+TtMzY63+TtMzY63+TtMzY63+TtMzY63+TtMzY63+TtMzY63+TtMzY63+TtMzY63+TtMzY63+TtMzY63+TtMzY63+TtMzY63+TtMzY63+TtMzY63+TtMzY63+TtMzY63+TtMzY63+TtMzY63+TtMzY63+TtMzY63+TtMzY63+TtMzY63+TtMzY63+TtMzY63+TtMzY63+TtMzY63+TtMzY63+TtMzY63+TtMzY63+TtMzY63+TtMzY63+TtMzY63+TtMzY63+TtMzY63+TtMzY63+TtMzY63+TtMzY63+TtMzY63+TtMzY63+TtMzY63+TtMzY63+TtMzY63+TtMzY63+TtMzY63+TtMzY63+TtMzY63+TtWDj2BwAAAMh0Uk5TAAABAQICAwMEBAUFBgYHBwgICQkKCgsLDAwNDQ4ODw8QEBEREhITExQUFRUWFhcXGBgZGRoaGxscHB0dHh4fHyAgISEjIyQkJSUmJigoKSkqKisrLCwtLS4uLy8wMDExMjIzMzQ0NTU2Njc3ODg5OTo6Ozs8PD09Pj4/P0BAQUFCQkNDRERFRUZGR0dISElJS0tMTE1NTk5PT1BQUVFSUlNTVFRVVVZWV1dYWFlZWlpbW1xcXV1eXl9fYGBhYWJiY2NkZGVlZmaMInkiAAAFVklEQVRo3u2Yf0hbVxTHP/flmYYQxFoXghMJzkpXQmszCd0ma7eKKyKuSOlKGaV0RaRzsIHIGDK2MqSsXVvKcKWIG6V0ItI5Z1tXZBsiIkWciC0iYsMIIbisC1mWhpDG/RFjfpvr4O2vnH+Se+/J575z3z3n5n4F2Uy12aotpUY1HFp1OecXo+S00vo6q9kYXF2ZnfLG+0QWYH2jw5jcEZi6P50dW33qoBL//sl4TqbpyPHSzB97bo2GMjr1bcfUjcbcWXIwlZb24uxBenvH0sM+b0s0om2PAJPBC+hS3KxfvrUtx8IZD+z9LZDcUfL1zqTWj98DtLVP/JP2nIc74+vonplfWQ2EDcZya22deb3T1zOZtOq9saf0jMy6vSarywdU3tAvdIRTmGdOxz5Dd8cWkqeyNzXG1i16ZWijs+MEQPjaUCTh+EU9DFxNZna2AhAZvPUkPXDLqebY++3rj7/xfhXwfTyX5LX/EhA9tZxYz/bjACx0/vQ0YzEDk9O27QD2vx/Gej6oBiKdcylub24DsWN8g9ncAcDAp39mfUV/jJp3Aux//Big9CMF+Go8xcfveR14/k6cuatHB0Qvf5MrZ55NiH0Ajl/8wKEDgOezNOeVV8tAca8z9Zd3AFy4nTsLmRX7AP2Ld9bgxAvA4Ey6S9HLwNP11HrHCnBjmM2sbwTA1gJUAWQgmQKwxpiWkwAz19ncriwBtJugDMCZ4eAOAeYY84QeCPZE8zBDn0eA4qOgAvgzPQKASQEobQbo85DPlgcBjhkIA2SpNSVAQAFoMADeYfLbzSBQ8hpPACwZw2YV8CoATQCDIQmmbwTgMCsA9oxhO4BTASw1QGQMGRsBqDPNADSr6aPNADNKnD7rlWI6lwG1bioCVDSlDb5iB6ITClAL8AA5mwbY9eTXjaRPWs1ugEmvEt/AjySZjwCs9EcAQ3tK8bpUAkT7UYBKgGVJphOgAucAwI2kgfq+KoChJVRQTYA/IMl0AZTB9Vob9+cBSn1RxeJorAVg6RqoYIwngJRFQgYwQqSr19ILUH6LkCl+Iru6QglmEGkosdT0nXWsApzVo4+PLXZ5Y6NBWAdLmbrOxXcfoO6NxHk81BsmiVksjTSkRKV0bBAnvl3amDXiLwZTsV+OWQmQyA/9UF2V2Rj0OmcnvMmROPcAVXNbYLoS5W90NMNFAX4HsEnGvjt7NU5nLgA4JJn78yedEj9XasukkDXVQGQ2L9O9DKhNUswmgJlAXiZjAEdUCWRJC8Bd8jP9AOGIBPOkAfBNSjBbAW7LrOZRgIFQfubuXUBI4uwwdKuAL9/sCnAE4GeJPIrV9WuB/MziBgCJk7i9BWB+VKLKHDYAiwuo5RUW9/QmyJMAgXNRCWYrgP5qhVmBQHeus87Y1QhAjztvPDocbwNsLzcJQN+oPsy6p2wXXgLg4j0kmO9Zk9ui9tBfzrV0r/L3P9wOwPXvJHacKLudkT/O4fHkW4Jib2pYv3dclPlPhTh9Jl6nPW7vQcP698W5RddqMGQyVpbb7fHqEjg3KVUTxLA56Ha7XB63OwKV3ZuU0QfnPXLlUOxxpcTZ0laS4755dVz2yMq4Fxtbj2WppO6bd8P8Zyao9Q0OU8q9Z3p8Koq8CZF1h9lqaixlRn0w5HWtLCytsSVTc8y0rahIpxNFz3S6Ip1Y26J2ITTQLoQG2oXQQLsQGmgXQgPtQmigXQgNtAuhgXYhNNAuhAbahShoFwXtoqBdFLSLgnZR0C4K2kVBuyhoFwXtIofOIDTQLoQG2sVzGmgX72qgXfyggXaxVwPtQmigXYj/S7tQU7WLrQCBfwFnft8xK3413wAAAABJRU5ErkJggg==); background-position: -54px 0px; background-repeat: no-repeat no-repeat; " class="disqus-loader"></div></div></div><iframe id="dsq-2" data-disqus-uid="2" allowtransparency="true" frameborder="0" role="complementary" style="width: 100% !important; border-top-style: none !important; border-right-style: none !important; border-bottom-style: none !important; border-left-style: none !important; border-width: initial !important; border-color: initial !important; overflow-x: hidden !important; overflow-y: hidden !important; height: 0px !important; " width="100%" src="http://disqus.com/embed/comments/?disqus_version=0e0da0ec&amp;base=default&amp;f=vladimirfeskov&amp;t_i=1&amp;t_u=http%3A%2F%2Flocalhost%3A3654%2Fposts%2Ffile-upload-via-iframe-ajax-and-flash&amp;t_d=File%20upload%20via%20IFRAME%2C%20AJAX%20and%20Flash%20-%20Posts%20-%20Vladimir%20Feskov&amp;t_t=File%20upload%20via%20IFRAME%2C%20AJAX%20and%20Flash%20-%20Posts%20-%20Vladimir%20Feskov&amp;s_o=default#2"></iframe></div></div>
     </div>
 </section>
 
@@ -538,11 +538,14 @@ header(<span class="string">'Content-type: application/json'</span>);
     <nav class="navbar navbar-default">
         <div class="navbar-collapse">
             <p class="navbar-text">
-                <span class="glyphicon random-glyphicon glyphicon-headphones" ng-click="randomize()" style="color: rgb(34, 153, 255); "></span>
+                <span class="glyphicon random-glyphicon glyphicon-eye-close" ng-click="randomize()" style="color: rgb(34, 204, 102); "></span>
             </p>
             <ul class="nav navbar-nav navbar-right">
                 <li><a href="https://github.com/vfeskov/vf-personal-site" target="_blank">View source on GitHub&nbsp;&nbsp;<small class="glyphicon glyphicon-new-window"></small></a></li>
             </ul>
+            <p class="navbar-text navbar-right">
+                <small>Created on <a class="navbar-link" target="_blank" href="http://angularjs.org">AngularJS</a>, <a class="navbar-link" target="_blank" href="http://getbootstrap.com">Twitter Bootstrap</a>, <a class="navbar-link" target="_blank" href="http://glyphicons.com/">Glyphicons</a>, <a class="navbar-link" target="_blank" href="http://nodejs.org/">NodeJS</a> &amp; <a class="navbar-link" target="_blank" href="http://expressjs.com/">Express</a>.</small>
+            </p>
         </div>
     </nav>
 </footer>
@@ -550,6 +553,8 @@ header(<span class="string">'Content-type: application/json'</span>);
 <script type="text/javascript" async="" id="google-analytics-script" src="http://www.google-analytics.com/ga.js"></script><script src="http://code.jquery.com/jquery-2.0.3.min.js"></script>
 <script src="//netdna.bootstrapcdn.com/bootstrap/3.0.3/js/bootstrap.min.js"></script>
 <script src="http://yandex.st/highlightjs/7.3/highlight.min.js"></script>
+
+<!-- there will be grunt task for these -->
 <script src="/vendor/angular/angular.js"></script>
 <script src="/vendor/angular-animate/angular-animate.min.js"></script>
 <script src="/vendor/angular-route/angular-route.min.js"></script>

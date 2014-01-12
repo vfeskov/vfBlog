@@ -1,6 +1,5 @@
-(function(angular, hljs){
+(function(angular){
     'use strict';
-    var app;
 
     angular.module('vfPersonalSite', [
             'ngAnimate',
@@ -191,4 +190,4 @@
 
 
 
-}(window.angular, window.hljs));
+}(window.angular));

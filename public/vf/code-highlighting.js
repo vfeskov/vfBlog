@@ -1,4 +1,4 @@
-(function(angular){
+(function(angular, hljs){
     'use strict';
 
     // the highlight.js library (http://highlightjs.org/) is required and can be included to html using these lines:
@@ -25,4 +25,4 @@
                 }
             };
         }]);
-}(window.angular));
+}(window.angular, window.hljs));

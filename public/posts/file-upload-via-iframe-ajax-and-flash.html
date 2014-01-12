@@ -38,26 +38,27 @@
 &lt;/html&gt;</code></pre>
 
 <p><strong>iframeUpload.js</strong></p>
-<pre><code class="javascript">iframeUpload = function(){};
-iframeUpload.init = function() {
-    jQuery('body').append('&lt;iframe name="uploadiframe" onload="iframeUpload.complete();"&gt;&lt;/iframe&gt;');
-    jQuery('form').prop('target','uploadiframe');
-    jQuery('form').on('submit',iframeUpload.started);
-}
-iframeUpload.started = function() {
-    jQuery('#response').removeClass().addClass('loading').html('Loading, please wait.').show();
-    jQuery('form').hide();
-}
-iframeUpload.complete = function(){
-    jQuery('form').show();
-    var response = jQuery("iframe").contents().text();
-    if(response){
-        response = jQuery.parseJSON(response);
-        jQuery('#response').removeClass()
-            .addClass((response.status == 1) ? 'success' : 'error')
-            .html(response.message);
+<pre><code class="javascript">var iframeUpload = {
+    init: function() {
+        jQuery('body').append('&lt;iframe name="uploadiframe" onload="iframeUpload.complete();"&gt;&lt;/iframe&gt;');
+        jQuery('form').prop('target','uploadiframe');
+        jQuery('form').on('submit',iframeUpload.started);
+    },
+    started: function() {
+        jQuery('#response').removeClass().addClass('loading').html('Loading, please wait.').show();
+        jQuery('form').hide();
+    },
+    complete: function(){
+        jQuery('form').show();
+        var response = jQuery("iframe").contents().text();
+        if(response){
+            response = jQuery.parseJSON(response);
+            jQuery('#response').removeClass()
+                .addClass((response.status == 1) ? 'success' : 'error')
+                .html(response.message);
+        }
     }
-}
+};
 </code></pre>
 <p><strong>upload.php</strong></p>
 <pre><code class="php">&lt;?php
@@ -112,14 +113,14 @@ iframe {
 <p>Finally, the onsubmit handler is set to  iframeUpload.started.
 Now, when the submit button is clicked,  iframeUpload.started will be called notifying that the upload has started. In this example we hide the form and show loading message:</p>
 
-<pre><code class="javascript">iframeUpload.started = function() {
+<pre><code class="javascript">started: function() {
     jQuery('#response').removeClass().addClass('loading').html('Loading, please wait.').show();
     jQuery('form').hide();
 }</code></pre>
 
 <p>When the server responds with JSON, we decode it and update the message container accordingly</p>
 
-<pre><code class="javascript">iframeUpload.complete = function(){
+<pre><code class="javascript">complete: function(){
     jQuery('form').show();
     var response = jQuery("iframe").contents().text();
     if(response){
@@ -169,50 +170,51 @@ The next scenario is to upload asynchronously and show progress bar in all brows
 &lt;/html&gt;</code></pre>
 
 <p><strong>xmlhttprequestUpload.js</strong></p>
-<pre><code class="javascript">xmlhttprequestUpload = function(){};
-xmlhttprequestUpload.init = function() {
-    jQuery('form').on('submit',xmlhttprequestUpload.started);
-}
-xmlhttprequestUpload.started = function(e) {
-    jQuery('#response').removeClass().addClass('loading').html('&lt;div class="progress-bar"&gt;&amp;nbsp;&lt;/div&gt;');
-    jQuery('#response').show();
+<pre><code class="javascript">var xmlhttprequestUpload = {
+    init: function() {
+        jQuery('form').on('submit',xmlhttprequestUpload.started);
+    },
+    started: function(e) {
+        jQuery('#response').removeClass().addClass('loading').html('&lt;div class="progress-bar"&gt;&amp;nbsp;&lt;/div&gt;');
+        jQuery('#response').show();
 
-    var xhr = new XMLHttpRequest();
-    if ( xhr.upload ) {
-        xhr.upload.onprogress = xmlhttprequestUpload.progress;
-    }
-    xhr.onreadystatechange = function(e) {
-        if ( 4 == this.readyState ) {
-            xmlhttprequestUpload.complete.call(this);
+        var xhr = new XMLHttpRequest();
+        if ( xhr.upload ) {
+            xhr.upload.onprogress = xmlhttprequestUpload.progress;
         }
-    };
+        xhr.onreadystatechange = function(e) {
+            if ( 4 == this.readyState ) {
+                xmlhttprequestUpload.complete.call(this);
+            }
+        };
 
-    var input = jQuery('input[name=testfile]');
-    var file = input[0].files[0];
-    var url = input.closest('form').prop('action');
-    xhr.open('POST', url);
+        var input = jQuery('input[name=testfile]');
+        var file = input[0].files[0];
+        var url = input.closest('form').prop('action');
+        xhr.open('POST', url);
 
-    var formData = new FormData();
-    formData.append("testfile", file);
+        var formData = new FormData();
+        formData.append("testfile", file);
 
-    xhr.send(formData);
-    e.preventDefault();
-}
-xmlhttprequestUpload.progress = function(e){
-    var done = e.position || e.loaded;
-    var total = e.totalSize || e.total;
-    jQuery('.progress-bar').css('width',(Math.floor(done/total*1000)/10) + '%');
-}
-xmlhttprequestUpload.complete = function(){
-    jQuery('form').show();
-    var response = this.responseText;
-    if(response){
-        response = jQuery.parseJSON(response);
-        jQuery('#response').removeClass()
-            .addClass((response.status == 1) ? 'success' : 'error')
-            .html(response.message);
+        xhr.send(formData);
+        e.preventDefault();
+    },
+    progress: function(e){
+        var done = e.position || e.loaded;
+        var total = e.totalSize || e.total;
+        jQuery('.progress-bar').css('width',(Math.floor(done/total*1000)/10) + '%');
+    },
+    complete: function(){
+        jQuery('form').show();
+        var response = this.responseText;
+        if(response){
+            response = jQuery.parseJSON(response);
+            jQuery('#response').removeClass()
+                .addClass((response.status == 1) ? 'success' : 'error')
+                .html(response.message);
+        }
     }
-}</code></pre>
+};</code></pre>
 
 <p><strong>styles.css</strong></p>
 <pre><code class="css">.page {
@@ -327,100 +329,100 @@ The code:</p>
 &lt;/html&gt;</code></pre>
 
 <p><strong>flashUpload.js</strong></p>
-<pre><code class="javascript">flashUpload = function(){};
-flashUpload.init = function() {
-    jQuery('form').on('submit',flashUpload.started);
-    var input = jQuery('input[name=testfile]');
-    var url = input.closest('form').prop('action');
-    input.before('&lt;input type="text" name="testfile_text" value="" style="margin:0;" /&gt;');
-    swfUpload = new SWFUpload({
-        upload_url : url,
-        flash_url : "swfupload/flash/swfupload.swf",
-        file_post_name: "testfile",
-        post_params: {
-            upload: 1
-        },
-        file_size_limit : "100MB",
-        button_placeholder_id: "testfile",
-        file_types : "*.*",
-        button_width: 155,
-        button_height:22,
-        button_window_mode : SWFUpload.WINDOW_MODE.TRANSPARENT,
-        button_action : SWFUpload.BUTTON_ACTION.SELECT_FILE,
-        button_cursor : SWFUpload.CURSOR.HAND,
-        button_image_url : 'http://i.imgur.com/lIWWJyD.png',
-        button_disabled : false,
-        file_upload_limit : 0,
-        file_queue_limit : 1,
-        file_dialog_start_handler: function(){
-            jQuery('#response').hide();
-            jQuery('input[name=testfile_text]').val('');
-            this.cancelUpload();
-        },
-        file_queued_handler : function(file){
-            jQuery('input[name=testfile_text]').val(file.name);
-        },
-        file_queue_error_handler : flashUpload.error,
-        upload_progress_handler : flashUpload.progress,
-        upload_success_handler : flashUpload.complete,
-        upload_error_handler : flashUpload.error
-    });
-    jQuery('.swfupload').css('display','block').css('float','left');
-}
-flashUpload.started = function(e) {
-    jQuery('#response').removeClass().addClass('loading').html('&lt;div class="progress-bar"&gt;&amp;nbsp;&lt;/div&gt;').show();
+<pre><code class="javascript">var flashUpload = {
+    init: function() {
+        jQuery('form').on('submit',flashUpload.started);
+        var input = jQuery('input[name=testfile]');
+        var url = input.closest('form').prop('action');
+        input.before('&lt;input type="text" name="testfile_text" value="" style="margin:0;" /&gt;');
+        swfUpload = new SWFUpload({
+            upload_url : url,
+            flash_url : "swfupload/flash/swfupload.swf",
+            file_post_name: "testfile",
+            post_params: {
+                upload: 1
+            },
+            file_size_limit : "100MB",
+            button_placeholder_id: "testfile",
+            file_types : "*.*",
+            button_width: 155,
+            button_height:22,
+            button_window_mode : SWFUpload.WINDOW_MODE.TRANSPARENT,
+            button_action : SWFUpload.BUTTON_ACTION.SELECT_FILE,
+            button_cursor : SWFUpload.CURSOR.HAND,
+            button_image_url : 'http://i.imgur.com/lIWWJyD.png',
+            button_disabled : false,
+            file_upload_limit : 0,
+            file_queue_limit : 1,
+            file_dialog_start_handler: function(){
+                jQuery('#response').hide();
+                jQuery('input[name=testfile_text]').val('');
+                this.cancelUpload();
+            },
+            file_queued_handler : function(file){
+                jQuery('input[name=testfile_text]').val(file.name);
+            },
+            file_queue_error_handler : flashUpload.error,
+            upload_progress_handler : flashUpload.progress,
+            upload_success_handler : flashUpload.complete,
+            upload_error_handler : flashUpload.error
+        });
+        jQuery('.swfupload').css('display','block').css('float','left');
+    },
+    started: function(e) {
+        jQuery('#response').removeClass().addClass('loading').html('&lt;div class="progress-bar"&gt;&amp;nbsp;&lt;/div&gt;').show();
 
-    swfUpload.startUpload();
+        swfUpload.startUpload();
 
-    e.preventDefault();
-}
-flashUpload.progress = function(file, bytesLoaded, bytesTotal){
-    jQuery('.progress-bar').css('width',(Math.floor(bytesLoaded/bytesTotal*1000)/10) + '%');
-}
-flashUpload.complete = function(){
-    jQuery('form').show();
-    jQuery('#response').removeClass()
-        .addClass('success')
-        .html('Success!').show();
-}
-flashUpload.error = function(file, errorCode, message){
-    if (errorCode === SWFUpload.UPLOAD_ERROR.FILE_CANCELLED) {
-        return;
+        e.preventDefault();
+    },
+    progress: function(file, bytesLoaded, bytesTotal){
+        jQuery('.progress-bar').css('width',(Math.floor(bytesLoaded/bytesTotal*1000)/10) + '%');
+    },
+    complete: function(){
+        jQuery('form').show();
+        jQuery('#response').removeClass()
+            .addClass('success')
+            .html('Success!').show();
+    },
+    error: function(file, errorCode, message){
+        if (errorCode === SWFUpload.UPLOAD_ERROR.FILE_CANCELLED) {
+            return;
+        }
+
+        jQuery('form').show();
+        jQuery('#response').removeClass().addClass('error').show();
+        jQuery('input[name=testfile_text]').val('');
+
+        // Handle this error separately because we don't want to create a FileProgress element for it.
+        switch (errorCode) {
+            case SWFUpload.QUEUE_ERROR.QUEUE_LIMIT_EXCEEDED:
+                jQuery('#response').html("You have attempted to queue too many files.\n" + (message === 0 ? "You have reached the upload limit." : "You may select " + (message &gt; 1 ? "up to " + message + " files." : "one file.")));
+                return;
+            case SWFUpload.QUEUE_ERROR.FILE_EXCEEDS_SIZE_LIMIT:
+                jQuery('#response').html("The file you selected is too big.");
+                return;
+            case SWFUpload.QUEUE_ERROR.ZERO_BYTE_FILE:
+                jQuery('#response').html("The file you selected is empty.  Please select another file.");
+                return;
+            case SWFUpload.QUEUE_ERROR.INVALID_FILETYPE:
+                jQuery('#response').html("The file you choose is not an allowed file type.");
+                return;
+            case SWFUpload.UPLOAD_ERROR.MISSING_UPLOAD_URL:
+                jQuery('#response').html("There was a configuration error. You will not be able to upload a file at this time.");
+                return;
+            case SWFUpload.UPLOAD_ERROR.UPLOAD_LIMIT_EXCEEDED:
+                jQuery('#response').html("You may only upload 1 file.");
+                return;
+            case SWFUpload.UPLOAD_ERROR.FILE_CANCELLED:
+            case SWFUpload.UPLOAD_ERROR.UPLOAD_STOPPED:
+                break;
+            default:
+                jQuery('#response').html("An error occurred in the upload. Try again later.");
+                return;
+        }
     }
-
-    jQuery('form').show();
-    jQuery('#response').removeClass().addClass('error').show();
-    jQuery('input[name=testfile_text]').val('');
-
-    // Handle this error separately because we don't want to create a FileProgress element for it.
-    switch (errorCode) {
-        case SWFUpload.QUEUE_ERROR.QUEUE_LIMIT_EXCEEDED:
-            jQuery('#response').html("You have attempted to queue too many files.\n" + (message === 0 ? "You have reached the upload limit." : "You may select " + (message &gt; 1 ? "up to " + message + " files." : "one file.")));
-            return;
-        case SWFUpload.QUEUE_ERROR.FILE_EXCEEDS_SIZE_LIMIT:
-            jQuery('#response').html("The file you selected is too big.");
-            return;
-        case SWFUpload.QUEUE_ERROR.ZERO_BYTE_FILE:
-            jQuery('#response').html("The file you selected is empty.  Please select another file.");
-            return;
-        case SWFUpload.QUEUE_ERROR.INVALID_FILETYPE:
-            jQuery('#response').html("The file you choose is not an allowed file type.");
-            return;
-        case SWFUpload.UPLOAD_ERROR.MISSING_UPLOAD_URL:
-            jQuery('#response').html("There was a configuration error. You will not be able to upload a file at this time.");
-            return;
-        case SWFUpload.UPLOAD_ERROR.UPLOAD_LIMIT_EXCEEDED:
-            jQuery('#response').html("You may only upload 1 file.");
-            return;
-        case SWFUpload.UPLOAD_ERROR.FILE_CANCELLED:
-        case SWFUpload.UPLOAD_ERROR.UPLOAD_STOPPED:
-            break;
-        default:
-            jQuery('#response').html("An error occurred in the upload. Try again later.");
-            return;
-    }
-
-}</code></pre>
+};</code></pre>
 
 <p><strong>styles.css</strong></p>
 <pre><code class="css">.page {

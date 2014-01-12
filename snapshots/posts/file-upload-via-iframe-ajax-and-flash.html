@@ -89,26 +89,27 @@
 <span class="tag">&lt;/<span class="title">html</span>&gt;</span></code></pre>
 
 <p class="ng-scope"><strong>iframeUpload.js</strong></p>
-<pre class="ng-scope"><code class="javascript">iframeUpload = <span class="keyword">function</span>(){};
-iframeUpload.init = <span class="keyword">function</span>() {
-    jQuery(<span class="string">'body'</span>).append(<span class="string">'&lt;iframe name="uploadiframe" onload="iframeUpload.complete();"&gt;&lt;/iframe&gt;'</span>);
-    jQuery(<span class="string">'form'</span>).prop(<span class="string">'target'</span>,<span class="string">'uploadiframe'</span>);
-    jQuery(<span class="string">'form'</span>).on(<span class="string">'submit'</span>,iframeUpload.started);
-}
-iframeUpload.started = <span class="keyword">function</span>() {
-    jQuery(<span class="string">'#response'</span>).removeClass().addClass(<span class="string">'loading'</span>).html(<span class="string">'Loading, please wait.'</span>).show();
-    jQuery(<span class="string">'form'</span>).hide();
-}
-iframeUpload.complete = <span class="keyword">function</span>(){
-    jQuery(<span class="string">'form'</span>).show();
-    <span class="keyword">var</span> response = jQuery(<span class="string">"iframe"</span>).contents().text();
-    <span class="keyword">if</span>(response){
-        response = jQuery.parseJSON(response);
-        jQuery(<span class="string">'#response'</span>).removeClass()
-            .addClass((response.status == <span class="number">1</span>) ? <span class="string">'success'</span> : <span class="string">'error'</span>)
-            .html(response.message);
+<pre class="ng-scope"><code class="javascript"><span class="keyword">var</span> iframeUpload = {
+    init: <span class="keyword">function</span>() {
+        jQuery(<span class="string">'body'</span>).append(<span class="string">'&lt;iframe name="uploadiframe" onload="iframeUpload.complete();"&gt;&lt;/iframe&gt;'</span>);
+        jQuery(<span class="string">'form'</span>).prop(<span class="string">'target'</span>,<span class="string">'uploadiframe'</span>);
+        jQuery(<span class="string">'form'</span>).on(<span class="string">'submit'</span>,iframeUpload.started);
+    },
+    started: <span class="keyword">function</span>() {
+        jQuery(<span class="string">'#response'</span>).removeClass().addClass(<span class="string">'loading'</span>).html(<span class="string">'Loading, please wait.'</span>).show();
+        jQuery(<span class="string">'form'</span>).hide();
+    },
+    complete: <span class="keyword">function</span>(){
+        jQuery(<span class="string">'form'</span>).show();
+        <span class="keyword">var</span> response = jQuery(<span class="string">"iframe"</span>).contents().text();
+        <span class="keyword">if</span>(response){
+            response = jQuery.parseJSON(response);
+            jQuery(<span class="string">'#response'</span>).removeClass()
+                .addClass((response.status == <span class="number">1</span>) ? <span class="string">'success'</span> : <span class="string">'error'</span>)
+                .html(response.message);
+        }
     }
-}
+};
 </code></pre>
 <p class="ng-scope"><strong>upload.php</strong></p>
 <pre class="ng-scope"><code class="php"><span class="preprocessor">&lt;?php</span>
@@ -163,14 +164,14 @@ iframeUpload.complete = <span class="keyword">function</span>(){
 <p class="ng-scope">Finally, the onsubmit handler is set to  iframeUpload.started.
 Now, when the submit button is clicked,  iframeUpload.started will be called notifying that the upload has started. In this example we hide the form and show loading message:</p>
 
-<pre class="ng-scope"><code class="javascript">iframeUpload.started = <span class="keyword">function</span>() {
+<pre class="ng-scope"><code class="javascript">started: <span class="keyword">function</span>() {
     jQuery(<span class="string">'#response'</span>).removeClass().addClass(<span class="string">'loading'</span>).html(<span class="string">'Loading, please wait.'</span>).show();
     jQuery(<span class="string">'form'</span>).hide();
 }</code></pre>
 
 <p class="ng-scope">When the server responds with JSON, we decode it and update the message container accordingly</p>
 
-<pre class="ng-scope"><code class="javascript">iframeUpload.complete = <span class="keyword">function</span>(){
+<pre class="ng-scope"><code class="javascript">complete: <span class="keyword">function</span>(){
     jQuery(<span class="string">'form'</span>).show();
     <span class="keyword">var</span> response = jQuery(<span class="string">"iframe"</span>).contents().text();
     <span class="keyword">if</span>(response){
@@ -220,50 +221,51 @@ The next scenario is to upload asynchronously and show progress bar in all brows
 <span class="tag">&lt;/<span class="title">html</span>&gt;</span></code></pre>
 
 <p class="ng-scope"><strong>xmlhttprequestUpload.js</strong></p>
-<pre class="ng-scope"><code class="javascript">xmlhttprequestUpload = <span class="keyword">function</span>(){};
-xmlhttprequestUpload.init = <span class="keyword">function</span>() {
-    jQuery(<span class="string">'form'</span>).on(<span class="string">'submit'</span>,xmlhttprequestUpload.started);
-}
-xmlhttprequestUpload.started = <span class="keyword">function</span>(e) {
-    jQuery(<span class="string">'#response'</span>).removeClass().addClass(<span class="string">'loading'</span>).html(<span class="string">'&lt;div class="progress-bar"&gt;&amp;nbsp;&lt;/div&gt;'</span>);
-    jQuery(<span class="string">'#response'</span>).show();
+<pre class="ng-scope"><code class="javascript"><span class="keyword">var</span> xmlhttprequestUpload = {
+    init: <span class="keyword">function</span>() {
+        jQuery(<span class="string">'form'</span>).on(<span class="string">'submit'</span>,xmlhttprequestUpload.started);
+    },
+    started: <span class="keyword">function</span>(e) {
+        jQuery(<span class="string">'#response'</span>).removeClass().addClass(<span class="string">'loading'</span>).html(<span class="string">'&lt;div class="progress-bar"&gt;&amp;nbsp;&lt;/div&gt;'</span>);
+        jQuery(<span class="string">'#response'</span>).show();
 
-    <span class="keyword">var</span> xhr = <span class="keyword">new</span> XMLHttpRequest();
-    <span class="keyword">if</span> ( xhr.upload ) {
-        xhr.upload.onprogress = xmlhttprequestUpload.progress;
-    }
-    xhr.onreadystatechange = <span class="keyword">function</span>(e) {
-        <span class="keyword">if</span> ( <span class="number">4</span> == <span class="keyword">this</span>.readyState ) {
-            xmlhttprequestUpload.complete.call(<span class="keyword">this</span>);
+        <span class="keyword">var</span> xhr = <span class="keyword">new</span> XMLHttpRequest();
+        <span class="keyword">if</span> ( xhr.upload ) {
+            xhr.upload.onprogress = xmlhttprequestUpload.progress;
         }
-    };
+        xhr.onreadystatechange = <span class="keyword">function</span>(e) {
+            <span class="keyword">if</span> ( <span class="number">4</span> == <span class="keyword">this</span>.readyState ) {
+                xmlhttprequestUpload.complete.call(<span class="keyword">this</span>);
+            }
+        };
 
-    <span class="keyword">var</span> input = jQuery(<span class="string">'input[name=testfile]'</span>);
-    <span class="keyword">var</span> file = input[<span class="number">0</span>].files[<span class="number">0</span>];
-    <span class="keyword">var</span> url = input.closest(<span class="string">'form'</span>).prop(<span class="string">'action'</span>);
-    xhr.open(<span class="string">'POST'</span>, url);
+        <span class="keyword">var</span> input = jQuery(<span class="string">'input[name=testfile]'</span>);
+        <span class="keyword">var</span> file = input[<span class="number">0</span>].files[<span class="number">0</span>];
+        <span class="keyword">var</span> url = input.closest(<span class="string">'form'</span>).prop(<span class="string">'action'</span>);
+        xhr.open(<span class="string">'POST'</span>, url);
 
-    <span class="keyword">var</span> formData = <span class="keyword">new</span> FormData();
-    formData.append(<span class="string">"testfile"</span>, file);
+        <span class="keyword">var</span> formData = <span class="keyword">new</span> FormData();
+        formData.append(<span class="string">"testfile"</span>, file);
 
-    xhr.send(formData);
-    e.preventDefault();
-}
-xmlhttprequestUpload.progress = <span class="keyword">function</span>(e){
-    <span class="keyword">var</span> done = e.position || e.loaded;
-    <span class="keyword">var</span> total = e.totalSize || e.total;
-    jQuery(<span class="string">'.progress-bar'</span>).css(<span class="string">'width'</span>,(Math.floor(done/total*<span class="number">1000</span>)/<span class="number">10</span>) + <span class="string">'%'</span>);
-}
-xmlhttprequestUpload.complete = <span class="keyword">function</span>(){
-    jQuery(<span class="string">'form'</span>).show();
-    <span class="keyword">var</span> response = <span class="keyword">this</span>.responseText;
-    <span class="keyword">if</span>(response){
-        response = jQuery.parseJSON(response);
-        jQuery(<span class="string">'#response'</span>).removeClass()
-            .addClass((response.status == <span class="number">1</span>) ? <span class="string">'success'</span> : <span class="string">'error'</span>)
-            .html(response.message);
+        xhr.send(formData);
+        e.preventDefault();
+    },
+    progress: <span class="keyword">function</span>(e){
+        <span class="keyword">var</span> done = e.position || e.loaded;
+        <span class="keyword">var</span> total = e.totalSize || e.total;
+        jQuery(<span class="string">'.progress-bar'</span>).css(<span class="string">'width'</span>,(Math.floor(done/total*<span class="number">1000</span>)/<span class="number">10</span>) + <span class="string">'%'</span>);
+    },
+    complete: <span class="keyword">function</span>(){
+        jQuery(<span class="string">'form'</span>).show();
+        <span class="keyword">var</span> response = <span class="keyword">this</span>.responseText;
+        <span class="keyword">if</span>(response){
+            response = jQuery.parseJSON(response);
+            jQuery(<span class="string">'#response'</span>).removeClass()
+                .addClass((response.status == <span class="number">1</span>) ? <span class="string">'success'</span> : <span class="string">'error'</span>)
+                .html(response.message);
+        }
     }
-}</code></pre>
+};</code></pre>
 
 <p class="ng-scope"><strong>styles.css</strong></p>
 <pre class="ng-scope"><code class="css"><span class="class">.page</span> <span class="rules">{
@@ -378,100 +380,100 @@ The code:</p>
 <span class="tag">&lt;/<span class="title">html</span>&gt;</span></code></pre>
 
 <p class="ng-scope"><strong>flashUpload.js</strong></p>
-<pre class="ng-scope"><code class="javascript">flashUpload = <span class="keyword">function</span>(){};
-flashUpload.init = <span class="keyword">function</span>() {
-    jQuery(<span class="string">'form'</span>).on(<span class="string">'submit'</span>,flashUpload.started);
-    <span class="keyword">var</span> input = jQuery(<span class="string">'input[name=testfile]'</span>);
-    <span class="keyword">var</span> url = input.closest(<span class="string">'form'</span>).prop(<span class="string">'action'</span>);
-    input.before(<span class="string">'&lt;input type="text" name="testfile_text" value="" style="margin:0;" /&gt;'</span>);
-    swfUpload = <span class="keyword">new</span> SWFUpload({
-        upload_url : url,
-        flash_url : <span class="string">"swfupload/flash/swfupload.swf"</span>,
-        file_post_name: <span class="string">"testfile"</span>,
-        post_params: {
-            upload: <span class="number">1</span>
-        },
-        file_size_limit : <span class="string">"100MB"</span>,
-        button_placeholder_id: <span class="string">"testfile"</span>,
-        file_types : <span class="string">"*.*"</span>,
-        button_width: <span class="number">155</span>,
-        button_height:<span class="number">22</span>,
-        button_window_mode : SWFUpload.WINDOW_MODE.TRANSPARENT,
-        button_action : SWFUpload.BUTTON_ACTION.SELECT_FILE,
-        button_cursor : SWFUpload.CURSOR.HAND,
-        button_image_url : <span class="string">'http://i.imgur.com/lIWWJyD.png'</span>,
-        button_disabled : <span class="literal">false</span>,
-        file_upload_limit : <span class="number">0</span>,
-        file_queue_limit : <span class="number">1</span>,
-        file_dialog_start_handler: <span class="keyword">function</span>(){
-            jQuery(<span class="string">'#response'</span>).hide();
-            jQuery(<span class="string">'input[name=testfile_text]'</span>).val(<span class="string">''</span>);
-            <span class="keyword">this</span>.cancelUpload();
-        },
-        file_queued_handler : <span class="keyword">function</span>(file){
-            jQuery(<span class="string">'input[name=testfile_text]'</span>).val(file.name);
-        },
-        file_queue_error_handler : flashUpload.error,
-        upload_progress_handler : flashUpload.progress,
-        upload_success_handler : flashUpload.complete,
-        upload_error_handler : flashUpload.error
-    });
-    jQuery(<span class="string">'.swfupload'</span>).css(<span class="string">'display'</span>,<span class="string">'block'</span>).css(<span class="string">'float'</span>,<span class="string">'left'</span>);
-}
-flashUpload.started = <span class="keyword">function</span>(e) {
-    jQuery(<span class="string">'#response'</span>).removeClass().addClass(<span class="string">'loading'</span>).html(<span class="string">'&lt;div class="progress-bar"&gt;&amp;nbsp;&lt;/div&gt;'</span>).show();
+<pre class="ng-scope"><code class="javascript"><span class="keyword">var</span> flashUpload = {
+    init: <span class="keyword">function</span>() {
+        jQuery(<span class="string">'form'</span>).on(<span class="string">'submit'</span>,flashUpload.started);
+        <span class="keyword">var</span> input = jQuery(<span class="string">'input[name=testfile]'</span>);
+        <span class="keyword">var</span> url = input.closest(<span class="string">'form'</span>).prop(<span class="string">'action'</span>);
+        input.before(<span class="string">'&lt;input type="text" name="testfile_text" value="" style="margin:0;" /&gt;'</span>);
+        swfUpload = <span class="keyword">new</span> SWFUpload({
+            upload_url : url,
+            flash_url : <span class="string">"swfupload/flash/swfupload.swf"</span>,
+            file_post_name: <span class="string">"testfile"</span>,
+            post_params: {
+                upload: <span class="number">1</span>
+            },
+            file_size_limit : <span class="string">"100MB"</span>,
+            button_placeholder_id: <span class="string">"testfile"</span>,
+            file_types : <span class="string">"*.*"</span>,
+            button_width: <span class="number">155</span>,
+            button_height:<span class="number">22</span>,
+            button_window_mode : SWFUpload.WINDOW_MODE.TRANSPARENT,
+            button_action : SWFUpload.BUTTON_ACTION.SELECT_FILE,
+            button_cursor : SWFUpload.CURSOR.HAND,
+            button_image_url : <span class="string">'http://i.imgur.com/lIWWJyD.png'</span>,
+            button_disabled : <span class="literal">false</span>,
+            file_upload_limit : <span class="number">0</span>,
+            file_queue_limit : <span class="number">1</span>,
+            file_dialog_start_handler: <span class="keyword">function</span>(){
+                jQuery(<span class="string">'#response'</span>).hide();
+                jQuery(<span class="string">'input[name=testfile_text]'</span>).val(<span class="string">''</span>);
+                <span class="keyword">this</span>.cancelUpload();
+            },
+            file_queued_handler : <span class="keyword">function</span>(file){
+                jQuery(<span class="string">'input[name=testfile_text]'</span>).val(file.name);
+            },
+            file_queue_error_handler : flashUpload.error,
+            upload_progress_handler : flashUpload.progress,
+            upload_success_handler : flashUpload.complete,
+            upload_error_handler : flashUpload.error
+        });
+        jQuery(<span class="string">'.swfupload'</span>).css(<span class="string">'display'</span>,<span class="string">'block'</span>).css(<span class="string">'float'</span>,<span class="string">'left'</span>);
+    },
+    started: <span class="keyword">function</span>(e) {
+        jQuery(<span class="string">'#response'</span>).removeClass().addClass(<span class="string">'loading'</span>).html(<span class="string">'&lt;div class="progress-bar"&gt;&amp;nbsp;&lt;/div&gt;'</span>).show();
 
-    swfUpload.startUpload();
+        swfUpload.startUpload();
 
-    e.preventDefault();
-}
-flashUpload.progress = <span class="keyword">function</span>(file, bytesLoaded, bytesTotal){
-    jQuery(<span class="string">'.progress-bar'</span>).css(<span class="string">'width'</span>,(Math.floor(bytesLoaded/bytesTotal*<span class="number">1000</span>)/<span class="number">10</span>) + <span class="string">'%'</span>);
-}
-flashUpload.complete = <span class="keyword">function</span>(){
-    jQuery(<span class="string">'form'</span>).show();
-    jQuery(<span class="string">'#response'</span>).removeClass()
-        .addClass(<span class="string">'success'</span>)
-        .html(<span class="string">'Success!'</span>).show();
-}
-flashUpload.error = <span class="keyword">function</span>(file, errorCode, message){
-    <span class="keyword">if</span> (errorCode === SWFUpload.UPLOAD_ERROR.FILE_CANCELLED) {
-        <span class="keyword">return</span>;
+        e.preventDefault();
+    },
+    progress: <span class="keyword">function</span>(file, bytesLoaded, bytesTotal){
+        jQuery(<span class="string">'.progress-bar'</span>).css(<span class="string">'width'</span>,(Math.floor(bytesLoaded/bytesTotal*<span class="number">1000</span>)/<span class="number">10</span>) + <span class="string">'%'</span>);
+    },
+    complete: <span class="keyword">function</span>(){
+        jQuery(<span class="string">'form'</span>).show();
+        jQuery(<span class="string">'#response'</span>).removeClass()
+            .addClass(<span class="string">'success'</span>)
+            .html(<span class="string">'Success!'</span>).show();
+    },
+    error: <span class="keyword">function</span>(file, errorCode, message){
+        <span class="keyword">if</span> (errorCode === SWFUpload.UPLOAD_ERROR.FILE_CANCELLED) {
+            <span class="keyword">return</span>;
+        }
+
+        jQuery(<span class="string">'form'</span>).show();
+        jQuery(<span class="string">'#response'</span>).removeClass().addClass(<span class="string">'error'</span>).show();
+        jQuery(<span class="string">'input[name=testfile_text]'</span>).val(<span class="string">''</span>);
+
+        <span class="comment">// Handle this error separately because we don't want to create a FileProgress element for it.</span>
+        <span class="keyword">switch</span> (errorCode) {
+            <span class="keyword">case</span> SWFUpload.QUEUE_ERROR.QUEUE_LIMIT_EXCEEDED:
+                jQuery(<span class="string">'#response'</span>).html(<span class="string">"You have attempted to queue too many files.\n"</span> + (message === <span class="number">0</span> ? <span class="string">"You have reached the upload limit."</span> : <span class="string">"You may select "</span> + (message &gt; <span class="number">1</span> ? <span class="string">"up to "</span> + message + <span class="string">" files."</span> : <span class="string">"one file."</span>)));
+                <span class="keyword">return</span>;
+            <span class="keyword">case</span> SWFUpload.QUEUE_ERROR.FILE_EXCEEDS_SIZE_LIMIT:
+                jQuery(<span class="string">'#response'</span>).html(<span class="string">"The file you selected is too big."</span>);
+                <span class="keyword">return</span>;
+            <span class="keyword">case</span> SWFUpload.QUEUE_ERROR.ZERO_BYTE_FILE:
+                jQuery(<span class="string">'#response'</span>).html(<span class="string">"The file you selected is empty.  Please select another file."</span>);
+                <span class="keyword">return</span>;
+            <span class="keyword">case</span> SWFUpload.QUEUE_ERROR.INVALID_FILETYPE:
+                jQuery(<span class="string">'#response'</span>).html(<span class="string">"The file you choose is not an allowed file type."</span>);
+                <span class="keyword">return</span>;
+            <span class="keyword">case</span> SWFUpload.UPLOAD_ERROR.MISSING_UPLOAD_URL:
+                jQuery(<span class="string">'#response'</span>).html(<span class="string">"There was a configuration error. You will not be able to upload a file at this time."</span>);
+                <span class="keyword">return</span>;
+            <span class="keyword">case</span> SWFUpload.UPLOAD_ERROR.UPLOAD_LIMIT_EXCEEDED:
+                jQuery(<span class="string">'#response'</span>).html(<span class="string">"You may only upload 1 file."</span>);
+                <span class="keyword">return</span>;
+            <span class="keyword">case</span> SWFUpload.UPLOAD_ERROR.FILE_CANCELLED:
+            <span class="keyword">case</span> SWFUpload.UPLOAD_ERROR.UPLOAD_STOPPED:
+                <span class="keyword">break</span>;
+            <span class="keyword">default</span>:
+                jQuery(<span class="string">'#response'</span>).html(<span class="string">"An error occurred in the upload. Try again later."</span>);
+                <span class="keyword">return</span>;
+        }
     }
-
-    jQuery(<span class="string">'form'</span>).show();
-    jQuery(<span class="string">'#response'</span>).removeClass().addClass(<span class="string">'error'</span>).show();
-    jQuery(<span class="string">'input[name=testfile_text]'</span>).val(<span class="string">''</span>);
-
-    <span class="comment">// Handle this error separately because we don't want to create a FileProgress element for it.</span>
-    <span class="keyword">switch</span> (errorCode) {
-        <span class="keyword">case</span> SWFUpload.QUEUE_ERROR.QUEUE_LIMIT_EXCEEDED:
-            jQuery(<span class="string">'#response'</span>).html(<span class="string">"You have attempted to queue too many files.\n"</span> + (message === <span class="number">0</span> ? <span class="string">"You have reached the upload limit."</span> : <span class="string">"You may select "</span> + (message &gt; <span class="number">1</span> ? <span class="string">"up to "</span> + message + <span class="string">" files."</span> : <span class="string">"one file."</span>)));
-            <span class="keyword">return</span>;
-        <span class="keyword">case</span> SWFUpload.QUEUE_ERROR.FILE_EXCEEDS_SIZE_LIMIT:
-            jQuery(<span class="string">'#response'</span>).html(<span class="string">"The file you selected is too big."</span>);
-            <span class="keyword">return</span>;
-        <span class="keyword">case</span> SWFUpload.QUEUE_ERROR.ZERO_BYTE_FILE:
-            jQuery(<span class="string">'#response'</span>).html(<span class="string">"The file you selected is empty.  Please select another file."</span>);
-            <span class="keyword">return</span>;
-        <span class="keyword">case</span> SWFUpload.QUEUE_ERROR.INVALID_FILETYPE:
-            jQuery(<span class="string">'#response'</span>).html(<span class="string">"The file you choose is not an allowed file type."</span>);
-            <span class="keyword">return</span>;
-        <span class="keyword">case</span> SWFUpload.UPLOAD_ERROR.MISSING_UPLOAD_URL:
-            jQuery(<span class="string">'#response'</span>).html(<span class="string">"There was a configuration error. You will not be able to upload a file at this time."</span>);
-            <span class="keyword">return</span>;
-        <span class="keyword">case</span> SWFUpload.UPLOAD_ERROR.UPLOAD_LIMIT_EXCEEDED:
-            jQuery(<span class="string">'#response'</span>).html(<span class="string">"You may only upload 1 file."</span>);
-            <span class="keyword">return</span>;
-        <span class="keyword">case</span> SWFUpload.UPLOAD_ERROR.FILE_CANCELLED:
-        <span class="keyword">case</span> SWFUpload.UPLOAD_ERROR.UPLOAD_STOPPED:
-            <span class="keyword">break</span>;
-        <span class="keyword">default</span>:
-            jQuery(<span class="string">'#response'</span>).html(<span class="string">"An error occurred in the upload. Try again later."</span>);
-            <span class="keyword">return</span>;
-    }
-
-}</code></pre>
+};</code></pre>
 
 <p class="ng-scope"><strong>styles.css</strong></p>
 <pre class="ng-scope"><code class="css"><span class="class">.page</span> <span class="rules">{
@@ -538,7 +540,7 @@ header(<span class="string">'Content-type: application/json'</span>);
     <nav class="navbar navbar-default">
         <div class="navbar-collapse">
             <p class="navbar-text">
-                <span class="glyphicon random-glyphicon glyphicon-eye-close" ng-click="randomize()" style="color: rgb(34, 204, 102); "></span>
+                <span class="glyphicon random-glyphicon glyphicon-globe" ng-click="randomize()" style="color: rgb(102, 204, 0); "></span>
             </p>
             <ul class="nav navbar-nav navbar-right">
                 <li><a href="https://github.com/vfeskov/vf-personal-site" target="_blank">View source on GitHub&nbsp;&nbsp;<small class="glyphicon glyphicon-new-window"></small></a></li>

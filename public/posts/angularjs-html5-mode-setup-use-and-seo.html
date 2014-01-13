@@ -232,7 +232,7 @@ forever start ~/html5app/html5app-server.js
 </div>
 <h2>Serve pre-rendered content to all search crawlers (SEO)</h2>
 <p>We will need pre-rendered content for the crawlers, and a way to generate it automatically is well-described <a href="http://www.yearofmoo.com/2012/11/angularjs-and-seo.html" target="_blank">here</a>.</p>
-<p>Although <a href="https://developers.google.com/webmasters/ajax-crawling/docs/specification">the crawling standard for dynamic pages</a>
+<p>Although <a target="_blank" href="https://developers.google.com/webmasters/ajax-crawling/docs/specification">the crawling standard for dynamic pages</a>
     proposed by Google looks and feels pretty solid, Bing and Yahoo do not support it fully yet, namely, they do not
     parse fetched content to determine whether there's &lt;meta name="fragment"&gt; in it, so HTML5 urls get indexed
     without _escaped_fragment_ parameter.</p>
@@ -243,7 +243,7 @@ forever start ~/html5app/html5app-server.js
 Mozilla/5.0 (compatible; bingbot/2.0; +http://www.bing.com/bingbot.htm)
 Mozilla/5.0 (compatible; bingbot/2.0 +http://www.bing.com/bingbot.htm)
 </code></pre>
-<p>A large list of crawlers' user agents can be found <a href="http://www.useragentstring.com/pages/Crawlerlist/">here</a>.</p>
+<p>A large list of crawlers' user agents can be found <a target="_blank" href="http://www.useragentstring.com/pages/Crawlerlist/">here</a>.</p>
 <p>So let's implement this on our Express server. Make a separate file inside ~/html5app, name it 'botChecker.js'
     and put following code in it:</p>
 <p><strong>~/html5app/botChecker.js</strong></p>
@@ -311,7 +311,7 @@ module.exports = {
 forever stop ~/html5app/html5app-server.js
 forever start ~/html5app/html5app-server.js
 </code></pre>
-<p>And that's it. We can open up Developer Tools in Chrome, change User Agent to <a href="http://www.useragentstring.com/pages/Crawlerlist/">Bing's
+<p>And that's it. We can open up Developer Tools in Chrome, change User Agent to <a target="_blank" href="http://www.useragentstring.com/pages/Crawlerlist/">Bing's
     or Yahoo's</a> and when we hit refresh we should see our pre-rendered content.</p>
 <p>Check out <a href="http://docs.angularjs.org/guide/dev_guide.services.$location" target="_blank">official documentation</a> for Angular JS HTML5 mode.<br />
     You can find the code for this post <a href="https://github.com/vfeskov/html5app" target="_blank">here</a>.<br />

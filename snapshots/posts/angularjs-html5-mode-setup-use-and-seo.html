@@ -270,7 +270,7 @@ console.log(<span class="string">'started'</span>);
 </div>
 <h2 class="ng-scope">Serve pre-rendered content to all search crawlers (SEO)</h2>
 <p class="ng-scope">We will need pre-rendered content for the crawlers, and one of the ways to generate it automatically is well described <a href="http://www.yearofmoo.com/2012/11/angularjs-and-seo.html" target="_blank">here</a>.</p>
-<p class="ng-scope">Although <a href="https://developers.google.com/webmasters/ajax-crawling/docs/specification">the crawling standard for dynamic pages</a>
+<p class="ng-scope">Although <a target="_blank" href="https://developers.google.com/webmasters/ajax-crawling/docs/specification">the crawling standard for dynamic pages</a>
     proposed by Google looks and feels pretty solid, Bing and Yahoo do not support it fully yet, namely, they do not
     parse fetched content to determine whether there's &lt;meta name="fragment"&gt; in it, so HTML5 urls get indexed
     without _escaped_fragment_ parameter.</p>
@@ -280,7 +280,7 @@ console.log(<span class="string">'started'</span>);
 <pre class="ng-scope"><code class="cs">Mozilla/<span class="number">5.0</span> (compatible; bingbot/<span class="number">2.0</span>; +http:<span class="comment">//www.bing.com/bingbot.htm)</span>
 Mozilla/<span class="number">5.0</span> (compatible; bingbot/<span class="number">2.0</span> +http:<span class="comment">//www.bing.com/bingbot.htm)</span>
 </code></pre>
-<p class="ng-scope">A large list of crawlers' user agents can be found <a href="http://www.useragentstring.com/pages/Crawlerlist/">here</a>.</p>
+<p class="ng-scope">A large list of crawlers' user agents can be found <a target="_blank" href="http://www.useragentstring.com/pages/Crawlerlist/">here</a>.</p>
 <p class="ng-scope">So let's implement this on our Express server. Make a separate file inside ~/html5app, name it 'botChecker.js'
     and put following code in it:</p>
 <p class="ng-scope"><strong>~/html5app/botChecker.js</strong></p>
@@ -345,7 +345,7 @@ console.log(<span class="string">'started'</span>);
 <pre class="ng-scope"><code class="ruby">forever stop ~<span class="regexp">/html5app/html</span>5app-server.js
 forever start ~<span class="regexp">/html5app/html</span>5app-server.js
 </code></pre>
-<p class="ng-scope">And that's it. We can open up Developer Tools in Chrome, change User Agent to <a href="http://www.useragentstring.com/pages/Crawlerlist/">Bing's
+<p class="ng-scope">And that's it. We can open up Developer Tools in Chrome, change User Agent to <a target="_blank" href="http://www.useragentstring.com/pages/Crawlerlist/">Bing's
     or Yahoo's</a> and when we hit refresh we should see our pre-rendered content.</p>
 <p class="ng-scope">Checkout <a href="http://docs.angularjs.org/guide/dev_guide.services.$location" target="_blank">official documentation</a> for Angular JS HTML5 mode.<br>
     You can find the code for this post <a href="https://github.com/vfeskov/html5app" target="_blank">here</a>.<br>

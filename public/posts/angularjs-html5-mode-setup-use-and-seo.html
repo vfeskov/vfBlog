@@ -1,4 +1,3 @@
-<div class="alert alert-warning">The solution for SEO provided below works only for Google, to make HTML5 links work for Bing and Yahoo as well it is necessary to check user agent. I'm going to provide code samples here in the nearest future.</div>
 <p>
     Since HTML5 it has become possible in JavaScript to <a href="http://spoiledmilk.com/blog/html5-changing-the-browser-url-without-refreshing-page/" target="_blank">change URL in browser</a>
     without actually going to that url, and AngularJS provides <a href="http://docs.angularjs.org/guide/dev_guide.services.$location#hashbang-and-html5-modes_html5-mode" target="_blank">convenient way</a>
@@ -168,7 +167,12 @@ forever stop ~/html5app/html5app-server.js
 forever start ~/html5app/html5app-server.js
 </code></pre>
 <p>After the server is restarted, our HTML5 mode links should work even if requested directly.</p>
-<h2>Redirect search crawlers to pre-rendered content (SEO)</h2>
+<h2>Serve pre-rendered content to Google search crawler (SEO)</h2>
+<div class="alert alert-warning">
+    <strong>This method will only work for Google search crawler, others ignore &lt;meta name="fragment" content="!" /&gt;</strong><br />
+    Maybe someday this standard will be implemented in all search engines but not at the moment. You can find alternative
+    universal method in the next section.
+</div>
 <p>There's a <a href="http://www.yearofmoo.com/2012/11/angularjs-and-seo.html" target="_blank">great tutorial on yearofmoo.com</a> about how search engines index angular sites, however,
     I had some issues making it work for HTML5 mode links.</p>
 <p>Basically, we need to make static snapshots of all our pages as described in <a href="http://www.yearofmoo.com/2012/11/angularjs-and-seo.html" target="_blank">the tutorial</a>,
@@ -226,6 +230,89 @@ forever start ~/html5app/html5app-server.js
     <p><strong>Do not use Fetch as Google feature of <a href="https://www.google.com/webmasters/tools" target="_blank">Webmaster Tools</a> to manually index HTML5 mode links!</strong></p>
     <p>The script that does Fetch as Google <a href="http://productforums.google.com/forum/#!category-topic/webmasters/crawling-indexing--ranking/bZgWCJTnl08" target="_blank"><strong>ignores &lt;meta name="fragment" content="!"&gt;</strong></a>, so it will fetch and index your regular initial html without any loaded content.</p>
 </div>
-<p>Checkout <a href="http://docs.angularjs.org/guide/dev_guide.services.$location" target="_blank">official documentation</a> for Angular JS HTML5 mode.<br />
+<h2>Serve pre-rendered content to all search crawlers (SEO)</h2>
+<p>We will need pre-rendered content for the crawlers, and a way to generate it automatically is well-described <a href="http://www.yearofmoo.com/2012/11/angularjs-and-seo.html" target="_blank">here</a>.</p>
+<p>Although <a href="https://developers.google.com/webmasters/ajax-crawling/docs/specification">the crawling standard for dynamic pages</a>
+    proposed by Google looks and feels pretty solid, Bing and Yahoo do not support it fully yet, namely, they do not
+    parse fetched content to determine whether there's &lt;meta name="fragment"&gt; in it, so HTML5 urls get indexed
+    without _escaped_fragment_ parameter.</p>
+<p>An ugly solution is to hardcode their user agents on server side and serve pre-rendered content if user agent exists
+    in hardcoded array.</p>
+<p>For example, Bing crawler always comes with one of these User-Agent values in header:</p>
+<pre><code>
+Mozilla/5.0 (compatible; bingbot/2.0; +http://www.bing.com/bingbot.htm)
+Mozilla/5.0 (compatible; bingbot/2.0 +http://www.bing.com/bingbot.htm)
+</code></pre>
+<p>A large list of crawlers' user agents can be found <a href="http://www.useragentstring.com/pages/Crawlerlist/">here</a>.</p>
+<p>So let's implement this on our Express server. Make a separate file inside ~/html5app, name it 'botChecker.js'
+    and put following code in it:</p>
+<p><strong>~/html5app/botChecker.js</strong></p>
+<pre><code>
+var userAgentsPartials = [
+    'bingbot',
+    'msnbot',
+    'yahoo',
+    'yandex',
+    'googlebot',
+    'gurujibot'
+];
+module.exports = {
+    isBot: function(userAgent){
+        var isBot = false,
+            lcUserAgent = userAgent.toLowerCase();
+        userAgentsPartials.forEach(function(botPartial){
+            if(lcUserAgent.indexOf(botPartial) > -1){
+                isBot = true;
+            }
+        });
+        return isBot;
+    }
+};
+</code></pre>
+<p>Now let's use this code in our server script:</p>
+<p><strong>~/html5app/html5app-server.js</strong></p>
+<pre><code class="javascript">
+    var express = require('express'),
+        botChecker = require('./botChecker'),
+        app = express();
+
+    //initialize static server that will spit out contents of public folder
+    app.use('/', function(){
+        var staticPath = __dirname + '/',
+            req = arguments[0];
+
+        // testing if url contains '_escaped_fragment_=' part or if User-Agent matches any of hardcoded bots
+        if(/_escaped_fragment_=/.test(req.url) ||  botChecker.isBot(req.get('User-Agent'))){
+            req.url = req.url.replace(/\?.*$/,'').replace(/\/+$/,''); // if it contains '_escaped_fragment_=', then strip it
+            // if url became empty then it means that the homepage was requested,
+            // so we need to return pre-rendered index.html, otherwise we should add '.html' extension
+            // so that it would return 'posts.html' when http://someurl/posts?_escaped_fragment_= is requested
+            req.url += (req.url === '') ? '/index.html' : '.html';
+            staticPath += 'snapshots'; // making '/snapshots' the base directory of our static server
+        } else {
+            staticPath += 'public'; // if it's a regular link, then initialize static server in '/public' directory
+        }
+        express.static(staticPath).apply(this, arguments);
+    });
+
+    //send our main angular html file if any link without dot is requested, e.g. 'http://someurl/about'
+    //this is our actual server side redirect, we don't send index.html when there's dot in link assuming such a request
+    //is for static data like .js, .css or .html
+    app.get('/[^\.]+$', function(){
+    res.set('Content-Type', 'text/html')
+    .sendfile(__dirname + '/public/index.html');
+    });
+
+    app.listen(9823); //the express server will start on port 9823
+    console.log('started');
+</code></pre>
+<p>Now restart forever:</p>
+<pre><code>
+forever stop ~/html5app/html5app-server.js
+forever start ~/html5app/html5app-server.js
+</code></pre>
+<p>And that's it. We can open up Developer Tools in Chrome, change User Agent to <a href="http://www.useragentstring.com/pages/Crawlerlist/">Bing's
+    or Yahoo's</a> and when we hit refresh we should see our pre-rendered content.</p>
+<p>Check out <a href="http://docs.angularjs.org/guide/dev_guide.services.$location" target="_blank">official documentation</a> for Angular JS HTML5 mode.<br />
     You can find the code for this post <a href="https://github.com/vfeskov/html5app" target="_blank">here</a>.<br />
     Thanks!</p>

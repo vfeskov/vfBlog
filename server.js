@@ -1,11 +1,12 @@
 var express = require('express.io'),
+    botChecker = require('./botChecker'),
     app = express();
 
 app.use('/', function(){
     var staticPath = __dirname + '/',
         req = arguments[0];
 
-    if(/_escaped_fragment_=/.test(req.url)){ // for google and bing crawlers
+    if(/_escaped_fragment_=/.test(req.url) || botChecker.isBot(req.get('User-Agent'))){ // send pre-rendered content to bots
         req.url = req.url.replace(/\?.*$/,'').replace(/\/+$/,'');
         req.url += (req.url === '') ? '/index.html' : '.html';
         staticPath += 'snapshots';

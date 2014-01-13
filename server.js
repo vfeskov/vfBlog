@@ -8,7 +8,7 @@ app.use('/', function(){
 
     if(/_escaped_fragment_=/.test(req.url) || botChecker.isBot(req.get('User-Agent'))){ // send pre-rendered content to bots
         req.url = req.url.replace(/\?.*$/,'').replace(/\/+$/,'');
-        req.url += (req.url === '') ? '/index.html' : '.html';
+        req.url += (req.url === '') ? '/index.html' : (/\./g.test(req.url) ? '' : '.html');
         staticPath += 'snapshots';
     } else {
         staticPath += 'public';

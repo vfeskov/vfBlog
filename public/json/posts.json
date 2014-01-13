@@ -3,7 +3,7 @@
         "id": 2,
         "slug": "angularjs-html5-mode-setup-use-and-seo",
         "title": "AngularJS HTML5 mode: setup, use and SEO",
-        "description": "How to setup AngularJS app on Linux server, enable HTML5 mode for URLs and make all content of such URLs visible to popular search engines, such as Google and Bing.",
+        "description": "How to setup AngularJS app on Linux server, enable HTML5 mode for URLs and make all content of such URLs visible to Google.",
         "time": "12.01.2014 22:46 EET",
         "contentUrl": "/posts/angularjs-html5-mode-setup-use-and-seo.html"
     },

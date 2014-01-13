@@ -167,7 +167,7 @@
                         $timeout(positionFooter);
                     });
                     scope.$on('$locationChangeStart', function(){
-                        $timeout(positionFooter);
+                        element.removeClass('static-footer');
                     });
                 }
             };

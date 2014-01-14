@@ -1,26 +1,36 @@
 {
-  "name": "vfPersonalSite",
-  "version": "0.1.0",
-  "description": "",
-  "main": "server.js",
-  "dependencies": {
-    "express.io": "~1.1.13"
-  },
-  "devDependencies": {
-    "async": "~0.2.9",
-    "lodash": "latest",
-    "grunt": "~0.4.1"
-  },
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git://github.com/vfeskov/vf-personal-site.git"
-  },
-  "author": "Vladimir Feskov <v@vladimirfeskov.com>",
-  "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/vfeskov/vf-personal-site/issues"
-  }
+    "name": "vfPersonalSite",
+    "version": "0.1.0",
+    "description": "",
+    "main": "vfPersonalSite.js",
+    "dependencies": {
+        "express.io": "~1.1.13"
+    },
+    "devDependencies": {
+        "async": "~0.2.9",
+        "lodash": "latest",
+        "grunt": "~0.4.1",
+        "grunt-recess": "~0.4.0",
+        "grunt-contrib-clean": "~0.4.1",
+        "grunt-contrib-copy": "~0.4.1",
+        "grunt-contrib-jshint": "~0.4.3",
+        "grunt-contrib-concat": "~0.3.0",
+        "grunt-contrib-watch": "~0.4.0",
+        "grunt-contrib-uglify": "~0.2.0",
+        "grunt-html2js": "~0.1.8",
+        "grunt-develop": "*"
+    },
+    "scripts": {
+        "test": "echo \"Error: no test specified\" && exit 1",
+        "start": "node vfPersonalSite.js"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git://github.com/vfeskov/vf-personal-site.git"
+    },
+    "author": "Vladimir Feskov <v@vladimirfeskov.com>",
+    "license": "MIT",
+    "bugs": {
+        "url": "https://github.com/vfeskov/vf-personal-site/issues"
+    }
 }

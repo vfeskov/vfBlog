@@ -1,6 +1,6 @@
 ## VF Personal Site
 
-Website optimized for search engines and fast load.
+AngularJS enchanced website optimized for search engines and fast load.
 
 ## Prerequisites
 

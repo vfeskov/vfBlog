@@ -91,7 +91,7 @@
 
         .factory('Posts', ['$http', '$q', function($http, $q){
             function getAll (){
-                return $http.get('/json/posts.json').then(function(data){
+                return $http.get('/posts.json').then(function(data){
                     return data.data;
                 });
             }

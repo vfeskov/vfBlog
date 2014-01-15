@@ -15,11 +15,12 @@ app.use('/', function(){
     } else {
         staticPath += 'public';
     }
-    express.static(staticPath).apply(this, arguments);
+    express.static(staticPath, {maxAge: 86400000}).apply(this, arguments);
 });
 
 app.get('/[^\.]+$', function(req, res){
     res.set('Content-Type', 'text/html')
+        .set('Cache-Control', 'public, max-age=86400000')
         .sendfile(__dirname + '/public/index.html');
 });
 

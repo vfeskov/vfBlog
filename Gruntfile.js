@@ -43,8 +43,16 @@ module.exports = function (grunt) {
                 ]
             },
             seo: {
-                src: 'public/sitemap.xml',
-                dest: 'snapshots/sitemap.xml'
+                files: [
+                    {
+                        src: 'seo/sitemap.xml',
+                        dest: 'snapshots/sitemap.xml'
+                    },
+                    {
+                        src: 'seo/sitemap.xml',
+                        dest: 'public/sitemap.xml'
+                    }
+                ]
             }
         },
         html2js: {
@@ -148,8 +156,15 @@ module.exports = function (grunt) {
                 }
             ],
             snapshotCommands = _.map(phantomJSParams, function(params){
-                return 'phantomjs ./snapshotsMaker.js ' + params.url + ' > ' + params.saveTo;
+                return 'phantomjs ./seo/snapshotsMaker.js ' + params.url + ' > ' + params.saveTo;
             });
+
+        if(!fs.existsSync(__dirname + '/snapshots')){
+            fs.mkdirSync(__dirname + '/snapshots');
+        }
+        if(!fs.existsSync(__dirname + '/snapshots/posts')){
+            fs.mkdirSync(__dirname + '/snapshots/posts');
+        }
 
         async.mapSeries(snapshotCommands, function (command, next) {
             grunt.log.writeln(command);
@@ -174,6 +189,10 @@ module.exports = function (grunt) {
 
     grunt.registerTask('seo', [
         'clean:seo', 'copy:seo', 'develop', 'snapshots'
+    ]);
+
+    grunt.registerTask('default', [
+        'build', 'seo'
     ]);
 
 };

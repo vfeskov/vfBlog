@@ -1,5 +1,5 @@
 var express = require('express.io'),
-    botChecker = require('./botChecker'),
+    botChecker = require('./seo/botChecker'),
     app = express();
 
 app.use(express.compress());

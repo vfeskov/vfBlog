@@ -2,7 +2,7 @@
     "name": "vfPersonalSite",
     "version": "0.1.0",
     "description": "",
-    "main": "vfPersonalSite.js",
+    "main": "server.js",
     "dependencies": {
         "express.io": "~1.1.13"
     },
@@ -22,7 +22,7 @@
     },
     "scripts": {
         "test": "echo \"Error: no test specified\" && exit 1",
-        "start": "node vfPersonalSite.js"
+        "start": "node server.js"
     },
     "repository": {
         "type": "git",

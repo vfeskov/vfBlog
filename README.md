@@ -2,8 +2,6 @@
 
 Website optimized for search engines and fast load.
 
-<a href="http://phantomjs.org/">PhantomJS</a> is required to run `grunt seo`.
-
 ## Prerequisites
 
 You'll need <a href="http://nodejs.org/" target="_blank">NodeJS</a>, <a href="https://npmjs.org/" target="_blank">NPM</a> and <a href="http://phantomjs.org/">PhantomJS</a> installed.

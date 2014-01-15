@@ -106,7 +106,7 @@ module.exports = function (grunt) {
         },
         develop: {
             server: {
-                file: 'vfPersonalSite.js',
+                file: 'server.js',
                 env: { PORT: '7854'}
             },
             options: {

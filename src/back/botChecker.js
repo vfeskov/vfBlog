@@ -1,10 +1,8 @@
 var userAgentsPartials = [
-    'bingbot',
-    'msnbot',
-    'yahoo',
-    'yandex',
-    'googlebot',
-    'gurujibot'
+    //'bingbot',
+    //'yahoo',
+    //'yandex',
+    //'googlebot',
 ];
 module.exports = {
     isBot: function(userAgent){

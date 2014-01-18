@@ -10,8 +10,8 @@
     {
         "id": 1,
         "slug": "file-upload-via-iframe-ajax-and-flash",
-        "title": "File upload via IFRAME, AJAX and Flash",
-        "description": "Description of asynchronous file upload in JavaScript via IFRAME, AJAX and Flash with examples and compatibility info.",
+        "title": "AJAX file upload via IFRAME, File API and Flash",
+        "description": "Description of asynchronous AJAX file upload in JavaScript via IFRAME, XMLHttpRequest + File API and Flash with examples and compatibility info.",
         "time": "22.03.2013 23:04 EET",
         "contentUrl": "/posts/file-upload-via-iframe-ajax-and-flash.html"
     }

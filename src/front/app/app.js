@@ -13,8 +13,8 @@
             'vfGoogleAnalytics',
             'vfSEO',
             'vfTwitter',
-            'vfCodeHighlighting',
-            'vfSilly'
+            'vfSilly',
+            'vfAnchor'
         ], ['$disqusProvider', '$routeProvider', '$httpProvider', '$locationProvider', function config ($disqusProvider, $routeProvider, $httpProvider, $locationProvider){
             $locationProvider.html5Mode(true).hashPrefix('!');
 
@@ -51,7 +51,7 @@
 
         .run(['$rootScope', 'Path', 'GA', 'SEO', function run($rootScope, Path, GA, SEO) {
             $rootScope.path = Path;
-            $rootScope.title = 'Vladimir Feskov';
+            $rootScope.title = 'JAJ';
             $rootScope.description = 'Personal site';
             $rootScope.$on('$routeChangeStart', function(){
                 SEO.readyForCapture(false);
@@ -60,22 +60,22 @@
         }])
 
         .controller('HomeCtrl', ['CtrlInit', function(CtrlInit){
-            CtrlInit('Vladimir Feskov', 'Personal site of a guy from Ukraine who happens to work as web developer.')
+            CtrlInit('JAJ', 'Personal site of a guy from Ukraine who happens to work as web developer.')
         }])
 
         .controller('PostsCtrl', ['CtrlInit', 'posts', '$scope', function(CtrlInit, posts, $scope){
             $scope.posts = posts;
-            CtrlInit('Posts - Vladimir Feskov', 'Posts about web development.');
+            CtrlInit('Posts - JAJ', 'Posts about web development.');
         }])
 
         .controller('PostCtrl', ['CtrlInit', 'post', '$scope', '$sce', function(CtrlInit, post, $scope, $sce){
             $scope.post = post;
             $scope.post.content = $sce.trustAsHtml($scope.post.content);
-            CtrlInit(post.title + ' - Posts - Vladimir Feskov', post.description);
+            CtrlInit(post.title + ' - Posts - JAJ', post.description);
         }])
 
         .controller('AboutCtrl', ['CtrlInit', function(CtrlInit){
-            CtrlInit('About - Vladimir Feskov', 'Some info about myself and my work.');
+            CtrlInit('About - JAJ', 'Some info about myself and my work.');
         }])
 
         .factory('Path', ['$location', function($location){

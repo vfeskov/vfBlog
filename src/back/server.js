@@ -1,11 +1,12 @@
 var express = require('express.io'),
-    botChecker = require('./seo/botChecker'),
+    path = require('path'),
+    botChecker = require('./botChecker'),
     app = express();
 
 app.use(express.compress());
 
 app.use('/', function(){
-    var staticPath = __dirname + '/',
+    var staticPath = path.resolve(__dirname + '/../..') + '/',
         req = arguments[0];
 
     if(/_escaped_fragment_=/.test(req.url) || botChecker.isBot(req.get('User-Agent'))){ // send pre-rendered content to bots
@@ -21,7 +22,7 @@ app.use('/', function(){
 app.get('/[^\.]+$', function(req, res){
     res.set('Content-Type', 'text/html')
         .set('Cache-Control', 'public, max-age=86400000')
-        .sendfile(__dirname + '/public/index.html');
+        .sendfile(path.resolve(__dirname + '/../../public/index.html'));
 });
 
 app.listen(process.env.PORT || 3654);

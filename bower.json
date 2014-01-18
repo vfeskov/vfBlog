@@ -22,6 +22,6 @@
     "angular-bootstrap": "~0.9.0",
     "angular": "~1.2.7",
     "lodash": "~2.4.1",
-    "highlight.js": "latest"
+    "highlight.js": "~7.3.0"
   }
 }

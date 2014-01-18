@@ -1,46 +1,49 @@
-<p>There are numerous great tools for asynchronous file upload, one of them is <a href="http://blueimp.github.com/jQuery-File-Upload/" target="_blank">jQuery File Upload</a>. It has a lot of options and can be used in almost any scenario, however, in most cases you won't be using all the features and sometimes it's easier to make a specific implementation corresponding to your exact requirements. The tool also does not provide a progress bar for IE9 and earlier. </p> 
-<p>In this post I'm going to compile some information regarding file upload that might come in handy when implementing some specific scenarios, such as:</p>
-<ol>
-<li>Uploading asynchronously without a progress bar <a href="#iframe">#iframe</a></li>
-<li>With progress bar on all browsers except IE9 and earlier <a href="#ajax">#ajax</a></li>
-<li>With progress bar on all browsers with Flash installed <a href="#flash">#flash</a></li>
-</ol>
-<p>Ideal solution for the first scenario is to use IFRAME.</p>
+<div class="lead">
+    <p>There are numerous great tools for asynchronous file upload, one of them is <a href="http://blueimp.github.com/jQuery-File-Upload/" target="_blank">jQuery File Upload</a>. It has a lot of options and can be used in almost any scenario, however, in most cases you won't be using all the features and sometimes it's easier to make a specific implementation corresponding to your exact requirements. The tool also does not provide a progress bar for IE9 and earlier. </p>
+    <p>In this post I'm going to compile some information regarding file upload that might come in handy when implementing some specific scenarios, such as:</p>
+    <ol>
+    <li>Uploading asynchronously without a progress bar <a href="#iframe">#iframe</a></li>
+    <li>With progress bar on all browsers except IE9 and earlier <a href="#ajax">#ajax</a></li>
+    <li>With progress bar on all browsers with Flash installed <a href="#flash">#flash</a></li>
+    </ol>
+    <p>Ideal solution for the first scenario is to use IFRAME.</p>
+</div>
+
 <h2 id="iframe">IFRAME</h2>
 <p>This method is supported by all major browsers including IE 7, and, with a little magic, can provide all necessary features but the real-time progress updates (so no progress bar). Basically, a hidden &lt;iframe&gt; should be added to the body of the html document and the form's target attribute should be set to the iframe's name attribute. Let's get down to it.
 </p>
 <p><strong>index.html</strong></p>
-<pre><code class="xml">&lt;!DOCTYPE html&gt;
-&lt;html&gt;
-    &lt;head&gt;
-        &lt;title&gt;IFRAME file upload example&lt;/title&gt;
-        &lt;link rel="stylesheet" type="text/css" href="styles.css"&gt;
-        &lt;script type="text/javascript" src="http://code.jquery.com/jquery-1.9.1.min.js"&gt;&lt;/script&gt;
-        &lt;script type="text/javascript" src="iframeUpload.js"&gt;&lt;/script&gt;
-        &lt;script type="text/javascript"&gt;
+<pre><code class="xml"><!DOCTYPE html>
+<html>
+    <head>
+        <title>IFRAME file upload example</title>
+        <link rel="stylesheet" type="text/css" href="styles.css">
+        <script type="text/javascript" src="http://code.jquery.com/jquery-1.9.1.min.js"></script>
+        <script type="text/javascript" src="iframeUpload.js"></script>
+        <script type="text/javascript">
             jQuery(function(){
                 iframeUpload.init();
             });
-        &lt;/script&gt;
-    &lt;/head&gt;
-    &lt;body&gt;
-        &lt;div class="page"&gt;
-            &lt;h1&gt;Sample form&lt;/h1&gt;
-            &lt;div id="response" style="display:none;"&gt;&lt;/div&gt;
-            &lt;form action="upload.php" method="post" enctype="multipart/form-data"&gt;
-                &lt;div&gt;
-                    &lt;input type="file" name="testfile" /&gt;&lt;br /&gt;
-                    &lt;input type="submit" /&gt;
-                &lt;/div&gt;
-            &lt;/form&gt;
-        &lt;/div&gt;
-    &lt;/body&gt;
-&lt;/html&gt;</code></pre>
+        </script>
+    </head>
+    <body>
+        <div class="page">
+            <h1>Sample form</h1>
+            <div id="response" style="display:none;"></div>
+            <form action="upload.php" method="post" enctype="multipart/form-data">
+                <div>
+                    <input type="file" name="testfile" /><br />
+                    <input type="submit" />
+                </div>
+            </form>
+        </div>
+    </body>
+</html></code></pre>
 
 <p><strong>iframeUpload.js</strong></p>
 <pre><code class="javascript">var iframeUpload = {
     init: function() {
-        jQuery('body').append('&lt;iframe name="uploadiframe" onload="iframeUpload.complete();"&gt;&lt;/iframe&gt;');
+        jQuery('body').append('<iframe name="uploadiframe" onload="iframeUpload.complete();"></iframe>');
         jQuery('form').prop('target','uploadiframe');
         jQuery('form').on('submit',iframeUpload.started);
     },
@@ -61,10 +64,10 @@
 };
 </code></pre>
 <p><strong>upload.php</strong></p>
-<pre><code class="php">&lt;?php
+<pre><code class="php"><?php
 $response = array(
-	'status'=&gt;0,
-	'message'=&gt;''
+	'status'=>0,
+	'message'=>''
 );
 if(isset($_FILES['testfile']) && @$_FILES["testfile"]["error"] == 0)
 {
@@ -75,7 +78,7 @@ elseif(@$_FILES["testfile"]["error"])
 {
     $response['message'] = 'Error code: '.$_FILES["testfile"]["error"].'.';
 }
-elseif ($_SERVER['REQUEST_METHOD'] == 'POST' && empty($_POST) && $_SERVER['CONTENT_LENGTH'] &gt; 0)
+elseif ($_SERVER['REQUEST_METHOD'] == 'POST' && empty($_POST) && $_SERVER['CONTENT_LENGTH'] > 0)
 {
     $response['message'] = sprintf('The server was unable to handle that much POST data (%s bytes) due to its current configuration', $_SERVER['CONTENT_LENGTH']).'.';
 }
@@ -104,7 +107,7 @@ iframe {
 
 <p>When document is loaded, an iframe is added to the body of the document</p>
 
-<pre><code class="javascript">jQuery('body').append('&lt;iframe name="uploadiframe" onload="iframeUpload.complete();"&gt;&lt;/iframe&gt;');</code></pre>
+<pre><code class="javascript">jQuery('body').append('<iframe name="uploadiframe" onload="iframeUpload.complete();"></iframe>');</code></pre>
 
 <p>When the response from the server is received, iframeUpload.complete function will be called. After adding the iframe, the form's target is set to the iframe's name - uploadiframe</p>
 
@@ -141,33 +144,33 @@ The next scenario is to upload asynchronously and show progress bar in all brows
 <p>This method allows showing real-time progress of file upload but doesn't work in IE9 and earlier. The idea is to make an AJAX request with body containing a file, File API is required for this. The code is as follows:</p>
 
 <p><strong>index.html</strong></p>
-<pre><code class="xml">&lt;!DOCTYPE html&gt;
-&lt;html&gt;
-&lt;head&gt;
-    &lt;title&gt;AJAX file upload example&lt;/title&gt;
-    &lt;link rel="stylesheet" type="text/css" href="styles.css"&gt;
-    &lt;script type="text/javascript" src="http://code.jquery.com/jquery-1.9.1.min.js"&gt;&lt;/script&gt;
-    &lt;script type="text/javascript" src="iframeUpload.js"&gt;&lt;/script&gt;
-    &lt;script type="text/javascript" src="xmlhttprequestUpload.js"&gt;&lt;/script&gt;
-    &lt;script type="text/javascript"&gt;
+<pre><code class="xml"><!DOCTYPE html>
+<html>
+<head>
+    <title>AJAX file upload example</title>
+    <link rel="stylesheet" type="text/css" href="styles.css">
+    <script type="text/javascript" src="http://code.jquery.com/jquery-1.9.1.min.js"></script>
+    <script type="text/javascript" src="iframeUpload.js"></script>
+    <script type="text/javascript" src="xmlhttprequestUpload.js"></script>
+    <script type="text/javascript">
         jQuery(function(){
             xmlhttprequestUpload.init();
         });
-    &lt;/script&gt;
-&lt;/head&gt;
-&lt;body&gt;
-&lt;div class="page"&gt;
-    &lt;h1&gt;Sample form&lt;/h1&gt;
-    &lt;div id="response" style="display:none;"&gt;&lt;/div&gt;
-    &lt;form action="upload.php" method="post" enctype="multipart/form-data"&gt;
-        &lt;div&gt;
-            &lt;input type="file" name="testfile" /&gt;&lt;br /&gt;
-            &lt;input type="submit" /&gt;
-        &lt;/div&gt;
-    &lt;/form&gt;
-&lt;/div&gt;
-&lt;/body&gt;
-&lt;/html&gt;</code></pre>
+    </script>
+</head>
+<body>
+<div class="page">
+    <h1>Sample form</h1>
+    <div id="response" style="display:none;"></div>
+    <form action="upload.php" method="post" enctype="multipart/form-data">
+        <div>
+            <input type="file" name="testfile" /><br />
+            <input type="submit" />
+        </div>
+    </form>
+</div>
+</body>
+</html></code></pre>
 
 <p><strong>xmlhttprequestUpload.js</strong></p>
 <pre><code class="javascript">var xmlhttprequestUpload = {
@@ -175,7 +178,7 @@ The next scenario is to upload asynchronously and show progress bar in all brows
         jQuery('form').on('submit',xmlhttprequestUpload.started);
     },
     started: function(e) {
-        jQuery('#response').removeClass().addClass('loading').html('&lt;div class="progress-bar"&gt;&amp;nbsp;&lt;/div&gt;');
+        jQuery('#response').removeClass().addClass('loading').html('<div class="progress-bar">&amp;nbsp;</div>');
         jQuery('#response').show();
 
         var xhr = new XMLHttpRequest();
@@ -241,11 +244,11 @@ iframe {
 }
 </code></pre>
 <p><strong>upload.php</strong></p>
-<pre><code class="php">&lt;?php
+<pre><code class="php"><?php
 header('Content-type: application/json');
 $response = array(
-	'status'=&gt;0,
-	'message'=&gt;''
+	'status'=>0,
+	'message'=>''
 );
 if(isset($_FILES['testfile']) && @$_FILES["testfile"]["error"] == 0)
 {
@@ -256,7 +259,7 @@ elseif(@$_FILES["testfile"]["error"])
 {
     $response['message'] = 'Error code: '.$_FILES["testfile"]["error"].'.';
 }
-elseif ($_SERVER['REQUEST_METHOD'] == 'POST' && empty($_POST) && $_SERVER['CONTENT_LENGTH'] &gt; 0)
+elseif ($_SERVER['REQUEST_METHOD'] == 'POST' && empty($_POST) && $_SERVER['CONTENT_LENGTH'] > 0)
 {
     $response['message'] = sprintf('The server was unable to handle that much POST data (%s bytes) due to its current configuration', $_SERVER['CONTENT_LENGTH']).'.';
 }
@@ -300,33 +303,33 @@ echo json_encode($response);</code></pre>
 The code:</p>
 
 <p><strong>index.html</strong></p>
-<pre><code class="xml">&lt;!DOCTYPE html&gt;
-&lt;html&gt;
-&lt;head&gt;
-    &lt;title&gt;Flash file upload example&lt;/title&gt;
-    &lt;link rel="stylesheet" type="text/css" href="styles.css"&gt;
-    &lt;script type="text/javascript" src="http://code.jquery.com/jquery-1.9.1.min.js"&gt;&lt;/script&gt;
-    &lt;script type="text/javascript" src="swfupload/swfupload.js"&gt;&lt;/script&gt;
-    &lt;script type="text/javascript" src="flashUpload.js"&gt;&lt;/script&gt;
-    &lt;script type="text/javascript"&gt;
+<pre><code class="xml"><!DOCTYPE html>
+<html>
+<head>
+    <title>Flash file upload example</title>
+    <link rel="stylesheet" type="text/css" href="styles.css">
+    <script type="text/javascript" src="http://code.jquery.com/jquery-1.9.1.min.js"></script>
+    <script type="text/javascript" src="swfupload/swfupload.js"></script>
+    <script type="text/javascript" src="flashUpload.js"></script>
+    <script type="text/javascript">
         jQuery(function(){
             flashUpload.init();
         });
-    &lt;/script&gt;
-&lt;/head&gt;
-&lt;body&gt;
-&lt;div class="page"&gt;
-    &lt;h1&gt;Sample form&lt;/h1&gt;
-    &lt;div id="response" style="display:none;"&gt;&lt;/div&gt;
-    &lt;form action="upload.php" method="post" enctype="multipart/form-data"&gt;
-        &lt;div&gt;
-            &lt;input type="file" name="testfile" id="testfile"/&gt;&lt;br /&gt;
-            &lt;input type="submit" /&gt;
-        &lt;/div&gt;
-    &lt;/form&gt;
-&lt;/div&gt;
-&lt;/body&gt;
-&lt;/html&gt;</code></pre>
+    </script>
+</head>
+<body>
+<div class="page">
+    <h1>Sample form</h1>
+    <div id="response" style="display:none;"></div>
+    <form action="upload.php" method="post" enctype="multipart/form-data">
+        <div>
+            <input type="file" name="testfile" id="testfile"/><br />
+            <input type="submit" />
+        </div>
+    </form>
+</div>
+</body>
+</html></code></pre>
 
 <p><strong>flashUpload.js</strong></p>
 <pre><code class="javascript">var flashUpload = {
@@ -334,7 +337,7 @@ The code:</p>
         jQuery('form').on('submit',flashUpload.started);
         var input = jQuery('input[name=testfile]');
         var url = input.closest('form').prop('action');
-        input.before('&lt;input type="text" name="testfile_text" value="" style="margin:0;" /&gt;');
+        input.before('<input type="text" name="testfile_text" value="" style="margin:0;" />');
         swfUpload = new SWFUpload({
             upload_url : url,
             flash_url : "swfupload/flash/swfupload.swf",
@@ -370,7 +373,7 @@ The code:</p>
         jQuery('.swfupload').css('display','block').css('float','left');
     },
     started: function(e) {
-        jQuery('#response').removeClass().addClass('loading').html('&lt;div class="progress-bar"&gt;&amp;nbsp;&lt;/div&gt;').show();
+        jQuery('#response').removeClass().addClass('loading').html('<div class="progress-bar">&amp;nbsp;</div>').show();
 
         swfUpload.startUpload();
 
@@ -397,7 +400,7 @@ The code:</p>
         // Handle this error separately because we don't want to create a FileProgress element for it.
         switch (errorCode) {
             case SWFUpload.QUEUE_ERROR.QUEUE_LIMIT_EXCEEDED:
-                jQuery('#response').html("You have attempted to queue too many files.\n" + (message === 0 ? "You have reached the upload limit." : "You may select " + (message &gt; 1 ? "up to " + message + " files." : "one file.")));
+                jQuery('#response').html("You have attempted to queue too many files.\n" + (message === 0 ? "You have reached the upload limit." : "You may select " + (message > 1 ? "up to " + message + " files." : "one file.")));
                 return;
             case SWFUpload.QUEUE_ERROR.FILE_EXCEEDS_SIZE_LIMIT:
                 jQuery('#response').html("The file you selected is too big.");
@@ -449,11 +452,11 @@ iframe {
 }</code></pre>
 
 <p><strong>upload.php</strong></p>
-<pre><code class="php">&lt;?php
+<pre><code class="php"><?php
 header('Content-type: application/json');
 $response = array(
-	'status'=&gt;0,
-	'message'=&gt;''
+	'status'=>0,
+	'message'=>''
 );
 if(isset($_FILES['testfile']) && @$_FILES["testfile"]["error"] == 0)
 {
@@ -464,7 +467,7 @@ elseif(@$_FILES["testfile"]["error"])
 {
     $response['message'] = 'Error code: '.$_FILES["testfile"]["error"].'.';
 }
-elseif ($_SERVER['REQUEST_METHOD'] == 'POST' && empty($_POST) && $_SERVER['CONTENT_LENGTH'] &gt; 0)
+elseif ($_SERVER['REQUEST_METHOD'] == 'POST' && empty($_POST) && $_SERVER['CONTENT_LENGTH'] > 0)
 {
     $response['message'] = sprintf('The server was unable to handle that much POST data (%s bytes) due to its current configuration', $_SERVER['CONTENT_LENGTH']).'.';
 }

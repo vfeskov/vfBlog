@@ -1,6 +1,5 @@
 var express = require('express.io'),
     path = require('path'),
-    botChecker = require('./botChecker'),
     app = express();
 
 app.use(express.compress());
@@ -9,7 +8,7 @@ app.use('/', function(){
     var staticPath = path.resolve(__dirname + '/../..') + '/',
         req = arguments[0];
 
-    if(/_escaped_fragment_=/.test(req.url) || botChecker.isBot(req.get('User-Agent'))){ // send pre-rendered content to bots
+    if(/_escaped_fragment_=/.test(req.url)){ // send pre-rendered content to bots
         req.url = req.url.replace(/\?.*$/,'').replace(/\/+$/,'');
         req.url += (req.url === '') ? '/index.html' : (/\./g.test(req.url) ? '' : '.html');
         staticPath += 'snapshots';

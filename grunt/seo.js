@@ -14,16 +14,6 @@ module.exports = function(params){
                 src: 'snapshots'
             }
         },
-        copy: {
-            sitemap: {
-                files: [
-                    {
-                        src: 'src/front/sitemap.xml',
-                        dest: 'snapshots/sitemap.xml'
-                    }
-                ]
-            }
-        },
         develop: {
             server: {
                 file: 'src/back/server.js',
@@ -90,6 +80,6 @@ module.exports = function(params){
     });
 
     grunt.task.run([
-        'clean', 'copy', 'develop', 'snapshots'
+        'clean', 'develop', 'snapshots'
     ]);
 };

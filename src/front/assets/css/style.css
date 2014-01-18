@@ -78,3 +78,6 @@ footer{
 .twitter-wrapper {
     min-height: 405px;
 }
+header .navbar-brand{
+    height:50px;
+}

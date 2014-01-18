@@ -15,7 +15,7 @@ if(url.length > 0) {
                 if(html) {
                     clearTimeout(delay);
                     //removing scripts and styles, crawlers don't need them
-                    html = html.replace(/^<script>[^№]*?^<\/script>/gm, '').replace(/^<style>[^№]*?^<\/style>/gm, '');
+                    html = html.replace(/<script[^>]*>[^№]*?<\/script>/gm, '').replace(/^<style>[^№]*?^<\/style>/gm, '');
                     console.log(html);
                     phantom.exit();
                 }

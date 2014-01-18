@@ -81,3 +81,6 @@ footer{
 footer .navbar-text span{
     color: blue;
 }
+.posts li{
+    padding-bottom: 20px;
+}

@@ -1,7 +1,7 @@
-var fs = require('fs');
+var fs = require('fs'),
+    bowerDeps = require('./build/bower-deps.js');
 module.exports = function (params) {
-    var grunt = params.grunt,
-        bowerComponents = params.bowerComponents || [];
+    var grunt = params.grunt;
 
     grunt.loadNpmTasks('grunt-contrib-uglify');
     grunt.loadNpmTasks('grunt-contrib-concat');
@@ -52,11 +52,11 @@ module.exports = function (params) {
         concat: {
             options: {
                 process: function(src) {
-                    return src.replace(/^\/\/# sourceMappingURL=.*$/gm, '');
+                    return src.replace(/^\/\/.*?sourceMappingURL=.*$/gm, '');
                 }
             },
             css: {
-                src: ['bower_components/highlight.js/src/styles/idea.css', 'src/front/assets/**/*.css'],
+                src: bowerDeps.css('min').concat(['src/front/assets/**/*.css']),
                 dest: 'tmp/all.css'
             },
             app: {
@@ -64,7 +64,7 @@ module.exports = function (params) {
                 dest: 'tmp/app.js'
             },
             vendor: {
-                src: bowerComponents,
+                src: bowerDeps.js('min'),
                 dest: 'tmp/vendor.js'
             },
             all: {
@@ -89,8 +89,8 @@ module.exports = function (params) {
             html = fs.readFileSync(indexHtml).toString(),
             js = fs.readFileSync(__dirname + '/../tmp/all.js').toString(),
             css = fs.readFileSync(__dirname + '/../tmp/all.css').toString();
-        html = html.replace('</body>', '<script>\n' + js + '\n</script>\n</body>');
         html = html.replace('</head>', '<style>\n' + css + '\n</style>\n</head>');
+        html = html.replace('</head>', '<script>\n' + js + '\n</script>\n</head>');
         fs.writeFileSync(indexHtml, html);
     });
 

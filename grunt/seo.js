@@ -52,7 +52,7 @@ module.exports = function(params){
                 }
             ],
             snapshotCommands = _.map(phantomJSParams, function(params){
-                return 'phantomjs ./grunt/seo/snapshotsMaker.js ' + params.url + ' > ' + params.saveTo;
+                return 'phantomjs ./grunt/seo/snapshots-maker.js ' + params.url + ' > ' + params.saveTo;
             });
 
         if(!fs.existsSync(__dirname + '/../snapshots')){

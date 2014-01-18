@@ -1,7 +1,7 @@
-var fs = require('fs');
+var fs = require('fs'),
+    bowerDeps = require('./build/bower-deps.js');
 module.exports = function(params){
     var grunt = params.grunt,
-        bowerComponents = params.bowerComponents || [],
         args = params.args || [];
 
     grunt.loadNpmTasks('grunt-contrib-uglify');
@@ -31,17 +31,17 @@ module.exports = function(params){
                         expand: true
                     },
                     {
-                        src: bowerComponents,
-                        dest: 'public',
-                        expand: true
-                    },
-                    {
                         src: ['app.js', 'all.css'],
                         dest: 'public',
                         cwd: 'tmp',
                         expand: true
                     }
                 ]
+            },
+            bowers: {
+                src: 'bower_components/**/*.*',
+                dest: 'public',
+                expand: true
             },
             posts: {
                 src: 'posts/**/*.html',
@@ -67,7 +67,7 @@ module.exports = function(params){
             options: {
             },
             css: {
-                src: ['bower_components/highlight.js/src/styles/idea.css', 'src/front/assets/**/*.css'],
+                src: 'src/front/assets/**/*.css',
                 dest: 'tmp/all.css'
             },
             app: {
@@ -100,25 +100,23 @@ module.exports = function(params){
             html = fs.readFileSync(indexHtml).toString(),
             scripts = '',
             links = '';
-        bowerComponents.concat(
-            ['app.js']
-            ).forEach(function(src){
-                scripts += '<script src="/' + src + '"></script>\n';
-            });
+        bowerDeps.js('reg').concat(['app.js']).forEach(function(src){
+            scripts += '<script src="/' + src + '"></script>\n';
+        });
 
-        ['/all.css'].forEach(function(href){
-            links += '<link rel="stylesheet" href="' + href + '" type="text/css" />\n';
+        bowerDeps.css('reg').concat(['all.css']).forEach(function(href){
+            links += '<link rel="stylesheet" href="/' + href + '" type="text/css" />\n';
         });
 
         html = html.replace('</head>', '\n' + links + '</head>');
-        html = html.replace('</body>', '\n' + scripts + '</body>');
+        html = html.replace('</head>', '\n' + scripts + '</head>');
         fs.writeFileSync(indexHtml, html);
     });
 
 
     if(args[0] === 'rebuild'){
         grunt.task.run([
-            'html2js', 'concat', 'copy', 'insert', 'clean:tmp'
+            'html2js', 'concat', 'copy:public', 'copy:posts', 'insert', 'clean:tmp'
         ]);
     } else {
         grunt.task.run([

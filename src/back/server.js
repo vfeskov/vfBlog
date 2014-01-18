@@ -4,6 +4,8 @@ var express = require('express.io'),
 
 app.use(express.compress());
 
+app.use(express.favicon(__dirname + '/../front/assets/images/favicon.ico'));
+
 app.use('/', function(){
     var staticPath = path.resolve(__dirname + '/../..') + '/',
         req = arguments[0];

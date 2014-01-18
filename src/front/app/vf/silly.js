@@ -7,13 +7,15 @@
                 'eye-open','facetime-video','fire','flash','flag','font','gift','globe','hand-down','hd-video',
                 'headphones','heart','heart-empty','leaf','magnet','music','off','paperclip','phone-alt','picture','plane','road',
                 'send','shopping-cart','stats','star','star-empty','thumbs-up','time','tint','tower','tree-conifer','tree-deciduous','usd',
-                'user','wrench'];
+                'user','wrench'],
+                unsubscribe;
             return {
                 restrict: 'E',
                 replace: true,
                 template: '<span class="glyphicon glyphicon-{{suffix}} random-glyphicon" ng-click="randomize()"></span>',
                 scope: {},
                 link: function(scope, element){
+
                     scope.randomize = function(){
                         var color = Math.floor((Math.random()*4096)).toString(16);
                         if(color.length < 3) {
@@ -22,7 +24,10 @@
                         element.css('color', '#' + color);
                         scope.suffix = glyphiconSuffixList[Math.floor((Math.random()*glyphiconSuffixList.length))];
                     };
-                    $rootScope.$on('$routeChangeSuccess', scope.randomize);
+                    unsubscribe = $rootScope.$on('$routeChangeSuccess', scope.randomize);
+                    scope.$on('$destroy', function(){
+                        unsubscribe();
+                    });
                 }
             };
         }])
@@ -35,18 +40,18 @@
                 scope: {
                     full: '@jaj'
                 },
-                link: function(scope, element){
-                    scope.randomize = function(){
+                link: function(scope, element, attrs){
+                    if(angular.isDefined(attrs.random)){
                         var tmpColors = colors.slice(0), i = tmpColors.length;
                         while(i--){
                             scope['color'+i] = tmpColors.splice(Math.floor((Math.random()*tmpColors.length)),1)[0];
                         }
-                    };
-                    unsubscribe = $rootScope.$on('$routeChangeSuccess', scope.randomize);
-                    scope.$on('$destroy', function(){
-                        unsubscribe();
-                    });
-                    scope.randomize();
+                    } else {
+                        scope.color0 = 'red';
+                        scope.color1 = 'green';
+                        scope.color2 = 'blue';
+                    }
+
                 }
             };
         }]);

@@ -118,7 +118,7 @@ module.exports = function(params){
 
     if(args[0] === 'rebuild'){
         grunt.task.run([
-            'clean', 'html2js', 'concat', 'copy', 'insert', 'clean:tmp'
+            'html2js', 'concat', 'copy', 'insert', 'clean:tmp'
         ]);
     } else {
         grunt.task.run([

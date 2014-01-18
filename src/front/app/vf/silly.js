@@ -12,6 +12,7 @@
                 restrict: 'E',
                 replace: true,
                 template: '<span class="glyphicon glyphicon-{{suffix}} random-glyphicon" ng-click="randomize()"></span>',
+                scope: {},
                 link: function(scope, element){
                     scope.randomize = function(){
                         var color = Math.floor((Math.random()*4096)).toString(16);

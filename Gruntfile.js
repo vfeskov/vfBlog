@@ -44,8 +44,8 @@ module.exports = function (grunt) {
         var exec = require('child_process').exec,
             callback = this.async(),
             commands = [
-                'forever stop ./src/back/server.js',
-                'forever start ./src/back/server.js'
+                'forever stop src/back/server.js',
+                'forever start src/back/server.js'
             ];
 
         async.mapSeries(commands, function (command, next) {

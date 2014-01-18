@@ -17,18 +17,18 @@
 </p>
 <pre><code class="javascript">angular.module('html5ModeApp', ['ngRoute'])
     .config(['$locationProvider', '$routeProvider', function config ($locationProvider, $routeProvider){
-    //enabling HTML5 mode
-    $locationProvider.html5Mode(true).hashPrefix('!');
-    //setting up routes
-    $routeProvider.when('/',{
-    templateUrl: '/home.html'
-    });
-    $routeProvider.when('/about',{
-    templateUrl: '/about.html'
-    });
-    $routeProvider.when('/posts',{
-    templateUrl: '/posts.html'
-    });
+        //enabling HTML5 mode
+        $locationProvider.html5Mode(true).hashPrefix('!');
+        //setting up routes
+        $routeProvider.when('/',{
+            templateUrl: '/home.html'
+        });
+        $routeProvider.when('/about',{
+            templateUrl: '/about.html'
+        });
+        $routeProvider.when('/posts',{
+            templateUrl: '/posts.html'
+        });
     }]);
 </code></pre>
 <p>Such app will handle url changes and load appropriate templates for links <strong>http://someurl/</strong>, <strong>http://someurl/about</strong>
@@ -41,71 +41,71 @@
     and <a href="https://npmjs.org/" target="_blank">Npm</a> installed on <strong>Linux</strong> server, we can start making our backend.</p>
 <p>First, let's make a folder in our home directory and install express there, type following into the terminal:</p>
 <pre><code>mkdir ~/html5app
-    cd ~/html5app
-    npm install express
+cd ~/html5app
+npm install express
 </code></pre>
 <p>Now let's add server script in that folder, let's call it html5app-server.js:</p>
 <p><strong>~/html5app/html5app-server.js</strong></p>
 <pre><code class="javascript">var express = require('express'),
     app = express();
 
-    //initialize static server that will spit out contents of public folder
-    app.use('/', express.static(__dirname + '/public'));
+//initialize static server that will spit out contents of public folder
+app.use('/', express.static(__dirname + '/public'));
 
-    app.listen(9823); //the express server will start on port 9823
-    console.log('started');
+app.listen(9823); //the express server will start on port 9823
+console.log('started');
 </code></pre>
 <p>Let's add some sample angular app into public folder:</p>
 <p><strong>~/html5app/public/index.html</strong></p>
 <pre><code class="xml"><!doctype html>
-    <html lang="en" ng-app="html5app">
-    <head>
-        <meta charset="utf-8" />
-        <title>HTML5 mode test app</title>
-        <style>
-            .fading.ng-enter{
-                -webkit-transition: 0.5s linear all;
-                -moz-transition: 0.5s linear all;
-                -o-transition: 0.5s linear all;
-                transition: 0.5s linear all;
-                opacity:0;
-            }
-            .fading.ng-enter.ng-enter-active{
-                opacity:1;
-            }
-        </style>
-    </head>
-    <body>
-    <h1>Testing HTML5 mode links.</h1>
-    <ul>
-        <li><a href="/">Home</a></li>
-        <li><a href="/about">About</a></li>
-        <li><a href="/posts">Posts</a></li>
-    </ul>
-    <div ng-view class="fading"></div>
-    <script src="http://code.jquery.com/jquery-2.0.3.min.js"></script>
-    <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.7/angular.js"></script>
-    <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.7/angular-route.js"></script>
-    <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.7/angular-animate.js"></script>
-    <script>
-        angular.module('html5app', ['ngRoute', 'ngAnimate'])
-                .config(['$locationProvider', '$routeProvider', function config ($locationProvider, $routeProvider){
-                    //enabling HTML5 mode
-                    $locationProvider.html5Mode(true).hashPrefix('!');
-                    //setting up routes
-                    $routeProvider.when('/',{
-                        templateUrl: '/home.html'
-                    });
-                    $routeProvider.when('/about',{
-                        templateUrl: '/about.html'
-                    });
-                    $routeProvider.when('/posts',{
-                        templateUrl: '/posts.html'
-                    });
-                }]);
-    </script>
-    </body>
-    </html>
+<html lang="en" ng-app="html5app">
+<head>
+    <meta charset="utf-8" />
+    <title>HTML5 mode test app</title>
+    <style>
+        .fading.ng-enter{
+            -webkit-transition: 0.5s linear all;
+            -moz-transition: 0.5s linear all;
+            -o-transition: 0.5s linear all;
+            transition: 0.5s linear all;
+            opacity:0;
+        }
+        .fading.ng-enter.ng-enter-active{
+            opacity:1;
+        }
+    </style>
+</head>
+<body>
+<h1>Testing HTML5 mode links.</h1>
+<ul>
+    <li><a href="/">Home</a></li>
+    <li><a href="/about">About</a></li>
+    <li><a href="/posts">Posts</a></li>
+</ul>
+<div ng-view class="fading"></div>
+<script src="http://code.jquery.com/jquery-2.0.3.min.js"></script>
+<script src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.7/angular.js"></script>
+<script src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.7/angular-route.js"></script>
+<script src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.7/angular-animate.js"></script>
+<script>
+    angular.module('html5app', ['ngRoute', 'ngAnimate'])
+        .config(['$locationProvider', '$routeProvider', function config ($locationProvider, $routeProvider){
+            //enabling HTML5 mode
+            $locationProvider.html5Mode(true).hashPrefix('!');
+            //setting up routes
+            $routeProvider.when('/',{
+                templateUrl: '/home.html'
+            });
+            $routeProvider.when('/about',{
+                templateUrl: '/about.html'
+            });
+            $routeProvider.when('/posts',{
+                templateUrl: '/posts.html'
+            });
+        }]);
+</script>
+</body>
+</html>
 </code></pre>
 <p><strong>~/html5app/public/home.html</strong></p>
 <pre><code class="xml"><h2>Home content</h2>
@@ -119,7 +119,7 @@
 <p>Now we need to run the server script, and make it run endlessly, the perfect tool for that is <a href="https://github.com/nodejitsu/forever" target="_blank">forever</a>.
     To install it and start our server, type following into terminal:</p>
 <pre><code>npm install -g forever
-    forever start ~/html5app/html5app-server.js
+forever start ~/html5app/html5app-server.js
 </code></pre>
 <p>Finally, we need to set up Nginx to proxy requests to a certain domain to our express server, put following in nginx.conf (don't forget to change 'someurl.com' to your actual domain):</p>
 <pre><code class="nginx">server {
@@ -127,15 +127,15 @@
     server_name     someurl.com;
 
     location / {
-    proxy_set_header X-Real-IP $remote_addr;
-    proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
-    proxy_set_header Host $http_host;
-    proxy_set_header X-NginX-Proxy true;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header Host $http_host;
+        proxy_set_header X-NginX-Proxy true;
 
-    proxy_pass http://127.0.0.1:9823/;
-    proxy_redirect off;
+        proxy_pass http://127.0.0.1:9823/;
+        proxy_redirect off;
     }
-    }
+}
 </code></pre>
 <p>Now, if we go to whatever domain we put in nginx config instead of someurl.com, we should see our app up and running in HTML5 mode, and if we go to /posts or /about
     links directly, we should see correct content.</p>
@@ -143,26 +143,26 @@
 <p>When we go to our domain and click on About link, the url in browser will change to 'http://someurl/about' and everything will be fine, however, if we refresh the page, we'll get an error.
     This is because our static server tries to send file 'about' when 'http://someurl/about' is requested, it should send index.html instead. To fix this, let's make our server script look like this:</p>
 <p><strong>~/html5app/html5app-server.js</strong></p>
-<pre><code class="javascript">    var express = require('express'),
+<pre><code class="javascript">var express = require('express'),
     app = express();
 
-    //initialize static server that will spit out contents of public folder
-    app.use('/', express.static(__dirname + '/public'));
+//initialize static server that will spit out contents of public folder
+app.use('/', express.static(__dirname + '/public'));
 
-    //send our main angular html file if any link without dot is requested, e.g. 'http://someurl/about'
-    //this is our actual server side redirect, we don't send index.html when there's dot in link assuming such a request
-    //is for static data like .js, .css or .html
-    app.get('/[^\.]+$', function(){
+//send our main angular html file if any link without dot is requested, e.g. 'http://someurl/about'
+//this is our actual server side redirect, we don't send index.html when there's dot in link assuming such a request
+//is for static data like .js, .css or .html
+app.get('/[^\.]+$', function(){
     res.set('Content-Type', 'text/html')
-    .sendfile(__dirname + '/public/index.html');
-    });
+        .sendfile(__dirname + '/public/index.html');
+});
 
-    app.listen(9823); //the express server will start on port 9823
-    console.log('started');
+app.listen(9823); //the express server will start on port 9823
+console.log('started');
 </code></pre>
 <p>We need to restart our express server, type following into the terminal:</p>
 <pre><code>forever stop ~/html5app/html5app-server.js
-    forever start ~/html5app/html5app-server.js
+forever start ~/html5app/html5app-server.js
 </code></pre>
 <p>After the server is restarted, our HTML5 mode links should work even if requested directly.</p>
 <h2 id="seo_google">Serve pre-rendered content to Google search crawler (SEO)</h2>
@@ -187,35 +187,35 @@
 <pre><code class="javascript">var express = require('express'),
     app = express();
 
-    //initialize static server that will spit out contents of public folder
-    app.use('/', function(){
+//initialize static server that will spit out contents of public folder
+app.use('/', function(){
     var staticPath = __dirname + '/',
-    req = arguments[0];
+        req = arguments[0];
 
     if(/_escaped_fragment_=/.test(req.url)){ // testing if url contains '_escaped_fragment_=' part
-    req.url = req.url.replace(/\?.*$/,'').replace(/\/+$/,''); // if it does, then strip it
+        req.url = req.url.replace(/\?.*$/,'').replace(/\/+$/,''); // if it does, then strip it
 
-    // if url became empty then it means 'http://someurl/?_escaped_fragment_=' was requested,
-    // so we need to return pre-rendered index.html, otherwise we should add '.html' extension
-    // so that it would return 'posts.html' when http://someurl/posts?_escaped_fragment_= is requested
-    req.url += (req.url === '') ? '/index.html' : '.html';
-    staticPath += 'snapshots'; // making '/snapshots' the base directory of our static server
+        // if url became empty then it means 'http://someurl/?_escaped_fragment_=' was requested,
+        // so we need to return pre-rendered index.html, otherwise we should add '.html' extension
+        // so that it would return 'posts.html' when http://someurl/posts?_escaped_fragment_= is requested
+        req.url += (req.url === '') ? '/index.html' : '.html';
+        staticPath += 'snapshots'; // making '/snapshots' the base directory of our static server
     } else {
-    staticPath += 'public'; // if it's a regular link, then initialize static server in '/public' directory
+        staticPath += 'public'; // if it's a regular link, then initialize static server in '/public' directory
     }
     express.static(staticPath).apply(this, arguments);
-    });
+});
 
-    //send our main angular html file if any link without dot is requested, e.g. 'http://someurl/about'
-    //this is our actual server side redirect, we don't send index.html when there's dot in link assuming such a request
-    //is for static data like .js, .css or .html
-    app.get('/[^\.]+$', function(){
+//send our main angular html file if any link without dot is requested, e.g. 'http://someurl/about'
+//this is our actual server side redirect, we don't send index.html when there's dot in link assuming such a request
+//is for static data like .js, .css or .html
+app.get('/[^\.]+$', function(){
     res.set('Content-Type', 'text/html')
-    .sendfile(__dirname + '/public/index.html');
-    });
+        .sendfile(__dirname + '/public/index.html');
+});
 
-    app.listen(9823); //the express server will start on port 9823
-    console.log('started');
+app.listen(9823); //the express server will start on port 9823
+console.log('started');
 </code></pre>
 <div class="alert alert-danger">
     <p><strong>Do not use Fetch as Google feature of <a href="https://www.google.com/webmasters/tools" target="_blank">Webmaster Tools</a> to manually index HTML5 mode links!</strong></p>

@@ -9,44 +9,45 @@
     <meta name="author" content="Vladimir Feskov" />
     <link href="//netdna.bootstrapcdn.com/bootstrap/3.0.3/css/bootstrap.min.css" rel="stylesheet">
 </head>
-<body data-status="{{status}}" auto-position-footer>
+<body data-status="{{status}}">
+<div id="wrap">
+    <header>
+        <nav class="navbar navbar-default" role="navigation">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#main-nav-collapse">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="/"><strong jaj></strong></a>
+            </div>
+            <div class="collapse navbar-collapse" id="main-nav-collapse">
+                <ul class="nav navbar-nav">
+                    <li ng-class="{ active: path.is('/') }">
+                        <a href="/">Home</a>
+                    </li>
+                    <li ng-class="{ active: path.includes('/posts') }"><a href="/posts">Posts</a></li>
+                    <li ng-class="{ active: path.is('/about') }"><a href="/about">About</a></li>
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Contact <span class="caret"></span></a>
+                        <ul class="dropdown-menu">
+                            <li><a href="skype:vfeskov1">Skype</a></li>
+                            <li><a href="mailto:v@%76%6C%61%64imirfesk%6Fv.c%6Fm">Send e-mail</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+    </header>
+    <section id="main">
+        <div class="container">
+            <div ng-view class="sliding">
 
-<header>
-    <nav class="navbar navbar-default" role="navigation">
-        <div class="navbar-header">
-            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#main-nav-collapse">
-                <span class="sr-only">Toggle navigation</span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-            </button>
-            <a class="navbar-brand" href="/"><strong jaj></strong></a>
+            </div>
         </div>
-        <div class="collapse navbar-collapse" id="main-nav-collapse">
-            <ul class="nav navbar-nav">
-                <li ng-class="{ active: path.is('/') }">
-                    <a href="/">Home</a>
-                </li>
-                <li ng-class="{ active: path.includes('/posts') }"><a href="/posts">Posts</a></li>
-                <li ng-class="{ active: path.is('/about') }"><a href="/about">About</a></li>
-                <li class="dropdown">
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">Contact <span class="caret"></span></a>
-                    <ul class="dropdown-menu">
-                        <li><a href="skype:vfeskov1">Skype</a></li>
-                        <li><a href="mailto:v@%76%6C%61%64imirfesk%6Fv.c%6Fm">Send e-mail</a></li>
-                    </ul>
-                </li>
-            </ul>
-        </div>
-    </nav>
-</header>
-<section id="main">
-    <div class="container">
-        <div ng-view class="sliding">
-
-        </div>
-    </div>
-</section>
+    </section>
+</div>
 
 <footer>
     <nav class="navbar navbar-default">

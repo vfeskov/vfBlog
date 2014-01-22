@@ -60,7 +60,7 @@ module.exports = function (params) {
                 dest: 'tmp/all.css'
             },
             app: {
-                src: ['tmp/templates.js', 'src/front/app/*/**/*.js', 'src/front/app/app.js'],
+                src: ['tmp/templates.js', 'src/front/app/**/*.js'],
                 dest: 'tmp/app.js'
             },
             vendor: {

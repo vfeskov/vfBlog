@@ -3,7 +3,7 @@
 
     // Correctly reloads twitter timeline widget.
     // If raw twitter snippet is used, twitter timeline breaks after few quick route changes
-    angular.module('vfTwitter', [])
+    angular.module('vf.twitter', [])
         .factory('Twitter', ['$window', function($window){
             $window.twttr = (function (d,s,id) {
                 var t, js, fjs = d.getElementsByTagName(s)[0];

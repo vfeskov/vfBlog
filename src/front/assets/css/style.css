@@ -1,3 +1,6 @@
+html, body{
+    height:100%;
+}
 iframe{
     width:100%;
 }
@@ -54,14 +57,13 @@ pre {
 .container {
     position:relative;
 }
-#main {
+#wrap {
+    margin-bottom:-53px;
     padding-bottom:53px;
+    min-height: 100%;
 }
 footer{
-    position:fixed;
-    bottom:0;
-    left:0;
-    right:0;
+    height:53px;
 }
 .static-footer #main {
     padding-bottom:0;

@@ -1,7 +1,7 @@
 (function(angular){
     'use strict';
 
-    angular.module('vfSilly', [])
+    angular.module('vf.silly', [])
         .directive('randomGlyphicon', ['$rootScope', function($rootScope){
             var glyphiconSuffixList = ['camera','certificate','cloud','cog','compressed','cutlery','earphone','eye-close',
                 'eye-open','facetime-video','fire','flash','flag','font','gift','globe','hand-down','hd-video',

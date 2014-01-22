@@ -4,12 +4,18 @@ AngularJS enchanced website optimized for search engines and fast load.
 
 ## Prerequisites
 
-You'll need <a href="http://nodejs.org/" target="_blank">NodeJS</a>, <a href="https://npmjs.org/" target="_blank">NPM</a> and <a href="http://phantomjs.org/">PhantomJS</a> installed.
+You'll need <a href="http://nodejs.org/" target="_blank">NodeJS</a>, <a href="https://npmjs.org/" target="_blank">NPM</a>.
 Several NPM modules are required too, type following commands into terminal to install them:
 
 ```
 npm install -g bower
 npm install -g grunt-cli
+npm install -g phantomjs
+```
+
+PhantomJS requires these packages on Ubuntu/Debian:
+```
+sudo apt-get install libfontconfig1 fontconfig libfontconfig1-dev libfreetype6-dev
 ```
 
 ## Installation

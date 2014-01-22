@@ -2,7 +2,7 @@
     'use strict';
 
     //works with ngRoute, to make it work with ui.router '$routeChangeSuccess' should be changed to $stateChangeSuccess
-    angular.module('vfGoogleAnalytics', [])
+    angular.module('vf.google-analytics', [])
         .factory('GA', ['$window', '$rootScope', '$timeout', function($window, $rootScope, $timeout){
             var ga, s, document = $window.document;
 

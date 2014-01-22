@@ -1,7 +1,7 @@
 (function (angular) {
     'use strict';
 
-    angular.module('vfAnchor', [])
+    angular.module('vf.anchor', [])
         .provider('vfAnchor', function(){
             var stickyHeaderHeight = 0;
             return {

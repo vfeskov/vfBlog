@@ -1,10 +1,10 @@
-## VF Personal Site
+## VF Blog
 
-AngularJS enchanced website optimized for search engines and fast load.
+AngularJS enhanced blog optimized for search engines and fast load.
 
 ## Prerequisites
 
-You'll need <a href="http://nodejs.org/" target="_blank">NodeJS</a>, <a href="https://npmjs.org/" target="_blank">NPM</a>.
+You'll need <a href="http://nodejs.org/" target="_blank">NodeJS</a>.
 Several NPM modules are required too, type following commands into terminal to install them:
 
 ```

@@ -25,7 +25,7 @@ module.exports = function(params){
             public: {
                 files: [
                     {
-                        src: ['assets/**/*.*', '!assets/**/*.css', '**/*.html', '!posts/**/*.html', '**/*.json', '**/*.xml', '!views/**/*.html'],
+                        src: ['assets/**/*.*', '!assets/**/*.css', '**/*.html', '!posts_content/**/*.html', '**/*.json', '**/*.xml', '!app/**/*.html'],
                         dest: 'public',
                         cwd: 'src/front',
                         expand: true
@@ -44,7 +44,7 @@ module.exports = function(params){
                 expand: true
             },
             posts: {
-                src: 'posts/**/*.html',
+                src: 'posts_content/**/*.html',
                 dest: 'public',
                 cwd: 'src/front',
                 expand: true,
@@ -56,10 +56,10 @@ module.exports = function(params){
         html2js: {
             app: {
                 options: {
-                    base: 'src/front/views',
-                    module: 'vfPersonalSite.templates'
+                    base: 'src/front/app',
+                    module: 'templates'
                 },
-                src: 'src/front/views/**/*.html',
+                src: 'src/front/app/**/*.html',
                 dest: 'tmp/templates.js'
             }
         },

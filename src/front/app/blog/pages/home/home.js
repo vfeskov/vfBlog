@@ -1,5 +1,5 @@
 (function(angular){
     'use strict';
 
-    angular.module('vfPersonalSite.common', []);
+    angular.module('vfBlog.pages.home', []);
 }(window.angular));

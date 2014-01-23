@@ -1,7 +1,7 @@
 (function(angular){
     'use strict';
 
-    angular.module('vfPersonalSite.posts')
+    angular.module('vfBlog.posts')
         .factory('Posts', ['$http', '$q', function($http, $q){
             function getAll (){
                 return $http.get('/posts.json').then(function(data){
@@ -15,6 +15,7 @@
                     var i = data.length;
                     while(i--){
                         if(data[i][key] === val){
+                            data[i].contentUrl = '/posts_content/' + data[i].slug + '.html';
                             deferred.resolve(data[i]);
                             break;
                         }

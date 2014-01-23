@@ -30,24 +30,24 @@ module.exports = function(params){
             callback = this.async(),
             phantomJSParams = [
                 {
-                    url: 'http://localhost:7854',
+                    url: 'http://localhost:7854?no-ga',
                     saveTo: './snapshots/index.html'
                 },
                 {
-                    url: 'http://localhost:7854/posts',
+                    url: 'http://localhost:7854/posts?no-ga',
                     saveTo: './snapshots/posts.html'
                 },
                 {
-                    url: 'http://localhost:7854/about',
+                    url: 'http://localhost:7854/about?no-ga',
                     saveTo: './snapshots/about.html'
                 },
                 {
-                    url: 'http://localhost:7854/posts/file-upload-via-iframe-ajax-and-flash',
+                    url: 'http://localhost:7854/posts/file-upload-via-iframe-ajax-and-flash?no-ga',
                     saveTo: './snapshots/posts/file-upload-via-iframe-ajax-and-flash.html'
                 }
                 ,
                 {
-                    url: 'http://localhost:7854/posts/angularjs-html5-mode-setup-use-and-seo',
+                    url: 'http://localhost:7854/posts/angularjs-html5-mode-setup-use-and-seo?no-ga',
                     saveTo: './snapshots/posts/angularjs-html5-mode-setup-use-and-seo.html'
                 }
             ],

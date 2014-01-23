@@ -1,4 +1,5 @@
 var express = require('express.io'),
+    fs = require('fs'),
     path = require('path'),
     app = express();
 

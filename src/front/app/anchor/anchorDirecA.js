@@ -1,22 +1,7 @@
 (function (angular) {
     'use strict';
 
-    angular.module('vf.anchor', [])
-        .provider('vfAnchor', function(){
-            var stickyHeaderHeight = 0;
-            return {
-                setStickyHeaderHeight: function(height){
-                    stickyHeaderHeight = height;
-                },
-                $get: function(){
-                    return {
-                        getStickyHeaderHeight: function(){
-                            return stickyHeaderHeight;
-                        }
-                    };
-                }
-            }
-        })
+    angular.module('vfAnchor')
         .directive('a', ['$location', '$anchorScroll', 'vfAnchor', function ($location, $anchorScroll, vfAnchor) {
             return {
                 restrict: 'E',

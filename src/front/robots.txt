@@ -1,0 +1,4 @@
+User-agent: *
+Disallow: /posts_content/
+Disallow: /assets/
+Disallow: /posts.json

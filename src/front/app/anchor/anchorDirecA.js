@@ -7,8 +7,8 @@
                 restrict: 'E',
                 link: function (scope, element, attr) {
 
-                    var href = element.prop('href');
-                    if(href.indexOf('#') !== -1 && href.length > 1){
+                    var href = element[0].getAttribute('href');
+                    if(href.indexOf('#') === 0){
                         element.click(function(event){
                             var href = this.getAttribute('href'),
                                 id = href.substr(1),

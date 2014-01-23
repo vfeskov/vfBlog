@@ -22,7 +22,7 @@ module.exports = function (params) {
             public: {
                 files: [
                     {
-                        src: ['assets/**/*.*', '!assets/**/*.css', '**/*.html', '!posts/**/*.html', '**/*.json', '**/*.xml', '!app/**/*.html'],
+                        src: ['assets/**/*.*', '!assets/**/*.css', '**/*.html', '!posts_content/**/*.html', '**/*.json', '**/*.xml', '!app/**/*.html'],
                         dest: 'public',
                         cwd: 'src/front',
                         expand: true
@@ -30,7 +30,7 @@ module.exports = function (params) {
                 ]
             },
             posts: {
-                src: 'posts/**/*.html',
+                src: 'posts_content/**/*.html',
                 dest: 'public',
                 cwd: 'src/front',
                 expand: true,

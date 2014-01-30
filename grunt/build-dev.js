@@ -11,6 +11,8 @@ module.exports = function(params){
     grunt.loadNpmTasks('grunt-html2js');
     grunt.loadNpmTasks('grunt-develop');
     grunt.loadNpmTasks('grunt-contrib-watch');
+    grunt.loadNpmTasks('grunt-recess');
+    grunt.loadNpmTasks('grunt-contrib-cssmin');
 
     grunt.initConfig({
         clean: {
@@ -63,8 +65,37 @@ module.exports = function(params){
                 dest: 'tmp/templates.js'
             }
         },
+        recess: {
+            bootstrap: {
+                options: {
+                    compile: true,
+                    includePath: 'bower_components/bootstrap/less'
+                },
+                files: {
+                    'bower_components/bootstrap/dist/css/bootstrap-custom.css': ['grunt/build/bootstrap.less']
+                }
+            }
+        },
+        cssmin: {
+            bootstrap: {
+                expand: true,
+                cwd: 'bower_components/bootstrap/dist/css/',
+                src: 'bootstrap-custom.css',
+                dest: 'bower_components/bootstrap/dist/css/',
+                ext: '.min.css'
+            },
+            highlightjs: {
+                expand: true,
+                cwd: 'bower_components/highlight.js/src/styles/',
+                src: ['*.css', '!*.min.css'],
+                dest: 'bower_components/highlight.js/src/styles/',
+                ext: '.min.css'
+            }
+        },
         concat: {
-            options: {
+            bootstrap: {
+                src: require('./build/bootstrap.js'),
+                dest: 'bower_components/bootstrap/dist/js/bootstrap-custom.js'
             },
             css: {
                 src: 'src/front/assets/**/*.css',
@@ -75,7 +106,6 @@ module.exports = function(params){
                 dest: 'tmp/app.js'
             }
         },
-
         develop: {
             server: {
                 file: 'src/back/server.js'
@@ -120,7 +150,7 @@ module.exports = function(params){
         ]);
     } else {
         grunt.task.run([
-            'clean', 'html2js', 'concat', 'copy', 'insert', 'clean:tmp', 'develop', 'watch'
+            'clean', 'html2js', 'recess', 'concat', 'cssmin', 'copy', 'insert', 'clean:tmp', 'develop', 'watch'
         ]);
     }
 

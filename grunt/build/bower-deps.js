@@ -7,8 +7,8 @@ var dir = 'bower_components/',
         },
         {
             base: 'bootstrap/dist/js/',
-            reg: 'bootstrap.js',
-            min: 'bootstrap.min.js'
+            reg: 'bootstrap-custom.js',
+            min: 'bootstrap-custom.min.js'
         },
         {
             base: 'lodash/dist/',
@@ -38,9 +38,14 @@ var dir = 'bower_components/',
     ],
     css = [
         {
+            base: 'bootstrap/dist/css/',
+            reg: 'bootstrap-custom.css',
+            min: 'bootstrap-custom.min.css'
+        },
+        {
             base: 'highlight.js/src/styles/',
             reg: 'idea.css',
-            min: 'idea.css'
+            min: 'idea.min.css'
         }
     ];
 module.exports = {

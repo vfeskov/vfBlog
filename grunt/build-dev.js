@@ -13,6 +13,7 @@ module.exports = function(params){
     grunt.loadNpmTasks('grunt-contrib-watch');
     grunt.loadNpmTasks('grunt-recess');
     grunt.loadNpmTasks('grunt-contrib-cssmin');
+    grunt.loadNpmTasks('grunt-contrib-jshint');
 
     grunt.initConfig({
         clean: {
@@ -27,7 +28,7 @@ module.exports = function(params){
             public: {
                 files: [
                     {
-                        src: ['assets/**/*.*', '!assets/**/*.css', '**/*.html', '!posts_content/**/*.html', '**/*.json', '**/*.xml', '!app/**/*.html'],
+                        src: ['assets/**/*.*', '!assets/**/*.css', '**/*.html', '!posts_content/**/*.html', '**/*.json', '**/*.xml', '!modules/**/*.html'],
                         dest: 'public',
                         cwd: 'src/front',
                         expand: true
@@ -55,13 +56,22 @@ module.exports = function(params){
                 }
             }
         },
+        jshint: {
+            options: {
+                jshintrc: 'grunt/build/.jshintrc'
+            },
+            gruntfile: [
+                'Gruntfile.js'
+            ],
+            frontend: 'src/front/modules/**/*.js'
+        },
         html2js: {
             app: {
                 options: {
-                    base: 'src/front/app',
+                    base: 'src/front/modules',
                     module: 'templates'
                 },
-                src: 'src/front/app/**/*.html',
+                src: 'src/front/modules/**/*.html',
                 dest: 'tmp/templates.js'
             }
         },
@@ -102,7 +112,7 @@ module.exports = function(params){
                 dest: 'tmp/all.css'
             },
             app: {
-                src: ['tmp/templates.js', 'src/front/app/**/*.js'],
+                src: ['tmp/templates.js', 'src/front/modules/**/*.js'],
                 dest: 'tmp/app.js'
             }
         },
@@ -146,11 +156,11 @@ module.exports = function(params){
 
     if(args[0] === 'rebuild'){
         grunt.task.run([
-            'html2js', 'concat', 'copy:public', 'copy:posts', 'insert', 'clean:tmp'
+            'jshint', 'html2js', 'concat', 'copy:public', 'copy:posts', 'insert', 'clean:tmp'
         ]);
     } else {
         grunt.task.run([
-            'clean', 'html2js', 'recess', 'concat', 'cssmin', 'copy', 'insert', 'clean:tmp', 'develop', 'watch'
+            'jshint', 'clean', 'html2js', 'recess', 'concat', 'cssmin', 'copy', 'insert', 'clean:tmp', 'develop', 'watch'
         ]);
     }
 

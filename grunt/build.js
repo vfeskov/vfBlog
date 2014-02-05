@@ -11,6 +11,7 @@ module.exports = function (params) {
     grunt.loadNpmTasks('grunt-recess');
     grunt.loadNpmTasks('grunt-contrib-cssmin');
     grunt.loadNpmTasks('grunt-contrib-htmlmin');
+    grunt.loadNpmTasks('grunt-contrib-jshint');
 
     grunt.initConfig({
         clean: {
@@ -25,7 +26,7 @@ module.exports = function (params) {
             public: {
                 files: [
                     {
-                        src: ['assets/**/*.*', '!assets/**/*.css', 'robots.txt', '!posts_content/**/*.html', '**/*.json', '**/*.xml', '!app/**/*.html'],
+                        src: ['assets/**/*.*', '!assets/**/*.css', 'robots.txt', '!posts_content/**/*.html', '**/*.json', '**/*.xml', '!modules/**/*.html'],
                         dest: 'public',
                         cwd: 'src/front',
                         expand: true
@@ -48,6 +49,15 @@ module.exports = function (params) {
                 }
             }
         },
+        jshint: {
+            options: {
+                jshintrc: 'grunt/build/.jshintrc'
+            },
+            gruntfile: [
+                'Gruntfile.js'
+            ],
+            frontend: 'src/front/modules/**/*.js'
+        },
         htmlmin: {
             index: {
                 options: {
@@ -62,10 +72,10 @@ module.exports = function (params) {
         html2js: {
             app: {
                 options: {
-                    base: 'src/front/app',
+                    base: 'src/front/modules',
                     module: 'templates'
                 },
-                src: 'src/front/app/**/*.html',
+                src: 'src/front/modules/**/*.html',
                 dest: 'tmp/templates.js'
             }
         },
@@ -106,7 +116,7 @@ module.exports = function (params) {
                     banner: '/*\n * vfBlog v.0.1.0\n * (c) 2014 Vladimir Feskov http://vfeskov.com\n * License: MIT\n */'
                 },
                 src: ['src/front/assets/**/*.css'],
-                dest: 'tmp/app.min.css'
+                dest: 'tmp/modules.min.css'
             }
         },
         concat: {
@@ -124,7 +134,7 @@ module.exports = function (params) {
                 dest: 'bower_components/bootstrap/dist/js/bootstrap-custom.js'
             },
             app: {
-                src: ['tmp/templates.js', 'src/front/app/**/*.js'],
+                src: ['tmp/templates.js', 'src/front/modules/**/*.js'],
                 dest: 'tmp/app.js'
             },
             vendor: {
@@ -168,6 +178,6 @@ module.exports = function (params) {
     });
 
     grunt.task.run([
-        'clean', 'copy', 'htmlmin', 'html2js', 'concat:app', 'concat:bootstrap', 'uglify', 'concat:vendor', 'concat:all', 'recess', 'cssmin', 'concat:css', 'insert', 'clean:tmp'
+        'jshint', 'clean', 'copy', 'htmlmin', 'html2js', 'concat:app', 'concat:bootstrap', 'uglify', 'concat:vendor', 'concat:all', 'recess', 'cssmin', 'concat:css', 'insert', 'clean:tmp'
     ]);
 };

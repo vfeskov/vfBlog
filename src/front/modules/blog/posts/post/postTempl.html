@@ -1,0 +1,9 @@
+<ol class="breadcrumb">
+    <li><a href="/">Home</a></li>
+    <li><a href="/posts">Posts</a></li>
+    <li class="active"></li>
+</ol>
+<h1>{{post.title}}</h1>
+<p><em>{{post.time}}</em></p>
+<ng-include src="post.contentUrl"></ng-include>
+<div disqus="post.id"></div>

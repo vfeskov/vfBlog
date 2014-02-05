@@ -14,10 +14,15 @@ angular.module('vfBlog', [
         $disqusProvider.setShortname('vladimirfeskov');
     }])
 
-    .run(['$rootScope', 'Path', 'vfGA', 'SEO', function run($rootScope, Path, vfGA, SEO) {
+    .run(['$rootScope', 'Path', 'vfGA', 'SEO', '$templateCache', function run($rootScope, Path, vfGA, SEO, $templateCache) {
         $rootScope.path = Path;
         $rootScope.$on('$routeChangeStart', function(){
             SEO.readyForCapture(false);
         });
         vfGA('UA-39039659-1');
+        $rootScope.$on('$routeChangeSuccess', function(){
+            console.log(arguments);
+            console.log(arguments[1].loadedTemplateUrl);
+            console.log($templateCache.get(arguments[1].loadedTemplateUrl));
+        });
     }]);

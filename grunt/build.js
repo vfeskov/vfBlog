@@ -116,7 +116,7 @@ module.exports = function (params) {
                     banner: '/*\n * vfBlog v.0.1.0\n * (c) 2014 Vladimir Feskov http://vfeskov.com\n * License: MIT\n */'
                 },
                 src: ['src/front/assets/**/*.css'],
-                dest: 'tmp/modules.min.css'
+                dest: 'tmp/app.min.css'
             }
         },
         concat: {
@@ -172,8 +172,15 @@ module.exports = function (params) {
             html = fs.readFileSync(indexHtml).toString(),
             js = fs.readFileSync(__dirname + '/../tmp/all.js').toString(),
             css = fs.readFileSync(__dirname + '/../tmp/all.css').toString();
-        html = html.replace('</head>', '<style>\n' + css + '\n</style>\n</head>');
-        html = html.replace('</head>', '<script>\n' + js + '\n</script>\n</head>');
+
+        function insertBeforeHead(html, code){ //need this because can't use replace - dollar sign in angular code is considered a special character https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/replace?redirectlocale=en-US&redirectslug=JavaScript%2FReference%2FGlobal_Objects%2FString%2Freplace#Specifying_a_string_as_a_parameter
+            var headPos = html.indexOf('</head>');
+            return html.substr(0, headPos) + code + html.substr(headPos);
+        }
+
+        html = insertBeforeHead(html, '<style>\n' + css + '\n</style>\n');
+        html = insertBeforeHead(html, '<script>\n' + js + '\n</script>\n');
+
         fs.writeFileSync(indexHtml, html);
     });
 

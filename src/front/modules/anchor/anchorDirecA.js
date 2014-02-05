@@ -10,7 +10,7 @@ angular.module('vfAnchor')
                     element.click(function(event){
                         var href = this.getAttribute('href'),
                             id = href.substr(1),
-                            stickyHeaderHeight = parseInt(vfAnchor.getStickyHeaderHeight()),
+                            stickyHeaderHeight = parseInt(vfAnchor.getStickyHeaderHeight(), 10),
                             idToScrollTo = id,
                             anchorEl, hiddenId, hiddenAnchorStyleAttr, hiddenAnchorEl;
 

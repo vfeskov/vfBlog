@@ -83,3 +83,9 @@ footer{
 header .navbar-brand{
     height:50px;
 }
+.breadcrumb {
+    background: -webkit-linear-gradient(#f8f8f8, #fff);
+    background: -o-linear-gradient(#f8f8f8, #fff);
+    background: -moz-linear-gradient(#f8f8f8, #fff);
+    background: linear-gradient(#f8f8f8, #fff);
+}

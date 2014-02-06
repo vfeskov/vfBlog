@@ -127,7 +127,7 @@ module.exports = function(params){
 
         watch: {
             all: {
-                files: ['src/front/**/*.*'],
+                files: ['src/front/**/*.*', 'grunt/build/**/*.*'],
                 tasks: [
                     'build-dev:rebuild'
                 ]

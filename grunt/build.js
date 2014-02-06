@@ -1,7 +1,11 @@
 var fs = require('fs'),
     bowerDeps = require('./build/bower-deps.js');
 module.exports = function (params) {
-    var grunt = params.grunt;
+    var grunt = params.grunt,
+        bowerBundleHash = bowerDeps.bundleHash(),
+        appBowerJson = grunt.file.readJSON('bower.json'),
+        appName = appBowerJson.name,
+        version = appBowerJson.version;
 
     grunt.loadNpmTasks('grunt-contrib-uglify');
     grunt.loadNpmTasks('grunt-contrib-concat');
@@ -33,7 +37,7 @@ module.exports = function (params) {
                     },
                     {
                         src: '*.*',
-                        dest: 'public/fonts',
+                        dest: 'public/assets/fonts',
                         cwd: 'bower_components/bootstrap/dist/fonts',
                         expand: true
                     }
@@ -113,10 +117,10 @@ module.exports = function (params) {
             },
             app: {
                 options: {
-                    banner: '/*\n * vfBlog v.0.1.0\n * (c) 2014 Vladimir Feskov http://vfeskov.com\n * License: MIT\n */'
+                    banner: '/*\n * vfBlog v.' + version + '\n * (c) 2014 Vladimir Feskov http://vfeskov.com\n * License: MIT\n */'
                 },
                 src: ['src/front/assets/**/*.css'],
-                dest: 'tmp/app.min.css'
+                dest: 'public/assets/css/' + appName + version + '.min.css'
             }
         },
         concat: {
@@ -124,10 +128,6 @@ module.exports = function (params) {
                 process: function(src) {
                     return src.replace(/^\/\/.*?sourceMappingURL=.*$/gm, '');
                 }
-            },
-            css: {
-                src: bowerDeps.css('min').concat(['tmp/app.min.css']),
-                dest: 'tmp/all.css'
             },
             bootstrap: {
                 src: require('./build/bootstrap.js'),
@@ -137,13 +137,13 @@ module.exports = function (params) {
                 src: ['tmp/templates.js', 'src/front/modules/**/*.js'],
                 dest: 'tmp/app.js'
             },
-            vendor: {
+            bowerjs: {
                 src: bowerDeps.js('min'),
-                dest: 'tmp/vendor.js'
+                dest: 'public/assets/js/bower-components-' + bowerBundleHash + '.min.js'
             },
-            all: {
-                src: ['tmp/vendor.js', 'tmp/app.min.js'],
-                dest: 'tmp/all.js'
+            bowercss: {
+                src: bowerDeps.css('min'),
+                dest: 'public/assets/css/bower-components-' + bowerBundleHash + '.min.css'
             }
         },
         uglify: {
@@ -152,10 +152,10 @@ module.exports = function (params) {
             },
             app: {
                 options: {
-                    banner: '/*\n * vfBlog v.0.1.0\n * (c) 2014 Vladimir Feskov http://vfeskov.com\n * License: MIT\n */\n'
+                    banner: '/*\n * vfBlog v.' + version + '\n * (c) 2014 Vladimir Feskov http://vfeskov.com\n * License: MIT\n */\n'
                 },
                 src: 'tmp/app.js',
-                dest: 'tmp/app.min.js'
+                dest: 'public/assets/js/' + appName + version + '.min.js'
             },
             bootstrap: {
                 options: {
@@ -169,22 +169,25 @@ module.exports = function (params) {
 
     grunt.registerTask('insert', function () {
         var indexHtml = __dirname + '/../public/index.html',
-            html = fs.readFileSync(indexHtml).toString(),
-            js = fs.readFileSync(__dirname + '/../tmp/all.js').toString(),
-            css = fs.readFileSync(__dirname + '/../tmp/all.css').toString();
+            html = fs.readFileSync(indexHtml).toString(), links = '', scripts = '';
 
         function insertBeforeHead(html, code){ //need this because can't use replace - dollar sign in angular code is considered a special character https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/replace?redirectlocale=en-US&redirectslug=JavaScript%2FReference%2FGlobal_Objects%2FString%2Freplace#Specifying_a_string_as_a_parameter
             var headPos = html.indexOf('</head>');
             return html.substr(0, headPos) + code + html.substr(headPos);
         }
 
-        html = insertBeforeHead(html, '<style>\n' + css + '\n</style>\n');
-        html = insertBeforeHead(html, '<script>\n' + js + '\n</script>\n');
+        ['bower-components-' + bowerBundleHash + '.min', appName + version + '.min'].forEach(function(link){
+            links += '<link rel="stylesheet" href="/assets/css/' + link + '.css" />';
+            scripts += '<script src="/assets/js/' + link + '.js"></script>';
+        });
+
+        html = insertBeforeHead(html, links);
+        html = insertBeforeHead(html, scripts);
 
         fs.writeFileSync(indexHtml, html);
     });
 
     grunt.task.run([
-        'jshint', 'clean', 'copy', 'htmlmin', 'html2js', 'concat:app', 'concat:bootstrap', 'uglify', 'concat:vendor', 'concat:all', 'recess', 'cssmin', 'concat:css', 'insert', 'clean:tmp'
+        'jshint', 'clean', 'copy', 'htmlmin', 'html2js', 'concat:app', 'concat:bootstrap', 'uglify', 'concat:bowerjs', 'recess', 'cssmin', 'concat:bowercss', 'insert', 'clean:tmp'
     ]);
 };

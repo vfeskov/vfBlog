@@ -1,6 +1,6 @@
 {
   "name": "vfBlog",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "",
   "main": "server.js",
   "dependencies": {
@@ -30,11 +30,11 @@
   },
   "repository": {
     "type": "git",
-    "url": "git://github.com/vfeskov/vf-personal-site.git"
+    "url": "git://github.com/vfeskov/vfBlog.git"
   },
   "author": "Vladimir Feskov <v@vladimirfeskov.com>",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/vfeskov/vf-personal-site/issues"
+    "url": "https://github.com/vfeskov/vfBlog/issues"
   }
 }

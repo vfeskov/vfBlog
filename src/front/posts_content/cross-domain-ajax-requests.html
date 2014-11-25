@@ -1,0 +1,34 @@
+<p>So you want to make an independent API service which will respond to requests from different websites. For example, it could be a database of emails to which your partners can send spam. And each of those partners also wants a personalised website with their own domain, logo and everything.</p>
+
+<p>You start by developing a nice API with a bunch of URLs for authentication, getting a list of emails or whatever. Then you move on to developing a separate website, which will utilize the API via AJAX. You put it on a separate domain name, and when you make your first API request from there you see this:</p>
+
+<p class="text-center">
+    <a href="http://i.imgur.com/bR0NH3y.png" target="_blank">
+        <img src="http://i.imgur.com/bR0NH3y.png" alt="No Access-Control-Allow-Origin" style="max-width:100%"/>
+    </a>
+</p>
+
+<p>Now this is default browser behavior which is to prevent a cross-site request from happening. But there's a way to tell a browser that such requests are permitted. First let's follow browser's algorithm:</p>
+
+<p>1. You request an external URL via AJAX.</p>
+
+<p>2. Browser compares your requested URL's domain with a domain of the current website.</p>
+
+<p>3. Since domains do not match, browser sends a special request to your requested URL first. You know how there are GET and POST requests? Well the browser sends OPTIONS request. And it expects certain headers in response. The headers depend on your initial API call, here's a list of their names and expected values:</p>
+
+<table class="">
+    <tbody>
+    <tr>
+        <td><code>Access-Control-Allow-Origin</code></td>
+        <td>Should contain a coma separated list of domains, from which it is allowed to send requests to the webservice. Can also be <code>*</code> meaning that any domain can send requests</td>
+    </tr>
+    </tbody>
+</table>
+
+<p>4. When all conditions are met, browser finally makes that request you need. But it's not time to relax just yet, because the browser again checks response headers. Following headers should be present and should have correct values:</p>
+
+<p>Knowing this you can make cross-site requests work pretty easily. Firstly, your API service needs to respond correctly to an OPTIONS request. Secondly, it should append correct headers to all other requests.</p>
+
+<p>Obviously, you cannot enable cross-site access to a server, over which you do not have control. In that case you would need to proxy requests to your local website to the external server, so that your website's backend would make a cross-site request, not the browser.</p>
+
+<p>Alternative to a proxy is JSONP request. The idea is to append a <script> tag to an HTML document with src attribute pointing to an external URL. But there are significant limitations to this method: only GET requests are possible and there's no way to alter request headers.</p>
